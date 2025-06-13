@@ -30,30 +30,32 @@ const muteLevels = [
     level: '1. Seviye',
     rules: [
       { reason: 'Chat Kirletimi', min: 10, max: 60, unit: 'm' },
-      { reason: 'Cinsellik', min: 60, max: 60, unit: 'm' },
+      { reason: 'Cinsellik', min: 30, max: 60, unit: 'm' },
       { reason: 'Argo Kelime Kullanımı', min: 30, max: 60, unit: 'm' },
-      { reason: 'Amacı Dışında AdaReklam Kullanımı', min: 1, max: 1, unit: 'h' },
+      { reason: 'Amacı Dışında AdaReklam Kullanımı', min: 30, max: 60, unit: 'm' },
+      { reason: 'Argo Kelime Benzetmeleri', min: 30, max: 60, unit: 'm' },
+      { reason: 'Chati Amacı Dışında Kullanma', min: 30, max: 60, unit: 'm' },
     ]
   },
   {
     level: '2. Seviye',
     rules: [
       { reason: 'Hakaret', min: 3, max: 3, unit: 'h' },
-      { reason: 'Küfür Kullanımı', min: 5, max: 5, unit: 'h' },
+      { reason: 'Küfür Kullanımı', min: 3, max: 3, unit: 'h' },
       { reason: 'Tartışma', min: 3, max: 3, unit: 'h' },
       { reason: 'Kışkırtma', min: 3, max: 3, unit: 'h' },
       { reason: 'Yetkilileri Rahatsız Etmek', min: 3, max: 3, unit: 'h' },
-      { reason: 'Troll Ada Reklamı', min: 3, max: 3, unit: 'h' },
-      { reason: 'Oyuncu Örgütleme', min: 3, max: 3, unit: 'h' },
+      { reason: 'Sohbete Ada Reklamını Mesaj Olarak Atmak', min: 3, max: 3, unit: 'h' },
     ]
   },
   {
     level: '3. Seviye',
     rules: [
-      { reason: 'Din ve Siyaset Yapmak', min: 12, max: 12, unit: 'h' },
+      { reason: 'Din ve Siyaset Yapmak', min: 6, max: 12, unit: 'h' },
       { reason: 'Link Paylaşımı', min: 12, max: 12, unit: 'h' },
       { reason: 'Reklam', min: 12, max: 12, unit: 'h' },
       { reason: 'Ailevi Küfür Kullanımı', min: 12, max: 12, unit: 'h' },
+      { reason: 'Yetkiliye Özelden Hakaret', min: 12, max: 12, unit: 'h' },
     ]
   },
 ];
