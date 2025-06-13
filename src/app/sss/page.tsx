@@ -44,6 +44,15 @@ export default function SSSPage() {
     if (savedAdmin) setAdminName(savedAdmin);
   }, []);
 
+  const copyToClipboard = (text: string, button: HTMLButtonElement) => {
+    navigator.clipboard.writeText(text).then(() => {
+      button.classList.add('shake');
+      setTimeout(() => {
+        button.classList.remove('shake');
+      }, 500); // Sallanma efekti 500ms sürer
+    });
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary via-secondary to-gray-900 text-white flex flex-col">
       <Header adminName={adminName} />
@@ -52,9 +61,18 @@ export default function SSSPage() {
         <div className="w-full max-w-2xl bg-gray-800 rounded-xl shadow-lg p-6">
           <ul className="space-y-6">
             {faq.map((item, i) => (
-              <li key={i}>
-                <div className="font-bold text-lg text-yellow-300 mb-1">{item.q}</div>
-                <div className="text-gray-200 text-base pl-2 border-l-4 border-yellow-400">{item.a}</div>
+              <li key={i} className="flex items-start justify-between">
+                <div>
+                  <div className="font-bold text-lg text-yellow-300 mb-1">{item.q}</div>
+                  <div className="text-gray-200 text-base pl-2 border-l-4 border-yellow-400">{item.a}</div>
+                </div>
+                <button
+                  onClick={(e) => copyToClipboard(item.a, e.currentTarget)}
+                  className="ml-4 p-2 bg-gray-700 rounded hover:bg-gray-600 transition-colors text-yellow-300"
+                  title="Cevabı kopyala"
+                >
+                  📋
+                </button>
               </li>
             ))}
           </ul>
@@ -62,4 +80,4 @@ export default function SSSPage() {
       </div>
     </div>
   );
-} 
+}
