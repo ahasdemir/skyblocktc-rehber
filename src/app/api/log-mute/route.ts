@@ -7,7 +7,7 @@ export async function POST(request: Request) {
     const { command, timestamp, admin } = await request.json();
     
     // Log dosyasının yolu
-    const logPath = path.join(process.cwd(), 'src', 'app', 'logs', 'mute-logs.txt');
+    const logPath = path.join(process.cwd(), 'public', 'mute-logs.txt');
     
     // Log formatı: Tarih | Yetkili | Komut
     const logEntry = `${timestamp} | ${admin} | ${command}\n`;

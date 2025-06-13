@@ -42,7 +42,7 @@ export default function Home() {
       
       <div className="flex-1 flex flex-col items-center py-10 px-4">
         <h1 className="text-4xl md:text-5xl font-extrabold mb-2 text-center bg-gradient-to-r from-green-400 via-blue-400 to-purple-400 bg-clip-text text-transparent drop-shadow-lg">
-          SkyBlockTC Admin Paneli
+          SkyBlockTC Rehber Paneli
         </h1>
         <p className="text-lg text-gray-300 mb-12 text-center max-w-2xl">
           Sunucu yönetimi için gerekli tüm araçlar ve bilgiler burada.
