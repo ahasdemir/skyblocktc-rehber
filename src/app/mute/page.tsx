@@ -104,7 +104,7 @@ export default function MuteHelper() {
       <AdminLogin onLogin={setAdminName} />
       <div className="flex-1 flex flex-col items-center py-10 px-2">
         <h1 className="text-4xl md:text-5xl font-extrabold mb-2 text-center bg-gradient-to-r from-green-400 via-blue-400 to-purple-400 bg-clip-text text-transparent drop-shadow-lg">SkyBlockTC Mute Yardımcısı</h1>
-        <p className="text-lg text-gray-300 mb-8 text-center">Sunucu yönetimi için susturma kuralları ve spawner bilgileri.</p>
+        <p className="text-lg text-gray-300 mb-8 text-center">Sunucu yönetimi için susturma kuralları ve rehberler için hızlı mute yardımcısı.</p>
 
         {/* Mute Command Helper */}
         <section className="bg-gray-900 rounded-xl p-6 shadow-lg flex flex-col gap-4 mb-10 w-full max-w-4xl">
