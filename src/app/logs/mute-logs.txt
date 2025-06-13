@@ -1,0 +1,3 @@
+# Minecraft Mute Logları
+# Format: Tarih | Kullanıcı | Süre | Sebep 2025-06-13T20:01:54.495Z | /mute hashindop 45m Argo Kelime Kullanımı
+2025-06-13T20:19:41.914Z | hashindop | /mute hashindop 12h Ailevi Küfür Kullanımı
