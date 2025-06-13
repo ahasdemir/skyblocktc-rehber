@@ -28,19 +28,29 @@ const Header: React.FC<HeaderProps> = ({ adminName, onChangeAdmin, onAdminNameCh
     <header className="bg-gray-800 shadow-lg border-b border-gray-700 w-full z-20 relative">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between h-16 items-center">
+          <div className="flex items-center space-x-4">
+            <Link href="/" className="text-xl font-bold text-white select-none hover:text-green-300 transition-colors flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+              Ana Sayfa
+            </Link>
+          </div>
+
           <div className="flex-1 flex justify-center">
             <div className="flex items-center space-x-4">
-              <Link href="/" className="text-xl font-bold text-green-400 select-none hover:text-green-300 transition-colors">
+              <Link href="/mute" className="text-xl font-bold text-green-400 select-none hover:text-green-300 transition-colors">
                 Mute Yardımcısı
               </Link>
-              <Link href="/spawner" className="ml-4 text-xl font-bold text-pink-400 select-none hover:text-pink-300 transition-colors">
+              <Link href="/spawner" className="text-xl font-bold text-pink-400 select-none hover:text-pink-300 transition-colors">
                 Spawner Bilgileri
               </Link>
-              <Link href="/sss" className="ml-4 text-xl font-bold text-yellow-400 select-none hover:text-yellow-300 transition-colors">
+              <Link href="/sss" className="text-xl font-bold text-yellow-400 select-none hover:text-yellow-300 transition-colors">
                 SSS
               </Link>
             </div>
           </div>
+
           <div className="flex items-center">
             {adminName && (
               <span className="text-gray-300 flex items-center gap-2">
@@ -60,6 +70,7 @@ const Header: React.FC<HeaderProps> = ({ adminName, onChangeAdmin, onAdminNameCh
           </div>
         </div>
       </div>
+
       {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 z-30 flex items-center justify-center bg-black bg-opacity-50">

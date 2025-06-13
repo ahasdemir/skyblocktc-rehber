@@ -1,97 +1,35 @@
 "use client";
 import React, { useState } from 'react';
-import AdminLogin from './components/AdminLogin';
 import Link from 'next/link';
 import Header from './components/Header';
-
-const muteRules = [
-  {
-    title: 'Mute Nedir?',
-    content: 'Mute oyun içinde yapılan kural ihlallerine karşı verilen susturma cezasıdır.'
-  },
-  {
-    title: 'Mute Nasıl Atılır?',
-    content: 'Komut: /mute <kullanıcı> <süre> <sebep> şeklinde yazarak atabilirsiniz.'
-  },
-  {
-    title: 'Susturma Sürelerinin Anlamları',
-    content: (
-      <ul className="list-disc list-inside ml-4">
-        <li>Saniye = s</li>
-        <li>Dakika = m</li>
-        <li>Saat = h</li>
-        <li>Gün = d</li>
-      </ul>
-    )
-  },
-];
-
-const muteLevels = [
-  {
-    level: '1. Seviye',
-    rules: [
-      { reason: 'Chat Kirletimi', min: 10, max: 60, unit: 'm' },
-      { reason: 'Cinsellik', min: 60, max: 60, unit: 'm' },
-      { reason: 'Argo Kelime Kullanımı', min: 30, max: 60, unit: 'm' },
-      { reason: 'Amacı Dışında AdaReklam Kullanımı', min: 1, max: 1, unit: 'h' },
-    ]
-  },
-  {
-    level: '2. Seviye',
-    rules: [
-      { reason: 'Hakaret', min: 3, max: 3, unit: 'h' },
-      { reason: 'Küfür Kullanımı', min: 5, max: 5, unit: 'h' },
-      { reason: 'Tartışma', min: 3, max: 3, unit: 'h' },
-      { reason: 'Kışkırtma', min: 3, max: 3, unit: 'h' },
-      { reason: 'Yetkilileri Rahatsız Etmek', min: 3, max: 3, unit: 'h' },
-      { reason: 'Troll Ada Reklamı', min: 3, max: 3, unit: 'h' },
-      { reason: 'Oyuncu Örgütleme', min: 3, max: 3, unit: 'h' },
-    ]
-  },
-  {
-    level: '3. Seviye',
-    rules: [
-      { reason: 'Din ve Siyaset Yapmak', min: 12, max: 12, unit: 'h' },
-      { reason: 'Link Paylaşımı', min: 12, max: 12, unit: 'h' },
-      { reason: 'Reklam', min: 12, max: 12, unit: 'h' },
-      { reason: 'Ailevi Küfür Kullanımı', min: 12, max: 12, unit: 'h' },
-    ]
-  },
-];
-
-const allReasons = muteLevels.flatMap(l => l.rules.map(r => ({ ...r, level: l.level })));
+import AdminLogin from './components/AdminLogin';
 
 export default function Home() {
-  // Admin state
   const [adminName, setAdminName] = useState<string | null>(null);
 
-  // Mute helper state
-  const [user, setUser] = useState('');
-  const [reason, setReason] = useState('');
-  const [duration, setDuration] = useState('');
-  const [copied, setCopied] = useState(false);
-  const [applied, setApplied] = useState(false);
-
-  // Find selected reason info
-  const selectedReason = allReasons.find(r => r.reason === reason);
-  const min = selectedReason ? selectedReason.min : undefined;
-  const max = selectedReason ? selectedReason.max : undefined;
-  const unit = selectedReason ? selectedReason.unit : '';
-
-  // Duration input restrictions
-  let durationValue = duration;
-  let durationNum = parseInt(durationValue);
-  const safeMin = typeof min === 'number' ? min : 0;
-  const safeMax = typeof max === 'number' ? max : 0;
-  if (selectedReason && !isNaN(durationNum)) {
-    if (durationNum < safeMin) durationNum = safeMin;
-    if (durationNum > safeMax) durationNum = safeMax;
-    durationValue = durationNum.toString();
-  }
-  if (duration === '') durationValue = '';
-
-  // Command preview
-  const muteCommand = user && reason && (safeMin === safeMax ? true : durationValue) ? `/mute ${user} ${safeMin === safeMax ? safeMin : durationValue}${unit} ${reason}` : '';
+  const tools = [
+    {
+      title: 'Mute Yardımcısı',
+      description: 'Sunucu yönetimi için susturma kuralları ve komut hazırlayıcı.',
+      href: '/mute',
+      icon: '🔇',
+      color: 'from-red-500 to-orange-500'
+    },
+    {
+      title: 'Spawner Bilgileri',
+      description: 'Spawner türleri ve özellikleri hakkında detaylı bilgiler.',
+      href: '/spawner',
+      icon: '🐷',
+      color: 'from-green-500 to-emerald-500'
+    },
+    {
+      title: 'Oyuncular Tarafından Sıkça Sorulan Sorular',
+      description: 'Oyuncuların genelde sorduğu soruların cevaplarını buradan kopyala yapıştır yapabilirsiniz.',
+      href: '/sss',
+      icon: '📝',
+      color: 'from-blue-500 to-cyan-500'
+    }
+  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary via-secondary to-gray-900 text-white flex flex-col">
@@ -101,189 +39,43 @@ export default function Home() {
         onAdminNameChange={name => { setAdminName(name); localStorage.setItem('minecraftAdmin', name); }}
       />
       <AdminLogin onLogin={setAdminName} />
-      <div className="flex-1 flex flex-col items-center py-10 px-2">
-        <h1 className="text-4xl md:text-5xl font-extrabold mb-2 text-center bg-gradient-to-r from-green-400 via-blue-400 to-purple-400 bg-clip-text text-transparent drop-shadow-lg">SkyBlockTC Mute Yardımcısı</h1>
-        <p className="text-lg text-gray-300 mb-8 text-center">Sunucu yönetimi için susturma kuralları ve spawner bilgileri.</p>
+      
+      <div className="flex-1 flex flex-col items-center py-10 px-4">
+        <h1 className="text-4xl md:text-5xl font-extrabold mb-2 text-center bg-gradient-to-r from-green-400 via-blue-400 to-purple-400 bg-clip-text text-transparent drop-shadow-lg">
+          SkyBlockTC Admin Paneli
+        </h1>
+        <p className="text-lg text-gray-300 mb-12 text-center max-w-2xl">
+          Sunucu yönetimi için gerekli tüm araçlar ve bilgiler burada.
+        </p>
 
-        {/* Mute Command Helper */}
-        <section className="bg-gray-900 rounded-xl p-6 shadow-lg flex flex-col gap-4 mb-10 w-full max-w-4xl">
-          <h3 className="text-lg font-bold text-blue-300 mb-2">Mute Komutu Hazırlayıcı</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-1">
-            <label className="text-sm font-medium text-blue-300 md:text-center" htmlFor="mute-user">Kullanıcı Adı</label>
-            <label className="text-sm font-medium text-green-300 md:text-center" htmlFor="mute-reason">Suç</label>
-            <label className="text-sm font-medium text-yellow-300 md:text-center" htmlFor="mute-duration">Süre</label>
-          </div>
-          <div className="flex flex-col md:flex-row gap-4">
-            <input
-              id="mute-user"
-              className="flex-1 rounded px-3 py-2 bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
-              placeholder="Kullanıcı ismi"
-              value={user}
-              onChange={e => setUser(e.target.value)}
-            />
-            <select
-              id="mute-reason"
-              className="flex-1 rounded px-3 py-2 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
-              value={reason}
-              onChange={e => { setReason(e.target.value); setDuration(''); }}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
+          {tools.map((tool) => (
+            <Link
+              key={tool.title}
+              href={tool.href}
+              className="group relative bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
             >
-              <option value="">Sebep seçin</option>
-              {allReasons.map(r => (
-                <option key={r.reason} value={r.reason}>{r.reason}</option>
-              ))}
-            </select>
-            <div className="flex-1 flex flex-col">
-              {selectedReason && (
-                <div className="text-xs text-gray-400 mb-1">
-                  Süre: min <span className="text-green-300 font-bold">{safeMin}{unit}</span> - max <span className="text-red-300 font-bold">{safeMax}{unit}</span>
-                </div>
-              )}
-              {selectedReason && safeMin === safeMax ? (
-                <div className="relative w-28 max-w-xs">
-                  <input
-                    id="mute-duration"
-                    type="text"
-                    className="rounded px-3 py-2 bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full text-center pr-8"
-                    value={safeMin}
-                    disabled
-                  />
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 select-none">{unit}</span>
-                </div>
-              ) : (
-                <div className="relative w-28 max-w-xs">
-                  <input
-                    id="mute-duration"
-                    type="number"
-                    min={safeMin}
-                    max={safeMax}
-                    step={1}
-                    className="rounded px-3 py-2 bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full text-center pr-8 appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-inner-spin-button]:m-0"
-                    style={{ MozAppearance: 'textfield' }}
-                    placeholder={`Süre`}
-                    value={duration}
-                    onChange={e => {
-                      // Only allow numbers
-                      const val = e.target.value.replace(/[^0-9]/g, '');
-                      setDuration(val);
-                    }}
-                    onInput={e => {
-                      const val = e.currentTarget.value.replace(/[^0-9]/g, '');
-                      let num = parseInt(val);
-                      if (!isNaN(num)) {
-                        if (num < safeMin) num = safeMin;
-                        if (num > safeMax) num = safeMax;
-                        setDuration(num.toString());
-                      } else if (val === '') {
-                        setDuration('');
-                      }
-                    }}
-                    disabled={!selectedReason}
-                  />
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 select-none">{unit}</span>
-                </div>
-              )}
-              {/* Sertlik butonları */}
-              {selectedReason && safeMin !== safeMax && (
-                <div className="flex justify-between mt-2 gap-1">
-                  {(() => {
-                    const minVal = safeMin;
-                    const maxVal = safeMax;
-                    const midVal = Math.round((minVal + maxVal) / 2);
-                    const levels = [
-                      { label: 'Hafif', value: minVal },
-                      { label: 'Orta', value: midVal },
-                      { label: 'Sert', value: maxVal },
-                    ];
-                    return levels.map(l => (
-                      <button
-                        key={l.label}
-                        type="button"
-                        className={`px-2 py-1 rounded text-xs font-semibold border transition-colors ${duration === l.value.toString() ? 'bg-blue-600 text-white border-blue-700' : 'bg-gray-800 text-gray-300 border-gray-700 hover:bg-blue-700 hover:text-white'}`}
-                        onClick={() => setDuration(l.value.toString())}
-                      >
-                        {l.label}
-                      </button>
-                    ));
-                  })()}
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="mt-2 flex items-center gap-2">
-            <span className="text-sm text-gray-300">Oluşan komut: </span>
-            <span className="font-mono bg-gray-800 px-2 py-1 rounded text-green-300">{muteCommand || '/mute {kullanıcı} {süre} {sebep}'}</span>
-            {muteCommand && (
-              <>
-                <button
-                  className="ml-2 px-2 py-1 rounded bg-blue-600 hover:bg-blue-700 text-white text-xs transition-colors"
-                  onClick={() => {
-                    navigator.clipboard.writeText(muteCommand);
-                    setCopied(true);
-                    setTimeout(() => setCopied(false), 1200);
-                  }}
-                >
-                  {copied ? 'Kopyalandı!' : 'Kopyala'}
-                </button>
-                <button
-                  className="ml-2 px-2 py-1 rounded bg-green-600 hover:bg-green-700 text-white text-xs transition-colors"
-                  onClick={async () => {
-                    if (!adminName) {
-                      alert('Lütfen önce yetkili girişi yapın!');
-                      return;
-                    }
-                    try {
-                      const response = await fetch('/api/log-mute', {
-                        method: 'POST',
-                        headers: {
-                          'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                          command: muteCommand,
-                          timestamp: new Date().toISOString(),
-                          admin: adminName,
-                        }),
-                      });
-                      
-                      if (response.ok) {
-                        setApplied(true);
-                        setTimeout(() => setApplied(false), 1200);
-                      }
-                    } catch (error) {
-                      console.error('Loglama hatası:', error);
-                    }
-                  }}
-                >
-                  {applied ? 'Kaydedildi!' : 'Uyguladım'}
-                </button>
-              </>
-            )}
-          </div>
-        </section>
+              <div className="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl" style={{ backgroundImage: `linear-gradient(to bottom right, ${tool.color})` }} />
+              <div className="relative">
+                <div className="text-4xl mb-4">{tool.icon}</div>
+                <h3 className="text-xl font-bold mb-2 text-white group-hover:text-blue-400 transition-colors">
+                  {tool.title}
+                </h3>
+                <p className="text-gray-400 group-hover:text-gray-300 transition-colors">
+                  {tool.description}
+                </p>
+              </div>
+            </Link>
+          ))}
+        </div>
 
-        {/* Mute Rules Section */}
-        <section className="bg-secondary/80 rounded-2xl shadow-lg p-8 mb-10 w-full max-w-4xl">
-          <h2 className="text-2xl font-bold mb-4 text-green-300">Mute Kuralları</h2>
-          <div className="grid md:grid-cols-3 gap-6 mb-6">
-            {muteRules.map((rule) => (
-              <div key={rule.title} className="bg-gray-800 rounded-xl p-4 shadow-md">
-                <h3 className="font-semibold mb-2 text-lg text-blue-200">{rule.title}</h3>
-                <div className="text-gray-200 text-sm">{rule.content}</div>
-              </div>
-            ))}
-          </div>
-          <div className="grid md:grid-cols-3 gap-6 mb-10">
-            {muteLevels.map((level) => (
-              <div key={level.level} className="bg-gray-800 rounded-xl p-4 shadow-md">
-                <h4 className="font-semibold mb-2 text-yellow-200">{level.level} Susturma</h4>
-                <ul className="list-disc list-inside text-gray-200 text-sm ml-2">
-                  {level.rules.filter(r => typeof r === 'object' && r.reason).map((r, i) => (
-                    <li key={i}>{r.min !== r.max ? `${r.min}-${r.max}${r.unit}` : `${r.min}${r.unit}`} {r.reason}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </section>
+        <div className="mt-16 text-center">
+          <h2 className="text-2xl font-bold mb-4 text-blue-300">Hoş Geldiniz!</h2>
+          <p className="text-gray-300 max-w-2xl">
+            Bu panel, SkyBlockTC sunucusunun yönetimi için özel olarak tasarlanmıştır.
+            Yetkili işlemlerinizi kolaylaştırmak ve standartlaştırmak için gerekli tüm araçlar burada bulunmaktadır.
+          </p>
+        </div>
       </div>
     </div>
   );
