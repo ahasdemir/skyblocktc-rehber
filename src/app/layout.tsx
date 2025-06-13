@@ -5,8 +5,8 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Minecraft Admin Helper',
-  description: 'Minecraft server administration helper with mute rules and spawner information',
+  title: 'SkyBlockTC Rehber Paneli',
+  description: 'Skyblocktc için rehber kullanımına açılmış yardımcı paneli.',
 }
 
 export default function RootLayout({
