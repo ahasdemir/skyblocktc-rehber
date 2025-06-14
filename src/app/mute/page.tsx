@@ -15,7 +15,7 @@ const muteRules = [
   {
     title: 'Susturma Sürelerinin Anlamları',
     content: (
-      <ul className="list-disc list-inside ml-4">
+      <ul className="list-disc list-inside ml-2">
         <li>Saniye = s</li>
         <li>Dakika = m</li>
         <li>Saat = h</li>
@@ -102,29 +102,36 @@ export default function MuteHelper() {
         onAdminNameChange={name => { setAdminName(name); localStorage.setItem('minecraftAdmin', name); }}
       />
       <AdminLogin onLogin={setAdminName} />
-      <div className="flex-1 flex flex-col items-center py-10 px-2">
-        <h1 className="text-4xl md:text-5xl font-extrabold mb-2 text-center bg-gradient-to-r from-green-400 via-blue-400 to-purple-400 bg-clip-text text-transparent drop-shadow-lg">SkyBlockTC Mute Yardımcısı</h1>
-        <p className="text-lg text-gray-300 mb-8 text-center">Sunucu yönetimi için susturma kuralları ve rehberler için hızlı mute yardımcısı.</p>
+      
+      <main className="flex-1 flex flex-col items-center py-8 sm:py-10 px-4">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 text-center bg-gradient-to-r from-green-400 via-blue-400 to-purple-400 bg-clip-text text-transparent drop-shadow-lg">
+          SkyBlockTC Mute Yardımcısı
+        </h1>
+        <p className="text-base sm:text-lg text-gray-300 mb-8 text-center max-w-2xl">
+          Sunucu yönetimi için susturma kuralları ve rehberler için hızlı mute yardımcısı.
+        </p>
 
         {/* Mute Command Helper */}
-        <section className="bg-gray-900 rounded-xl p-6 shadow-lg flex flex-col gap-4 mb-10 w-full max-w-4xl">
-          <h3 className="text-lg font-bold text-blue-300 mb-2">Mute Komutu Hazırlayıcı</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-1">
+        <section className="bg-gray-900/90 rounded-xl p-5 sm:p-6 shadow-lg w-full max-w-4xl mb-8 border border-gray-700/50">
+          <h3 className="text-xl font-bold text-blue-300 mb-4">Mute Komutu Hazırlayıcı</h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-2">
             <label className="text-sm font-medium text-blue-300 md:text-center" htmlFor="mute-user">Kullanıcı Adı</label>
             <label className="text-sm font-medium text-green-300 md:text-center" htmlFor="mute-reason">Suç</label>
             <label className="text-sm font-medium text-yellow-300 md:text-center" htmlFor="mute-duration">Süre</label>
           </div>
-          <div className="flex flex-col md:flex-row gap-4">
+          
+          <div className="flex flex-col md:flex-row gap-3">
             <input
               id="mute-user"
-              className="flex-1 rounded px-3 py-2 bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="flex-1 rounded px-3 py-2 bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 border border-gray-700"
               placeholder="Kullanıcı ismi"
               value={user}
               onChange={e => setUser(e.target.value)}
             />
             <select
               id="mute-reason"
-              className="flex-1 rounded px-3 py-2 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="flex-1 rounded px-3 py-2 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-400 border border-gray-700"
               value={reason}
               onChange={e => { setReason(e.target.value); setDuration(''); }}
             >
@@ -133,9 +140,9 @@ export default function MuteHelper() {
                 <option key={r.reason} value={r.reason}>{r.reason}</option>
               ))}
             </select>
-            <div className="flex-1 flex flex-col">
+            <div className="flex-1 flex flex-col items-center md:items-start">
               {selectedReason && (
-                <div className="text-xs text-gray-400 mb-1">
+                <div className="text-xs text-gray-400 mb-1 w-full text-center md:text-left">
                   Süre: min <span className="text-green-300 font-bold">{safeMin}{unit}</span> - max <span className="text-red-300 font-bold">{safeMax}{unit}</span>
                 </div>
               )}
@@ -144,7 +151,7 @@ export default function MuteHelper() {
                   <input
                     id="mute-duration"
                     type="text"
-                    className="rounded px-3 py-2 bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full text-center pr-8"
+                    className="rounded px-3 py-2 bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full text-center pr-8 border border-gray-700"
                     value={safeMin}
                     disabled
                   />
@@ -158,7 +165,7 @@ export default function MuteHelper() {
                     min={safeMin}
                     max={safeMax}
                     step={1}
-                    className="rounded px-3 py-2 bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full text-center pr-8 appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-inner-spin-button]:m-0"
+                    className="rounded px-3 py-2 bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full text-center pr-8 appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-inner-spin-button]:m-0 border border-gray-700"
                     style={{ MozAppearance: 'textfield' }}
                     placeholder={`Süre`}
                     value={duration}
@@ -183,9 +190,10 @@ export default function MuteHelper() {
                   <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 select-none">{unit}</span>
                 </div>
               )}
+              
               {/* Sertlik butonları */}
               {selectedReason && safeMin !== safeMax && (
-                <div className="flex justify-between mt-2 gap-1">
+                <div className="flex justify-between mt-2 gap-1 w-full">
                   {(() => {
                     const minVal = safeMin;
                     const maxVal = safeMax;
@@ -199,7 +207,11 @@ export default function MuteHelper() {
                       <button
                         key={l.label}
                         type="button"
-                        className={`px-2 py-1 rounded text-xs font-semibold border transition-colors ${duration === l.value.toString() ? 'bg-blue-600 text-white border-blue-700' : 'bg-gray-800 text-gray-300 border-gray-700 hover:bg-blue-700 hover:text-white'}`}
+                        className={`px-2 py-1 rounded text-xs font-semibold border transition-colors ${
+                          duration === l.value.toString() 
+                            ? 'bg-blue-600 text-white border-blue-700' 
+                            : 'bg-gray-800 text-gray-300 border-gray-700 hover:bg-blue-700 hover:text-white'
+                        }`}
                         onClick={() => setDuration(l.value.toString())}
                       >
                         {l.label}
@@ -210,13 +222,16 @@ export default function MuteHelper() {
               )}
             </div>
           </div>
-          <div className="mt-2 flex items-center gap-2">
-            <span className="text-sm text-gray-300">Oluşan komut: </span>
-            <span className="font-mono bg-gray-800 px-2 py-1 rounded text-green-300">{muteCommand || '/mute {kullanıcı} {süre} {sebep}'}</span>
+          
+          <div className="mt-4 flex flex-wrap items-center gap-2 bg-gray-800/50 p-3 rounded-lg border border-gray-700/50">
+            <span className="text-sm text-gray-300">Oluşan komut:</span>
+            <span className="font-mono bg-gray-800 px-2 py-1 rounded text-green-300 flex-1 overflow-x-auto">
+              {muteCommand || '/mute {kullanıcı} {süre} {sebep}'}
+            </span>
             {muteCommand && (
-              <>
+              <div className="flex gap-2 flex-shrink-0">
                 <button
-                  className="ml-2 px-2 py-1 rounded bg-blue-600 hover:bg-blue-700 text-white text-xs transition-colors"
+                  className="px-3 py-1 rounded bg-blue-600 hover:bg-blue-700 text-white text-xs transition-colors"
                   onClick={() => {
                     navigator.clipboard.writeText(muteCommand);
                     setCopied(true);
@@ -226,7 +241,7 @@ export default function MuteHelper() {
                   {copied ? 'Kopyalandı!' : 'Kopyala'}
                 </button>
                 <button
-                  className="ml-2 px-2 py-1 rounded bg-green-600 hover:bg-green-700 text-white text-xs transition-colors"
+                  className="px-3 py-1 rounded bg-green-600 hover:bg-green-700 text-white text-xs transition-colors"
                   onClick={async () => {
                     if (!adminName) {
                       alert('Lütfen önce yetkili girişi yapın!');
@@ -256,36 +271,41 @@ export default function MuteHelper() {
                 >
                   {applied ? 'Kaydedildi!' : 'Uyguladım'}
                 </button>
-              </>
+              </div>
             )}
           </div>
         </section>
 
         {/* Mute Rules Section */}
-        <section className="bg-secondary/80 rounded-2xl shadow-lg p-8 mb-10 w-full max-w-4xl">
-          <h2 className="text-2xl font-bold mb-4 text-green-300">Mute Kuralları</h2>
-          <div className="grid md:grid-cols-3 gap-6 mb-6">
+        <section className="bg-gray-800/80 rounded-xl shadow-lg p-6 sm:p-8 w-full max-w-4xl mb-8">
+          <h2 className="text-2xl font-bold mb-6 text-green-300 border-l-4 border-green-400 pl-2">Mute Kuralları</h2>
+          
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
             {muteRules.map((rule) => (
-              <div key={rule.title} className="bg-gray-800 rounded-xl p-4 shadow-md">
-                <h3 className="font-semibold mb-2 text-lg text-blue-200">{rule.title}</h3>
+              <div key={rule.title} className="bg-gray-900 rounded-lg p-4 shadow-md border border-gray-700/30 hover:shadow-xl transition-all duration-300">
+                <h3 className="font-semibold mb-2 text-lg text-blue-300">{rule.title}</h3>
                 <div className="text-gray-200 text-sm">{rule.content}</div>
               </div>
             ))}
           </div>
-          <div className="grid md:grid-cols-3 gap-6 mb-10">
+          
+          <h2 className="text-xl font-bold mb-4 text-yellow-300 border-l-4 border-yellow-400 pl-2">Susturma Seviyeleri</h2>
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
             {muteLevels.map((level) => (
-              <div key={level.level} className="bg-gray-800 rounded-xl p-4 shadow-md">
+              <div key={level.level} className="bg-gray-900 rounded-lg p-4 shadow-md border border-gray-700/30 hover:shadow-xl transition-all duration-300">
                 <h4 className="font-semibold mb-2 text-yellow-200">{level.level} Susturma</h4>
-                <ul className="list-disc list-inside text-gray-200 text-sm ml-2">
+                <ul className="list-disc list-inside text-gray-200 text-sm">
                   {level.rules.filter(r => typeof r === 'object' && r.reason).map((r, i) => (
-                    <li key={i}>{r.min !== r.max ? `${r.min}-${r.max}${r.unit}` : `${r.min}${r.unit}`} {r.reason}</li>
+                    <li key={i} className="mb-1">
+                      <span className="text-blue-400">{r.min !== r.max ? `${r.min}-${r.max}${r.unit}` : `${r.min}${r.unit}`}</span> {r.reason}
+                    </li>
                   ))}
                 </ul>
               </div>
             ))}
           </div>
         </section>
-      </div>
+      </main>
     </div>
   );
-} 
+}
