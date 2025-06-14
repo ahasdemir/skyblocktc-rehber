@@ -12,6 +12,10 @@ const faq = [
     a: "Para kazanmak için:\n- /warp tarla ile ekin kırıp /sat hepsi ile satabilirsin.\n- /spawn'da minyon yerlerinde çilek veya mango kesebilirsin.\n- /iş ile işçi olabilir, başkaları için çalışabilirsin.\n- Adanda farm kurarak pasif gelir elde edebilirsin."
   },
   {
+    q: 'Oto toplama var mı?',
+    a: 'Oto toplama yok onun yerine /çiftçi ve /madenci kullanabilirsin!'
+  },
+  {
     q: 'Yumurta etkinliği nedir?',
     a: 'Yumurta etkinliği, oyuncuların yumurta toplayarak ödüller kazandığı özel bir etkinliktir. Yumurtalar spawn bölgesinde belirli yerlerde bulunabilir ve toplandığında çeşitli ödüller kazanabilirsiniz.'
   },
