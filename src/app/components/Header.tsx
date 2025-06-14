@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React, { useState, useEffect, useRef } from 'react';
+import { usePathname } from 'next/navigation';
 
 interface HeaderProps {
   adminName?: string | null;
@@ -12,6 +13,7 @@ const Header: React.FC<HeaderProps> = ({ adminName, onChangeAdmin, onAdminNameCh
   const [newName, setNewName] = useState(adminName || '');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
 
   const handleOpen = () => {
     setNewName(adminName || '');
@@ -39,6 +41,40 @@ const Header: React.FC<HeaderProps> = ({ adminName, onChangeAdmin, onAdminNameCh
     };
   }, []);
 
+  // Navigation items with their properties
+  const navItems = [
+    {
+      name: 'Mute Yardımcısı',
+      href: '/mute',
+      color: 'green',
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+        </svg>
+      )
+    },
+    {
+      name: 'Spawner Bilgileri',
+      href: '/spawner',
+      color: 'pink',
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+        </svg>
+      )
+    },
+    {
+      name: 'SSS',
+      href: '/sss',
+      color: 'yellow',
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      )
+    }
+  ];
+
   return (
     <header className="bg-gray-800 shadow-lg border-b border-gray-700 w-full z-20 relative">
       <div className="max-w-7xl mx-auto px-4">
@@ -55,16 +91,30 @@ const Header: React.FC<HeaderProps> = ({ adminName, onChangeAdmin, onAdminNameCh
 
           {/* Desktop Navigation - Hidden on mobile */}
           <div className="hidden md:flex flex-1 justify-center">
-            <div className="flex items-center space-x-4">
-              <Link href="/mute" className="text-xl font-bold text-green-400 select-none hover:text-green-300 transition-colors">
-                Mute Yardımcısı
-              </Link>
-              <Link href="/spawner" className="text-xl font-bold text-pink-400 select-none hover:text-pink-300 transition-colors">
-                Spawner Bilgileri
-              </Link>
-              <Link href="/sss" className="text-xl font-bold text-yellow-400 select-none hover:text-yellow-300 transition-colors">
-                SSS
-              </Link>
+            <div className="flex items-center space-x-5">
+              {navItems.map((item) => {
+                const isActive = pathname === item.href;
+                return (
+                  <Link 
+                    key={item.href}
+                    href={item.href} 
+                    className={`
+                      flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200
+                      font-medium select-none text-base
+                      ${isActive 
+                        ? `bg-${item.color}-500/20 text-${item.color}-400 border border-${item.color}-500/30 shadow-sm` 
+                        : `text-${item.color}-400 hover:bg-${item.color}-500/10 hover:text-${item.color}-300 hover:shadow`
+                      }
+                    `}
+                  >
+                    {item.icon}
+                    {item.name}
+                    {isActive && (
+                      <span className={`absolute bottom-0 left-0 w-full h-0.5 bg-${item.color}-400 hidden`} />
+                    )}
+                  </Link>
+                );
+              })}
             </div>
           </div>
 
@@ -117,28 +167,27 @@ const Header: React.FC<HeaderProps> = ({ adminName, onChangeAdmin, onAdminNameCh
           ref={menuRef}
           className="md:hidden absolute top-16 inset-x-0 z-20 bg-gray-800 border-t border-b border-gray-700 shadow-lg"
         >
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <Link 
-              href="/mute" 
-              className="block px-3 py-2 rounded-md text-base font-medium text-green-400 hover:text-green-300 hover:bg-gray-700"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Mute Yardımcısı
-            </Link>
-            <Link 
-              href="/spawner" 
-              className="block px-3 py-2 rounded-md text-base font-medium text-pink-400 hover:text-pink-300 hover:bg-gray-700"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Spawner Bilgileri
-            </Link>
-            <Link 
-              href="/sss" 
-              className="block px-3 py-2 rounded-md text-base font-medium text-yellow-400 hover:text-yellow-300 hover:bg-gray-700"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              SSS
-            </Link>
+          <div className="px-2 pt-2 pb-3 space-y-2 sm:px-3">
+            {navItems.map((item) => {
+              const isActive = pathname === item.href;
+              return (
+                <Link 
+                  key={item.href}
+                  href={item.href} 
+                  className={`
+                    flex items-center gap-3 px-3 py-2.5 rounded-md transition-all duration-200
+                    ${isActive 
+                      ? `bg-${item.color}-500/20 text-${item.color}-400 border border-${item.color}-500/30` 
+                      : `text-${item.color}-400 hover:bg-${item.color}-500/10 hover:text-${item.color}-300`
+                    }
+                  `}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {item.icon}
+                  <span className="font-medium">{item.name}</span>
+                </Link>
+              );
+            })}
           </div>
         </div>
       )}
