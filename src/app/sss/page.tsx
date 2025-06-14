@@ -24,6 +24,10 @@ const faq = [
     a: 'Mango ve çilek, spawn bölgesinin sol çaprazında bulunan minyon yerlerinde kesilerek elde edilir. Elde ettiğiniz mango ve çilekleri, kendi bölgelerinde bulunan köylüler ile takas yapabilirsiniz.'
   },
   {
+    q: 'Hile kullanmak yasak mı?',
+    a: 'Evet, hile kullanmak genel itibari ile yasaktır. Hile kullanan oyuncular, sunucudan kalıcı olarak yasaklanabilir. Ancak adada kullanabileceginiz auto clicker, bazı makrolar gibi hile çeşitlerine göz yumulabilir. Bu tür hileler, adada işlerinizi kolaylaştırmak için kullanılabilir. Ancak bu tür hilelerin kullanımı da sunucu kurallarına uygun olmalıdır. Ancak KillAura, X-Ray, Fly gibi hileler kesinlikle yasaktır.'
+  },
+  {
     q: 'Boxcoin nedir?',
     a: 'Boxcoin /boxcoin\'de özel itemler alabileceğiniz, /warp boxcoin\'de ise özel kasası bulunan bir para birimidir. '
   },
