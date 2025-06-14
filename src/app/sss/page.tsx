@@ -9,7 +9,7 @@ const faq = [
   },
   {
     q: 'Nasıl para kasabilirim?',
-    a: "Para kazanmak için birkaç farklı yöntem kullanabilirsin:\n\n- /warp tarla yazarak tarladaki ekinleri kırabilir ve topladığın ürünleri /sat hepsi komutuyla satabilirsin.\n- /spawn bölgesinde sol çaprazda bulunan minyon yerlerine gidip çilek veya mango keserek, bunları kendi bölgelerinde bulunan köylülerle takas yapabilirsin.\n- /iş yazarak işçi olabilir ve diğer oyuncular için çalışabilirsin.\n- Adanda kaktüs, balkabağı, arı gibi birçok farklı farm kurarak pasif gelir elde edebilirsin.\n- Ayrıca işçi olarak oyuncular için çalışmak da ek gelir sağlar."
+    a: "Para kazanmak için birkaç farklı yöntem kullanabilirsin:\n\n- /warp tarla yazarak tarladaki ekinleri kırabilir ve topladığın ürünleri /sat hepsi komutuyla satabilirsin.\n- /spawn bölgesinde sol çaprazda bulunan minyon yerlerine gidip çilek veya mango keserek, bunları kendi bölgelerinde bulunan köylülerle takas yapabilirsin.\n- /iş yazarak işçi olabilir ve diğer oyuncular için çalışabilirsin.\n- Adanda kaktüs, balkabağı, arı gibi birçok farklı farm kurarak pasif gelir elde edebilirsin."
   },
   {
     q: 'Yumurta etkinliği nedir?',
