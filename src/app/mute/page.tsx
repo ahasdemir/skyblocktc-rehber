@@ -1,7 +1,8 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react'; // useRef ve useEffect ekledim
 import AdminLogin from '../components/AdminLogin';
 import Header from '../components/Header';
+import oyuncuListesi from '../../../oyuncular.json'; // Oyuncular listesini import et
 
 const muteRules = [
   {
@@ -72,6 +73,11 @@ export default function MuteHelper() {
   const [duration, setDuration] = useState('');
   const [copied, setCopied] = useState(false);
   const [applied, setApplied] = useState(false);
+  
+  // Otomatik tamamlama için state
+  const [filteredPlayers, setFilteredPlayers] = useState<string[]>([]);
+  const [showAutocomplete, setShowAutocomplete] = useState(false);
+  const autocompleteRef = useRef<HTMLDivElement>(null);
 
   // Find selected reason info
   const selectedReason = allReasons.find(r => r.reason === reason);
@@ -93,6 +99,39 @@ export default function MuteHelper() {
 
   // Command preview
   const muteCommand = user && reason && (safeMin === safeMax ? true : durationValue) ? `/mute ${user} ${safeMin === safeMax ? safeMin : durationValue}${unit} ${reason}` : '';
+
+  // Kullanıcı adı otomatik tamamlama mantığı
+  const handleUserInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setUser(value);
+    
+    if (value.length > 0) {
+      // Kullanıcının yazdığı metni içeren oyuncuları filtrele
+      const filtered = oyuncuListesi.filter(name => 
+        name.toLowerCase().includes(value.toLowerCase())
+      ).slice(0, 7); // En fazla 7 öneri göster
+      
+      setFilteredPlayers(filtered);
+      setShowAutocomplete(true);
+    } else {
+      setFilteredPlayers([]);
+      setShowAutocomplete(false);
+    }
+  };
+
+  // Dışarı tıklandığında dropdown'ı kapat
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (autocompleteRef.current && !autocompleteRef.current.contains(event.target as Node)) {
+        setShowAutocomplete(false);
+      }
+    }
+    
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary via-secondary to-gray-900 text-white flex flex-col">
@@ -122,13 +161,38 @@ export default function MuteHelper() {
           </div>
           
           <div className="flex flex-col md:flex-row gap-3">
-            <input
-              id="mute-user"
-              className="flex-1 rounded px-3 py-2 bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 border border-gray-700"
-              placeholder="Kullanıcı ismi"
-              value={user}
-              onChange={e => setUser(e.target.value)}
-            />
+            {/* Kullanıcı adı input'u yerine otomatik tamamlama bileşeni */}
+            <div className="relative flex-1">
+              <input
+                id="mute-user"
+                className="w-full h-[42px] rounded px-3 py-2 bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 border border-gray-700"
+                placeholder="Kullanıcı ismi"
+                value={user}
+                onChange={handleUserInputChange}
+                onFocus={() => user.length > 0 && setShowAutocomplete(true)}
+              />
+              {/* Autocomplete dropdown */}
+              {showAutocomplete && filteredPlayers.length > 0 && (
+                <div 
+                  ref={autocompleteRef}
+                  className="absolute z-10 mt-1 w-full bg-gray-800 border border-gray-700 rounded-md shadow-lg max-h-60 overflow-auto"
+                >
+                  {filteredPlayers.map((playerName) => (
+                    <div
+                      key={playerName}
+                      className="px-4 py-2 hover:bg-gray-700 cursor-pointer text-white transition-colors"
+                      onClick={() => {
+                        setUser(playerName);
+                        setShowAutocomplete(false);
+                      }}
+                    >
+                      {playerName}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            
             <select
               id="mute-reason"
               className="flex-1 rounded px-3 py-2 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-400 border border-gray-700"
