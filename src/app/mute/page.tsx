@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react'; // useRef ve useEffe
 import AdminLogin from '../components/AdminLogin';
 import Header from '../components/Header';
 import oyuncuListesi from '../../../oyuncular.json'; // Oyuncular listesini import et
+import { getSessionId, getBrowserInfo } from '../../lib/sessionUtils';
 
 const muteRules = [
   {
@@ -312,6 +313,10 @@ export default function MuteHelper() {
                       return;
                     }
                     try {
+                      // Session ID ve tarayıcı bilgilerini al
+                      const sessionId = getSessionId();
+                      const browserInfo = getBrowserInfo();
+                      
                       const response = await fetch('/api/log-mute', {
                         method: 'POST',
                         headers: {
@@ -321,6 +326,8 @@ export default function MuteHelper() {
                           command: muteCommand,
                           timestamp: new Date().toISOString(),
                           admin: adminName,
+                          sessionId,
+                          browserInfo
                         }),
                       });
                       

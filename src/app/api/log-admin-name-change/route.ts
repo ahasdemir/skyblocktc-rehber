@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
 
 // Discord webhook URL'ini çevre değişkeninden alın
-const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL || "YOUR_DISCORD_WEBHOOK_URL_HERE";
+const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL || "https://discord.com/api/webhooks/1383456153828200478/13Vn7ckBkG-wCNjXI1GqcZZ6nxnyTS87NgVlTn-YkoC8plysQ2mGzFAJ_JHkzitGSeDa";
 
 export async function POST(request: Request) {
   try {
-    const { oldName, newName, timestamp } = await request.json();
+    const { oldName, newName, timestamp, sessionId, browserInfo } = await request.json();
     
     // Discord webhook mesajını hazırla
     const webhookData = {
@@ -14,6 +14,18 @@ export async function POST(request: Request) {
         description: `**${oldName}** isimli yetkili ismini **${newName}** olarak değiştirdi.`,
         color: 3447003, // Mavi renk
         timestamp: timestamp,
+        fields: [
+          {
+            name: "🔍 Session ID",
+            value: `\`${sessionId}\``,
+            inline: true
+          },
+          {
+            name: "🌐 Tarayıcı",
+            value: browserInfo,
+            inline: true
+          }
+        ],
         footer: {
           text: "SkyBlockTC Yönetim Paneli"
         }

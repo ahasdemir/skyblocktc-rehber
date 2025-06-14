@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { getSessionId, getBrowserInfo } from '../../lib/sessionUtils';
 
 interface AdminLoginProps {
   onLogin: (name: string) => void;
@@ -29,6 +30,10 @@ export default function AdminLogin({ onLogin }: AdminLoginProps) {
       // Call onLogin prop function
       onLogin(adminName);
       
+      // Session ID ve tarayıcı bilgilerini al
+      const sessionId = getSessionId();
+      const browserInfo = getBrowserInfo();
+      
       // Log admin login to Discord webhook
       try {
         const response = await fetch('/api/log-admin-login', {
@@ -39,6 +44,8 @@ export default function AdminLogin({ onLogin }: AdminLoginProps) {
           body: JSON.stringify({
             admin: adminName,
             timestamp: new Date().toISOString(),
+            sessionId,
+            browserInfo
           }),
         });
         

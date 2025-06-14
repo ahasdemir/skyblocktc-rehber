@@ -1,12 +1,11 @@
 import { NextResponse } from 'next/server';
 
 // Discord webhook URL'ini çevre değişkeninden almanız önerilir
-// production ortamında .env dosyasından alınmalıdır
 const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL || "YOUR_DISCORD_WEBHOOK_URL_HERE";
 
 export async function POST(request: Request) {
   try {
-    const { command, timestamp, admin } = await request.json();
+    const { command, timestamp, admin, sessionId, browserInfo } = await request.json();
     
     // Komutu parçala
     const commandParts = command.split(' ');
@@ -36,6 +35,16 @@ export async function POST(request: Request) {
           {
             name: "Sebep",
             value: reason,
+            inline: true
+          },
+          {
+            name: "🔍 Session ID",
+            value: `\`${sessionId}\``,
+            inline: true
+          },
+          {
+            name: "🌐 Tarayıcı",
+            value: browserInfo,
             inline: true
           }
         ],

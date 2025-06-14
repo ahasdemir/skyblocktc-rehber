@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import React, { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
+import { getSessionId, getBrowserInfo } from '../../lib/sessionUtils';
 
 interface HeaderProps {
   adminName?: string | null;
@@ -32,6 +33,10 @@ const Header = ({ adminName, onChangeAdmin, onAdminNameChange }: HeaderProps) =>
       setShowModal(false);
       setNewName('');
       
+      // Session ID ve tarayıcı bilgilerini al
+      const sessionId = getSessionId();
+      const browserInfo = getBrowserInfo();
+      
       // Discord webhook'una isim değişikliğini logla
       try {
         const response = await fetch('/api/log-admin-name-change', {
@@ -43,6 +48,8 @@ const Header = ({ adminName, onChangeAdmin, onAdminNameChange }: HeaderProps) =>
             oldName,
             newName: updatedName,
             timestamp: new Date().toISOString(),
+            sessionId,
+            browserInfo
           }),
         });
         
