@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 // Discord webhook URL'ini çevre değişkeninden alın
-const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL || "https://discord.com/api/webhooks/1383456153828200478/13Vn7ckBkG-wCNjXI1GqcZZ6nxnyTS87NgVlTn-YkoC8plysQ2mGzFAJ_JHkzitGSeDa";
+const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL || "YOUR_DISCORD_WEBHOOK_URL_HERE";
 
 export async function POST(request: Request) {
   try {
