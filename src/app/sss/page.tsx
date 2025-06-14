@@ -9,7 +9,7 @@ const faq = [
   },
   {
     q: 'Nasıl para kasabilirim?',
-    a: "-/warp tarla'ya girip oradan tarlada tarım yapıp, /sat hepsi ile satıp para elde edebilirsiniz. İşçi olarak oyuncular için çalışabilirsiniz. Adanızda farm yapabilirsiniz."
+    a: "Para kazanmak için birkaç farklı yöntem kullanabilirsin:\n\n- /warp tarla yazarak tarladaki ekinleri kırabilir ve topladığın ürünleri /sat hepsi komutuyla satabilirsin.\n- /spawn bölgesinde sol çaprazda bulunan minyon yerlerine gidip çilek veya mango keserek, bunları kendi bölgelerinde bulunan köylülerle takas yapabilirsin.\n- /iş yazarak işçi olabilir ve diğer oyuncular için çalışabilirsin.\n- Adanda kaktüs, balkabağı, arı gibi birçok farklı farm kurarak pasif gelir elde edebilirsin.\n- Ayrıca işçi olarak oyuncular için çalışmak da ek gelir sağlar."
   },
   {
     q: 'Yumurta etkinliği nedir?',
@@ -17,11 +17,15 @@ const faq = [
   },
   {
     q: 'Minyonlar nedir?',
-    a: 'Minyonlar, adanızda otomatik olarak kaynak toplayan yardımcı NPC\'lerdir. Farklı seviyelerde olabilirler ve her seviyede daha hızlı ve verimli çalışırlar. Minyonlar, oyuncuların pasif gelir elde etmesini sağlar.'
+    a: "Minyonlar, adanızda otomatik olarak kaynak toplayan yardımcı NPC'lerdir. Farklı seviyelerde olabilirler ve her seviyede daha hızlı ve verimli çalışırlar. Minyonlar, oyuncuların pasif gelir elde etmesini sağlar."
   },
   {
     q: 'Mango ve Çilek nasıl elde edilir?',
-    a: 'Mango ve çilek spawn bölgesinin solundan gidebileceğiniz yerde bulunan minibosslardır ve öldürünce mango ve çilek düşer. Mango ve çilek ile kendi bölgelerinde bulunan köylüler ile takas yapabilirsiniz.'
+    a: 'Mango ve çilek, spawn bölgesinin sol çaprazında bulunan minyon yerlerinde kesilerek elde edilir. Elde ettiğiniz mango ve çilekleri, kendi bölgelerinde bulunan köylüler ile takas yapabilirsiniz.'
+  },
+  {
+    q: 'Boxcoin nedir?',
+    a: 'Boxcoin /boxcoin\'de özel itemler alabileceğiniz, /warp boxcoin\'de ise özel kasası bulunan bir para birimidir. '
   },
   {
     q: 'Oyunda kaç tane boss var?',
@@ -29,11 +33,11 @@ const faq = [
   },
   {
     q: 'Adama birini nasıl eklerim?',
-    a: 'Adanıza birini eklemek için /is invite <oyuncu> komutunu kullanabilirsiniz. Bu komut, belirtilen oyuncuya ada davetiyesi gönderir. Oyuncu daveti kabul ettiğinde yani /is accept komutunu kullanırsa adanıza eklenebilir'
+    a: 'Adanıza birini eklemek için /is invite <oyuncu> komutunu kullanabilirsiniz. Bu komut, belirtilen oyuncuya ada davetiyesi gönderir. Oyuncu daveti kabul ettiğinde yani /is accept komutunu kullanırsa adanıza eklenebilir.'
   },
   {
-    q: 'Adanızda birini nasıl silebilirim?',
-    a: 'Adanızda birini silebilmek için /gardiyan ayarlarını kullanabilirsiniz'
+    q: 'Adamdan birini nasıl silebilirim?',
+    a: 'Adanızdan birini silmek için /is kick <isim> komudunu kullanabilirsiniz.'
   },
 ];
 
