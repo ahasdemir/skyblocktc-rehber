@@ -6,7 +6,7 @@ import Footer from './components/Footer'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'SkyBlockTC Admin Paneli',
+  title: 'SkyBlockTC Rehber Paneli',
   description: 'SkyBlockTC sunucusu için yönetim paneli',
 }
 

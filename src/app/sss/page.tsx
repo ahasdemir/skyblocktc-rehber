@@ -29,7 +29,7 @@ const faq = [
   },
   {
     q: 'Boxcoin nedir?',
-    a: 'Boxcoin /boxcoin\'de özel itemler alabileceğiniz, /warp boxcoin\'de ise özel kasası bulunan bir para birimidir. '
+    a: 'Boxcoin /boxcoin\'den özel itemler alabileceğiniz, /warp boxcoin\'de ise özel kasası bulunan bir para birimidir. '
   },
   {
     q: 'Oyunda kaç tane boss var?',
