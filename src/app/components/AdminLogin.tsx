@@ -3,35 +3,62 @@
 import { useState, useEffect } from 'react';
 
 interface AdminLoginProps {
-  onLogin: (adminName: string) => void;
+  onLogin: (name: string) => void;
 }
 
-const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
+export default function AdminLogin({ onLogin }: AdminLoginProps) {
   const [adminName, setAdminName] = useState('');
-  const [isOpen, setIsOpen] = useState(true);
+  const [savedAdmin, setSavedAdmin] = useState<string | null>(null);
 
   useEffect(() => {
-    // Sayfa yüklendiğinde localStorage'dan yetkili ismini kontrol et
-    const savedAdmin = localStorage.getItem('minecraftAdmin');
-    if (savedAdmin) {
-      onLogin(savedAdmin);
-      setIsOpen(false);
-    }
+    const saved = localStorage.getItem('minecraftAdmin');
+    setSavedAdmin(saved);
+    if (saved) onLogin(saved);
   }, [onLogin]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
     if (adminName.trim()) {
-      localStorage.setItem('minecraftAdmin', adminName.trim());
-      onLogin(adminName.trim());
-      setIsOpen(false);
+      // Set admin name in local storage
+      localStorage.setItem('minecraftAdmin', adminName);
+      
+      // Update savedAdmin state to close the popup immediately
+      setSavedAdmin(adminName);
+      
+      // Call onLogin prop function
+      onLogin(adminName);
+      
+      // Log admin login to Discord webhook
+      try {
+        const response = await fetch('/api/log-admin-login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            admin: adminName,
+            timestamp: new Date().toISOString(),
+          }),
+        });
+        
+        if (!response.ok) {
+          console.error('Admin giriş bildirimi gönderilemedi');
+        }
+      } catch (error) {
+        console.error('Admin giriş bildirimi hatası:', error);
+      }
+      
+      // Clear the form
+      setAdminName('');
     }
   };
 
-  if (!isOpen) return null;
+  // Eğer kayıtlı admin varsa login formunu gösterme
+  if (savedAdmin) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-sm bg-black/40">
       <div className="bg-gray-800 p-6 rounded-xl shadow-xl w-full max-w-md">
         <h2 className="text-2xl font-bold text-green-400 mb-4">Yetkili Girişi</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -51,7 +78,7 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
           </div>
           <button
             type="submit"
-            className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition-colors"
+            className="w-full py-2 px-4 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition duration-200"
           >
             Giriş Yap
           </button>
@@ -59,6 +86,4 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
       </div>
     </div>
   );
-};
-
-export default AdminLogin; 
+}

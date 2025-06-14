@@ -8,10 +8,10 @@ interface HeaderProps {
   onAdminNameChange?: (name: string) => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ adminName, onChangeAdmin, onAdminNameChange }) => {
+const Header = ({ adminName, onChangeAdmin, onAdminNameChange }: HeaderProps) => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [newName, setNewName] = useState(adminName || '');
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [newName, setNewName] = useState('');
   const menuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
@@ -20,19 +20,50 @@ const Header: React.FC<HeaderProps> = ({ adminName, onChangeAdmin, onAdminNameCh
     setShowModal(true);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (onAdminNameChange && newName.trim()) {
-      onAdminNameChange(newName.trim());
+    
+    if (newName.trim() && adminName !== newName.trim()) {
+      const oldName = adminName; // Önceki ismi sakla
+      const updatedName = newName.trim();
+      
+      // İsim değişikliğini uygula
+      onAdminNameChange?.(updatedName);
       setShowModal(false);
+      setNewName('');
+      
+      // Discord webhook'una isim değişikliğini logla
+      try {
+        const response = await fetch('/api/log-admin-name-change', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            oldName,
+            newName: updatedName,
+            timestamp: new Date().toISOString(),
+          }),
+        });
+        
+        if (!response.ok) {
+          console.error('İsim değişikliği bildirimi gönderilemedi');
+        }
+      } catch (error) {
+        console.error('İsim değişikliği bildirimi hatası:', error);
+      }
+    } else {
+      // İsim değişmemişse sadece modalı kapat
+      setShowModal(false);
+      setNewName('');
     }
   };
-
+  
   // Close mobile menu when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setMobileMenuOpen(false);
+        setIsMobileMenuOpen(false);
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
@@ -141,7 +172,7 @@ const Header: React.FC<HeaderProps> = ({ adminName, onChangeAdmin, onAdminNameCh
             {/* Mobile menu button - Only visible on mobile */}
             <button 
               className="md:hidden p-2 rounded-md text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               <svg 
                 xmlns="http://www.w3.org/2000/svg" 
@@ -150,7 +181,7 @@ const Header: React.FC<HeaderProps> = ({ adminName, onChangeAdmin, onAdminNameCh
                 viewBox="0 0 24 24" 
                 stroke="currentColor"
               >
-                {mobileMenuOpen ? (
+                {isMobileMenuOpen ? (
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 ) : (
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -162,7 +193,7 @@ const Header: React.FC<HeaderProps> = ({ adminName, onChangeAdmin, onAdminNameCh
       </div>
 
       {/* Mobile Navigation Menu - Only visible when open on mobile */}
-      {mobileMenuOpen && (
+      {isMobileMenuOpen && (
         <div 
           ref={menuRef}
           className="md:hidden absolute top-16 inset-x-0 z-20 bg-gray-800 border-t border-b border-gray-700 shadow-lg"
@@ -181,7 +212,7 @@ const Header: React.FC<HeaderProps> = ({ adminName, onChangeAdmin, onAdminNameCh
                       : `text-${item.color}-400 hover:bg-${item.color}-500/10 hover:text-${item.color}-300`
                     }
                   `}
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {item.icon}
                   <span className="font-medium">{item.name}</span>
