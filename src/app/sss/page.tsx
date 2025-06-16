@@ -47,6 +47,14 @@ const faq = [
     q: 'Adamdan birini nasıl silebilirim?',
     a: 'Adanızdan birini silmek için /is kick <isim> komudunu kullanabilirsiniz.'
   },
+  {
+    q: 'Hangi farmları kurabilirim?',
+    a: 'Adanız için kaktüs, arı, şeker kamışı ve hibrit farm(karpuz, balkabağı) gibi otomatik farmları kurabilirsiniz.'
+  },
+  {
+    q: 'Adada nasıl para kazanabilirim?',
+    a: 'Adada para kazanmak için çeşitli yollar vardır:\n- /warp tarla ile ekin kırıp /sat hepsi ile satabilirsin.\n- /spawn\'da minyon yerlerinde çilek veya mango kesebilirsin.\n- /iş ile işçi olabilir, başkaları için çalışabilirsin.\n- Adanda farm kurarak pasif gelir elde edebilirsin.'
+  },
 ];
 
 export default function SSSPage() {
