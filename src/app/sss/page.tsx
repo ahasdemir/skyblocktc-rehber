@@ -29,7 +29,7 @@ const faq = [
   },
   {
     q: 'Hile kullanmak yasak mı?',
-    a: 'Evet, hile kullanmak genel itibari ile yasaktır. Hile kullanan oyuncular, sunucudan kalıcı olarak yasaklanabilir. Ancak adada kullanabileceginiz auto clicker, bazı makrolar gibi hile çeşitlerine göz yumulabilir. Bu tür hileler, adada işlerinizi kolaylaştırmak için kullanılabilir. Ancak bu tür hilelerin kullanımı da sunucu kurallarına uygun olmalıdır. Ancak KillAura, X-Ray, Fly gibi hileler kesinlikle yasaktır.'
+    a: 'Evet, hile kullanmak yasaktır. Hile kullananlar kalıcı olarak yasaklanabilir. Ancak ada içinde auto clicker ve bazı makrolar kullanabilirsiniz. Bu hileler adada işlerinizi kolaylaştırır. KillAura, X-Ray, Fly gibi hileler kesinlikle yasaktır.'
   },
   {
     q: 'Boxcoin nedir?',
