@@ -44,7 +44,7 @@ const faq = [
     a: 'Adanıza birini eklemek için /is invite <oyuncu> komutunu kullanabilirsiniz. Bu komut, belirtilen oyuncuya ada davetiyesi gönderir. Oyuncu daveti kabul ettiğinde yani /is accept komutunu kullanırsa adanıza eklenebilir.'
   },
   {
-    q: 'Adamdan birini nasıl silebilirim?',
+    q: 'Adamdan birini nasıl atabilirim?',
     a: 'Adanızdan birini silmek için /is kick <isim> komudunu kullanabilirsiniz.'
   },
   {
