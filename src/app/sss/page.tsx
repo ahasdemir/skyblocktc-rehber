@@ -1,6 +1,7 @@
 'use client';
 import Header from '../components/Header';
 import { useState, useEffect } from 'react';
+import { getSessionId, getBrowserInfo } from '../../lib/sessionUtils';
 
 const faq = [
 	{
@@ -59,14 +60,43 @@ export default function SSSPage() {
 		const savedAdmin = localStorage.getItem('minecraftAdmin');
 		if (savedAdmin) setAdminName(savedAdmin);
 	}, []);
-
-	const copyToClipboard = (text: string, button: HTMLButtonElement) => {
+	const copyToClipboard = (text: string, question: string, button: HTMLButtonElement) => {
 		navigator.clipboard.writeText(text).then(() => {
+			// Buton animasyonu
 			button.classList.add('shake');
 			setTimeout(() => {
 				button.classList.remove('shake');
 			}, 500); // Sallanma efekti 500ms sürer
+			
+			// Discord webhook'una kopyalama işlemini logla
+			logCopyAction(question);
 		});
+	};
+	
+	// Kopyalama işlemini Discord'a loglamak için fonksiyon
+	const logCopyAction = async (question: string) => {
+		try {
+			// Session ID ve tarayıcı bilgilerini al
+			const sessionId = getSessionId();
+			const browserInfo = getBrowserInfo();
+			
+			// API'ye POST isteği gönder
+			await fetch('/api/log-sss-copy', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					question,
+					adminName,
+					timestamp: new Date().toISOString(),
+					sessionId,
+					browserInfo
+				}),
+			});
+		} catch (error) {
+			console.error('SSS kopyalama loglama hatası:', error);
+		}
 	};
 
 	return (
@@ -89,9 +119,8 @@ export default function SSSPage() {
 									<div className="text-gray-200 text-base pl-2 border-l-4 border-yellow-400">
 										{item.a}
 									</div>
-								</div>
-								<button
-									onClick={(e) => copyToClipboard(item.a, e.currentTarget)}
+								</div>								<button
+									onClick={(e) => copyToClipboard(item.a, item.q, e.currentTarget)}
 									className="ml-4 p-2 bg-gray-700 rounded hover:bg-gray-600 transition-colors text-yellow-300"
 									title="Cevabı kopyala"
 								>
