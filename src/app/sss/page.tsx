@@ -46,7 +46,7 @@ const faq = [
 	},
 	{
 		q: 'Adamdan birini nasıl atabilirim?',
-		a: 'Adanızdan birini silmek için /is kick <isim> komudunu kullanabilirsiniz.',
+		a: 'Adanızdan birini atmak için /is kick <isim> komudunu kullanabilirsiniz.',
 	},
 	{
 		q: 'Hangi farmları kurabilirim?',
