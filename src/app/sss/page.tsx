@@ -30,7 +30,7 @@ const faq = [
 	},
 	{
 		q: 'Hile kullanmak yasak mı?',
-		a: 'Evet, hile kullanmak yasaktır. Hile kullananlar kalıcı olarak yasaklanabilir. Ancak ada içinde auto clicker ve bazı makrolar kullanabilirsiniz. Bu hileler adada işlerinizi kolaylaştırır. KillAura, X-Ray, Fly gibi hileler kesinlikle yasaktır.',
+		a: 'Evet, hile kullanmak yasaktır. Hile kullananlar kalıcı olarak yasaklanabilir. Ancak ada içinde auto clicker(F3+T gibi), bazı makroları, fullbright gibi rekabeti bozmayan araçları kullanabilirsiniz. KillAura, X-Ray, Fly gibi hileler kesinlikle yasaktır.',
 	},
 	{
 		q: 'Boxcoin nedir?',
@@ -103,7 +103,7 @@ export default function SSSPage() {
 		<div className="min-h-screen bg-gradient-to-br from-primary via-secondary to-gray-900 text-white flex flex-col">
 			<Header adminName={adminName} />			<div className="flex-1 flex flex-col items-center py-10 px-2">
 				<div className="bg-yellow-500 text-black px-4 py-2 rounded-md mb-4 font-bold text-center w-full max-w-2xl animate-bounce">
-					SSS Güncellemeleri: Farmlar hakkında SSS sorusu eklendi!
+					SSS Güncellemeleri: Farmlar hakkında SSS sorusu eklendi! Hileler hakkındaki soru güncellendi!
 				</div>
 				<h1 className="text-3xl md:text-4xl font-extrabold mb-6 text-center text-yellow-300 drop-shadow-lg">
 					Sıkça Sorulan Sorular (SSS)
