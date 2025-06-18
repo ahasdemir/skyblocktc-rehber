@@ -52,6 +52,10 @@ const faq = [
 		q: 'Hangi farmları kurabilirim?',
 		a: 'Adanız için kaktüs, arı, şeker kamışı ve hibrit farm(karpuz, balkabağı) gibi otomatik farmları kurabilirsiniz.',
 	},
+	{
+		q: 'X\'in piyasası ne?',
+		a: 'Sunucu ekonomisi sürekli değişken, net bir fiyat vermek zor. Şu an piyasa çok aktif olmadığından satın alıcılar veya satıcılar ile sizin işinize yarayacak bir fiyat verebilirsiniz. Piyasayı belileyecek olan sizlersiniz!',
+	},
 ];
 
 export default function SSSPage() {
@@ -103,7 +107,7 @@ export default function SSSPage() {
 		<div className="min-h-screen bg-gradient-to-br from-primary via-secondary to-gray-900 text-white flex flex-col">
 			<Header adminName={adminName} />			<div className="flex-1 flex flex-col items-center py-10 px-2">
 				<div className="bg-yellow-500 text-black px-4 py-2 rounded-md mb-4 font-bold text-center w-full max-w-2xl animate-bounce">
-					SSS Güncellemeleri: Farmlar hakkında SSS sorusu eklendi! Hileler hakkındaki soru güncellendi!
+					SSS Güncellemeleri: "Piyasası ne?" soruları için genel cevap eklendi.
 				</div>
 				<h1 className="text-3xl md:text-4xl font-extrabold mb-6 text-center text-yellow-300 drop-shadow-lg">
 					Sıkça Sorulan Sorular (SSS)
