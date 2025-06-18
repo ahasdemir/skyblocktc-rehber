@@ -54,7 +54,7 @@ const faq = [
 	},
 	{
 		q: 'X\'in piyasası ne?',
-		a: 'Sunucu ekonomisi sürekli değişken, net bir fiyat vermek zor. Şu an piyasa çok aktif olmadığından satın alıcılar veya satıcılar ile sizin işinize yarayacak bir fiyat verebilirsiniz. Piyasayı belileyecek olan sizlersiniz!',
+		a: 'Sunucu ekonomisi sürekli değişken, net bir fiyat vermek zor. Şu an piyasa çok aktif olmadığından satın alıcılar veya satıcı olarak işinize yarayacak bir fiyat verebilirsiniz. Piyasayı belileyecek olan sizlersiniz!',
 	},
 ];
 
