@@ -53,7 +53,7 @@ const faq = [
 		a: 'Adanız için kaktüs, arı, şeker kamışı ve hibrit farm(karpuz, balkabağı) gibi otomatik farmları kurabilirsiniz.',
 	},
 	{
-		q: 'X\'in piyasası ne?',
+		q: 'X\'in piyasası ne? (Piyasası belli olan golem gibi itemlere fiyatını verin, bu cevabı kullanmayın bence)',
 		a: 'Sunucu ekonomisi sürekli değişken, net bir fiyat vermek zor. Şu an piyasa çok aktif olmadığından satın alıcılar veya satıcı olarak işinize yarayacak bir fiyat verebilirsiniz. Piyasayı belileyecek olan sizlersiniz!',
 	},
 ];
