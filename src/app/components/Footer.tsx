@@ -12,7 +12,7 @@ const Footer: React.FC = () => {
             <p>
               &copy; {currentYear} Ahmet Hasdemir.
               <span className="block sm:inline sm:ml-1">
-                MIT Lisansı altında açık kaynak olarak dağıtılmaktadır.
+                MIT Licensed.
               </span>
             </p>
           </div>
