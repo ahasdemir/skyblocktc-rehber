@@ -74,8 +74,7 @@ export default function SSSPage() {
 		} else {
 			const lowercasedSearchTerm = searchTerm.toLowerCase();
 			const filtered = faq.filter(item => 
-				item.q.toLowerCase().includes(lowercasedSearchTerm) || 
-				item.a.toLowerCase().includes(lowercasedSearchTerm)
+				item.q.toLowerCase().includes(lowercasedSearchTerm)
 			);
 			setFilteredFaq(filtered);
 		}
