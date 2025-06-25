@@ -1,9 +1,16 @@
 "use client";
 import React, { useState, useEffect, useRef } from 'react'; // useRef ve useEffect ekledim
-import AdminLogin from '../components/AdminLogin';
+import AuthGuard from '../components/AuthGuard';
 import Header from '../components/Header';
 import oyuncuListesi from '../../../oyuncular.json'; // Oyuncular listesini import et
 import { getSessionId, getBrowserInfo } from '../../lib/sessionUtils';
+
+interface User {
+  id: number;
+  username: string;
+  role: string;
+  displayName: string;
+}
 
 const muteRules = [
   {
@@ -65,11 +72,41 @@ const muteLevels = [
 const allReasons = muteLevels.flatMap(l => l.rules.map(r => ({ ...r, level: l.level })));
 
 export default function MuteHelper() {
-  // Admin state
-  const [adminName, setAdminName] = useState<string | null>(null);
+  return (
+    <AuthGuard>
+      <MuteHelperContent />
+    </AuthGuard>
+  );
+}
+
+function MuteHelperContent() {
+  // User state
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const saved = localStorage.getItem('minecraftAdmin');
+    if (saved) {
+      try {
+        const userData = JSON.parse(saved);
+        setUser(userData);
+      } catch (error) {
+        localStorage.removeItem('minecraftAdmin');
+      }
+    }
+  }, []);
+
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem('minecraftAdmin');
+  };
+
+  const handleUserUpdate = (updatedUser: User) => {
+    setUser(updatedUser);
+    localStorage.setItem('minecraftAdmin', JSON.stringify(updatedUser));
+  };
 
   // Mute helper state
-  const [user, setUser] = useState('');
+  const [muteUser, setMuteUser] = useState('');
   const [reason, setReason] = useState('');
   const [duration, setDuration] = useState('');
   const [copied, setCopied] = useState(false);
@@ -99,12 +136,12 @@ export default function MuteHelper() {
   if (duration === '') durationValue = '';
 
   // Command preview
-  const muteCommand = user && reason && (safeMin === safeMax ? true : durationValue) ? `/mute ${user} ${safeMin === safeMax ? safeMin : durationValue}${unit} ${reason}` : '';
+  const muteCommand = muteUser && reason && (safeMin === safeMax ? true : durationValue) ? `/mute ${muteUser} ${safeMin === safeMax ? safeMin : durationValue}${unit} ${reason}` : '';
 
   // Kullanıcı adı otomatik tamamlama mantığı
   const handleUserInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setUser(value);
+    setMuteUser(value);
     
     if (value.length > 0) {
       // Kullanıcının yazdığı metni içeren oyuncuları filtrele
@@ -137,11 +174,10 @@ export default function MuteHelper() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary via-secondary to-gray-900 text-white flex flex-col">
       <Header
-        adminName={adminName}
-        onChangeAdmin={() => { setAdminName(null); localStorage.removeItem('minecraftAdmin'); }}
-        onAdminNameChange={name => { setAdminName(name); localStorage.setItem('minecraftAdmin', name); }}
+        user={user}
+        onLogout={handleLogout}
+        onUserUpdate={handleUserUpdate}
       />
-      <AdminLogin onLogin={setAdminName} />
       
       <main className="flex-1 flex flex-col items-center py-8 sm:py-10 px-4">
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 text-center bg-gradient-to-r from-green-400 via-blue-400 to-purple-400 bg-clip-text text-transparent drop-shadow-lg">
@@ -168,9 +204,9 @@ export default function MuteHelper() {
                 id="mute-user"
                 className="w-full h-[42px] rounded px-3 py-2 bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 border border-gray-700"
                 placeholder="Kullanıcı ismi"
-                value={user}
+                value={muteUser}
                 onChange={handleUserInputChange}
-                onFocus={() => user.length > 0 && setShowAutocomplete(true)}
+                onFocus={() => muteUser.length > 0 && setShowAutocomplete(true)}
               />
               {/* Autocomplete dropdown */}
               {showAutocomplete && filteredPlayers.length > 0 && (
@@ -183,7 +219,7 @@ export default function MuteHelper() {
                       key={playerName}
                       className="px-4 py-2 hover:bg-gray-700 cursor-pointer text-white transition-colors"
                       onClick={() => {
-                        setUser(playerName);
+                        setMuteUser(playerName);
                         setShowAutocomplete(false);
                       }}
                     >
@@ -308,7 +344,7 @@ export default function MuteHelper() {
                 <button
                   className="px-3 py-1 rounded bg-green-600 hover:bg-green-700 text-white text-xs transition-colors"
                   onClick={async () => {
-                    if (!adminName) {
+                    if (!user) {
                       alert('Lütfen önce yetkili girişi yapın!');
                       return;
                     }
@@ -325,7 +361,9 @@ export default function MuteHelper() {
                         body: JSON.stringify({
                           command: muteCommand,
                           timestamp: new Date().toISOString(),
-                          admin: adminName,
+                          admin: user.displayName,
+                          username: user.username,
+                          role: user.role,
                           sessionId,
                           browserInfo
                         }),

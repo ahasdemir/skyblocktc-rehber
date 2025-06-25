@@ -1,11 +1,50 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Header from './components/Header';
 import AdminLogin from './components/AdminLogin';
 
+interface User {
+  id: number;
+  username: string;
+  role: string;
+  displayName: string;
+}
+
 export default function Home() {
-  const [adminName, setAdminName] = useState<string | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const saved = localStorage.getItem('minecraftAdmin');
+    const token = localStorage.getItem('authToken');
+    
+    if (saved && token) {
+      try {
+        const userData = JSON.parse(saved);
+        setUser(userData);
+      } catch (error) {
+        localStorage.removeItem('minecraftAdmin');
+        localStorage.removeItem('authToken');
+      }
+    }
+  }, []);
+
+  const handleLogin = (userData: User) => {
+    setUser(userData);
+    localStorage.setItem('minecraftAdmin', JSON.stringify(userData));
+    // Token is already set in AdminLogin component
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem('minecraftAdmin');
+    localStorage.removeItem('authToken');
+  };
+
+  const handleUserUpdate = (updatedUser: User) => {
+    setUser(updatedUser);
+    localStorage.setItem('minecraftAdmin', JSON.stringify(updatedUser));
+  };
 
   const tools = [
     {
@@ -31,14 +70,35 @@ export default function Home() {
     }
   ];
 
+  // Admin kullanıcılar için admin panel ekleme
+  const adminTools = user?.role === 'admin' ? [
+    {
+      title: 'Admin Panel',
+      description: 'Kullanıcı yönetimi ve sistem yönetimi için admin paneli.',
+      href: '/admin',
+      icon: '👑',
+      color: 'from-purple-500 to-pink-500'
+    }
+  ] : [];
+
+  const allTools = [...tools, ...adminTools];
+
+  // Eğer kullanıcı giriş yapmamışsa sadece login ekranını göster
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-primary via-secondary to-gray-900 text-white flex flex-col">
+        <AdminLogin onLogin={handleLogin} />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary via-secondary to-gray-900 text-white flex flex-col">
       <Header
-        adminName={adminName}
-        onChangeAdmin={() => { setAdminName(null); localStorage.removeItem('minecraftAdmin'); }}
-        onAdminNameChange={name => { setAdminName(name); localStorage.setItem('minecraftAdmin', name); }}
+        user={user}
+        onLogout={handleLogout}
+        onUserUpdate={handleUserUpdate}
       />
-      <AdminLogin onLogin={setAdminName} />
       
       <div className="flex-1 flex flex-col items-center py-10 px-4">
         <h1 className="text-4xl md:text-5xl font-extrabold mb-2 text-center bg-gradient-to-r from-green-400 via-blue-400 to-purple-400 bg-clip-text text-transparent drop-shadow-lg">
@@ -49,7 +109,7 @@ export default function Home() {
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
-          {tools.map((tool) => (
+          {allTools.map((tool) => (
             <Link
               key={tool.title}
               href={tool.href}

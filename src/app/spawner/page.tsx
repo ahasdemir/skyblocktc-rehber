@@ -2,7 +2,15 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import AuthGuard from '../components/AuthGuard';
 import Header from '../components/Header';
+
+interface User {
+  id: number;
+  username: string;
+  role: string;
+  displayName: string;
+}
 
 interface SpawnerData {
   name: string;
@@ -89,18 +97,45 @@ const spawnerData: SpawnerData[] = [
 ];
 
 export default function SpawnerPage() {
-  const [adminName, setAdminName] = useState<string | null>(null);
+  return (
+    <AuthGuard>
+      <SpawnerPageContent />
+    </AuthGuard>
+  );
+}
+
+function SpawnerPageContent() {
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const savedAdmin = localStorage.getItem('minecraftAdmin');
-    if (savedAdmin) {
-      setAdminName(savedAdmin);
+    const saved = localStorage.getItem('minecraftAdmin');
+    if (saved) {
+      try {
+        const userData = JSON.parse(saved);
+        setUser(userData);
+      } catch (error) {
+        localStorage.removeItem('minecraftAdmin');
+      }
     }
   }, []);
 
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem('minecraftAdmin');
+  };
+
+  const handleUserUpdate = (updatedUser: User) => {
+    setUser(updatedUser);
+    localStorage.setItem('minecraftAdmin', JSON.stringify(updatedUser));
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary via-secondary to-gray-900 text-white">
-      <Header adminName={adminName} />
+      <Header 
+        user={user}
+        onLogout={handleLogout}
+        onUserUpdate={handleUserUpdate}
+      />
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="bg-gray-800 rounded-xl shadow-xl p-6">

@@ -1,7 +1,15 @@
 'use client';
+import AuthGuard from '../components/AuthGuard';
 import Header from '../components/Header';
 import { useState, useEffect } from 'react';
 import { getSessionId, getBrowserInfo } from '../../lib/sessionUtils';
+
+interface User {
+  id: number;
+  username: string;
+  role: string;
+  displayName: string;
+}
 
 const faq = [
 	{
@@ -59,14 +67,39 @@ const faq = [
 ];
 
 export default function SSSPage() {
-	const [adminName, setAdminName] = useState<string | null>(null);
+  return (
+    <AuthGuard>
+      <SSSPageContent />
+    </AuthGuard>
+  );
+}
+
+function SSSPageContent() {
+	const [user, setUser] = useState<User | null>(null);
 	const [searchTerm, setSearchTerm] = useState('');
 	const [filteredFaq, setFilteredFaq] = useState(faq);
 
 	useEffect(() => {
-		const savedAdmin = localStorage.getItem('minecraftAdmin');
-		if (savedAdmin) setAdminName(savedAdmin);
+		const saved = localStorage.getItem('minecraftAdmin');
+		if (saved) {
+			try {
+				const userData = JSON.parse(saved);
+				setUser(userData);
+			} catch (error) {
+				localStorage.removeItem('minecraftAdmin');
+			}
+		}
 	}, []);
+
+	const handleLogout = () => {
+		setUser(null);
+		localStorage.removeItem('minecraftAdmin');
+	};
+
+	const handleUserUpdate = (updatedUser: User) => {
+		setUser(updatedUser);
+		localStorage.setItem('minecraftAdmin', JSON.stringify(updatedUser));
+	};
 
 	useEffect(() => {
 		if (searchTerm.trim() === '') {
@@ -107,7 +140,9 @@ export default function SSSPage() {
 				},
 				body: JSON.stringify({
 					question,
-					adminName,
+					admin: user?.displayName,
+					username: user?.username,
+					role: user?.role,
 					timestamp: new Date().toISOString(),
 					sessionId,
 					browserInfo
@@ -120,7 +155,12 @@ export default function SSSPage() {
 
 	return (
 		<div className="min-h-screen bg-gradient-to-br from-primary via-secondary to-gray-900 text-white flex flex-col">
-			<Header adminName={adminName} />			<div className="flex-1 flex flex-col items-center py-10 px-2">
+			<Header 
+				user={user}
+				onLogout={handleLogout}
+				onUserUpdate={handleUserUpdate}
+			/>
+			<div className="flex-1 flex flex-col items-center py-10 px-2">
 				<div className="bg-yellow-500 text-black px-4 py-2 rounded-md mb-4 font-bold text-center w-full max-w-2xl animate-bounce">
 					SSS Güncellemeleri: Arama özelliği eklendi 🔍 Soruların yerleri düzenlendi.
 				</div>
