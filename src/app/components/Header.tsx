@@ -3,33 +3,40 @@ import React, { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import { getSessionId, getBrowserInfo } from '../../lib/sessionUtils';
 
-interface HeaderProps {
-  adminName?: string | null;
-  onChangeAdmin?: () => void;
-  onAdminNameChange?: (name: string) => void;
+interface User {
+  id: number;
+  username: string;
+  role: string;
+  displayName: string;
 }
 
-const Header = ({ adminName, onChangeAdmin, onAdminNameChange }: HeaderProps) => {
+interface HeaderProps {
+  user?: User | null;
+  onLogout?: () => void;
+  onUserUpdate?: (user: User) => void;
+}
+
+const Header = ({ user, onLogout, onUserUpdate }: HeaderProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [newName, setNewName] = useState('');
   const menuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
-
   const handleOpen = () => {
-    setNewName(adminName || '');
+    setNewName(user?.displayName || '');
     setShowModal(true);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (newName.trim() && adminName !== newName.trim()) {
-      const oldName = adminName; // Önceki ismi sakla
+    if (newName.trim() && user && user.displayName !== newName.trim()) {
+      const oldName = user.displayName; // Önceki ismi sakla
       const updatedName = newName.trim();
       
-      // İsim değişikliğini uygula
-      onAdminNameChange?.(updatedName);
+      // Kullanıcı bilgilerini güncelle
+      const updatedUser = { ...user, displayName: updatedName };
+      onUserUpdate?.(updatedUser);
       setShowModal(false);
       setNewName('');
       
@@ -47,6 +54,8 @@ const Header = ({ adminName, onChangeAdmin, onAdminNameChange }: HeaderProps) =>
           body: JSON.stringify({
             oldName,
             newName: updatedName,
+            username: user.username,
+            role: user.role,
             timestamp: new Date().toISOString(),
             sessionId,
             browserInfo
@@ -113,6 +122,33 @@ const Header = ({ adminName, onChangeAdmin, onAdminNameChange }: HeaderProps) =>
     }
   ];
 
+  const handleLogout = async () => {
+    try {
+      // Session ID ve tarayıcı bilgilerini al
+      const sessionId = getSessionId();
+      const browserInfo = getBrowserInfo();
+      
+      // Logout API'sini çağır
+      await fetch('/api/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user,
+          sessionId,
+          browserInfo
+        }),
+      });
+    } catch (error) {
+      console.error('Logout logging error:', error);
+    } finally {
+      // Her durumda çıkış yap ve token'ı temizle
+      localStorage.removeItem('authToken');
+      onLogout?.();
+    }
+  };
+
   return (
     <header className="bg-gray-800 shadow-lg border-b border-gray-700 w-full z-20 relative">
       <div className="max-w-7xl mx-auto px-4">
@@ -154,15 +190,13 @@ const Header = ({ adminName, onChangeAdmin, onAdminNameChange }: HeaderProps) =>
                 );
               })}
             </div>
-          </div>
-
-          {/* Right side: Admin name on desktop, admin + hamburger on mobile */}
+          </div>          {/* Right side: User info on desktop, user + hamburger on mobile */}
           <div className="flex items-center gap-2">
-            {/* Admin section - Adaptive size on mobile */}
-            {adminName && (
+            {/* User section - Adaptive size on mobile */}
+            {user && (
               <span className="text-gray-300 flex items-center gap-1 sm:gap-2 mr-2">
-                <span className="hidden xs:inline">Yetkili:</span> 
-                <span className="text-green-400 font-semibold text-sm sm:text-base truncate max-w-[80px] sm:max-w-none">{adminName}</span>
+                <span className="hidden xs:inline">{user.role}:</span> 
+                <span className="text-green-400 font-semibold text-sm sm:text-base truncate max-w-[80px] sm:max-w-none">{user.displayName}</span>
                 <button
                   type="button"
                   onClick={handleOpen}
@@ -171,6 +205,16 @@ const Header = ({ adminName, onChangeAdmin, onAdminNameChange }: HeaderProps) =>
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400 hover:text-green-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536M9 13l6.536-6.536a2 2 0 112.828 2.828L11.828 15.828a4 4 0 01-1.414.94l-4.243 1.415 1.415-4.243a4 4 0 01.94-1.414z" />
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="p-1 rounded hover:bg-gray-700 transition-colors ml-1"
+                  title="Çıkış yap"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400 hover:text-red-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                   </svg>
                 </button>
               </span>
