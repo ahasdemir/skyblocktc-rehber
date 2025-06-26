@@ -80,7 +80,7 @@ export default function Home() {
   // Eğer kullanıcı giriş yapmamışsa sadece login ekranını göster
   if (!user) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-primary via-secondary to-gray-900 text-white flex flex-col">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white flex flex-col">
         <AdminLogin onLogin={handleLogin} />
       </div>
     );
