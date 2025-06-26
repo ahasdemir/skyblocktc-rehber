@@ -355,9 +355,8 @@ This project is licensed under the [MIT License](./LICENSE).
 
 ## 📞 Support
 
-- 📧 Email: support@skyblocktc.com
-- 💬 Discord: [SkyBlockTC Discord](https://discord.gg/skyblocktc)
-- 🐛 Issues: [GitHub Issues](https://github.com/your-username/minecraft-admin/issues)
+- 📧 Email: ahmet@hasdemir.me
+- 🐛 Issues: [GitHub Issues](https://github.com/ahasdemir/skyblocktc-rehber/issues)
 
 ## 🙏 Acknowledgments
 
