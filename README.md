@@ -37,8 +37,8 @@ This project is a professional management panel and guide application developed 
 
 ### 1. Clone the Project
 ```bash
-git clone https://github.com/your-username/minecraft-admin.git
-cd minecraft-admin
+git clone https://github.com/ahasdemir/skyblocktc-rehber.git
+cd skyblocktc-rehber
 ```
 
 ### 2. Install Dependencies
@@ -355,9 +355,8 @@ This project is licensed under the [MIT License](./LICENSE).
 
 ## 📞 Support
 
-- 📧 Email: support@skyblocktc.com
-- 💬 Discord: [SkyBlockTC Discord](https://discord.gg/skyblocktc)
-- 🐛 Issues: [GitHub Issues](https://github.com/your-username/minecraft-admin/issues)
+- 📧 Email: ahmet@hasdemir.me
+- 🐛 Issues: [GitHub Issues](https://github.com/ahasdemir/skyblocktc-rehber/issues)
 
 ## 🙏 Acknowledgments
 

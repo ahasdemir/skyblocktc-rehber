@@ -28,8 +28,8 @@ Thank you for your interest in contributing to the SkyBlockTC Admin Panel projec
 
 2. **Create local copy**
    ```bash
-   git clone https://github.com/YOUR_USERNAME/minecraft-admin.git
-   cd minecraft-admin
+   git clone https://github.com/ahasdemir/skyblocktc-rehber.git
+   cd skyblocktc-rehber
    ```
 
 3. **Add upstream repository**
