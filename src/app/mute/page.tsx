@@ -352,18 +352,17 @@ function MuteHelperContent() {
                       // Session ID ve tarayıcı bilgilerini al
                       const sessionId = getSessionId();
                       const browserInfo = getBrowserInfo();
+                      const token = localStorage.getItem('authToken');
                       
                       const response = await fetch('/api/log-mute', {
                         method: 'POST',
                         headers: {
                           'Content-Type': 'application/json',
+                          'Authorization': `Bearer ${token}`,
                         },
                         body: JSON.stringify({
                           command: muteCommand,
                           timestamp: new Date().toISOString(),
-                          admin: user.displayName,
-                          username: user.username,
-                          role: user.role,
                           sessionId,
                           browserInfo
                         }),

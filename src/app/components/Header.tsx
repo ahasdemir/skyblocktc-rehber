@@ -46,16 +46,16 @@ const Header = ({ user, onLogout, onUserUpdate }: HeaderProps) => {
       
       // Discord webhook'una isim değişikliğini logla
       try {
+        const token = localStorage.getItem('authToken');
         const response = await fetch('/api/log-admin-name-change', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
           },
           body: JSON.stringify({
             oldName,
             newName: updatedName,
-            username: user.username,
-            role: user.role,
             timestamp: new Date().toISOString(),
             sessionId,
             browserInfo
@@ -127,15 +127,16 @@ const Header = ({ user, onLogout, onUserUpdate }: HeaderProps) => {
       // Session ID ve tarayıcı bilgilerini al
       const sessionId = getSessionId();
       const browserInfo = getBrowserInfo();
+      const token = localStorage.getItem('authToken');
       
       // Logout API'sini çağır
       await fetch('/api/logout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({
-          user,
           sessionId,
           browserInfo
         }),

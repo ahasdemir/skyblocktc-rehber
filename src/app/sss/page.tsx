@@ -131,18 +131,17 @@ function SSSPageContent() {
 			// Session ID ve tarayıcı bilgilerini al
 			const sessionId = getSessionId();
 			const browserInfo = getBrowserInfo();
+			const token = localStorage.getItem('authToken');
 			
 			// API'ye POST isteği gönder
 			await fetch('/api/log-sss-copy', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${token}`,
 				},
 				body: JSON.stringify({
 					question,
-					admin: user?.displayName,
-					username: user?.username,
-					role: user?.role,
 					timestamp: new Date().toISOString(),
 					sessionId,
 					browserInfo
