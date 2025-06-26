@@ -97,69 +97,85 @@ const Header = ({ user, onLogout }: HeaderProps) => {
   };
 
   return (
-    <header className="bg-gray-800 shadow-lg border-b border-gray-700 w-full z-20 relative">
+    <header className="bg-gradient-to-r from-gray-800/95 to-gray-900/95 backdrop-blur-xl shadow-2xl border-b border-gray-700/50 w-full z-20 relative">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex justify-between h-16 items-center">
-          {/* Logo/Home Link - Visible on all screens */}
+        <div className="flex justify-between h-20 items-center">
+          {/* Logo/Home Link - Modern */}
           <div className="flex items-center">
-            <Link href="/" className="text-xl font-bold text-white select-none hover:text-green-300 transition-colors flex items-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-              </svg>
-              <span className="hidden sm:inline">Ana Sayfa</span>
+            <Link href="/" className="group flex items-center gap-3 text-white hover:text-cyan-400 transition-all duration-300">
+              <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+              </div>
+              <div className="hidden sm:block">
+                <div className="font-bold text-xl bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
+                  SkyBlockTC
+                </div>
+                <div className="text-xs text-gray-400 -mt-1">Ana Sayfa</div>
+              </div>
             </Link>
           </div>
 
-          {/* Desktop Navigation - Hidden on mobile */}
+          {/* Desktop Navigation - Modern Cards */}
           <div className="hidden md:flex flex-1 justify-center">
-            <div className="flex items-center space-x-5">
+            <div className="flex items-center gap-4">
               {navItems.map((item) => {
                 const isActive = pathname === item.href;
                 return (
                   <Link 
                     key={item.href}
                     href={item.href} 
-                    className={`
-                      flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200
-                      font-medium select-none text-base
-                      ${isActive 
-                        ? `bg-${item.color}-500/20 text-${item.color}-400 border border-${item.color}-500/30 shadow-sm` 
-                        : `text-${item.color}-400 hover:bg-${item.color}-500/10 hover:text-${item.color}-300 hover:shadow`
-                      }
-                    `}
+                    className={`group relative flex items-center gap-2 px-6 py-3 rounded-2xl transition-all duration-300 backdrop-blur-sm font-medium ${
+                      isActive 
+                        ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-400 border border-cyan-500/30 shadow-lg shadow-cyan-500/10' 
+                        : 'text-gray-300 hover:bg-gray-700/50 hover:text-white border border-transparent hover:border-gray-600/50'
+                    }`}
                   >
-                    {item.icon}
-                    {item.name}
+                    <div className={`p-2 rounded-xl transition-all duration-300 ${
+                      isActive 
+                        ? 'bg-cyan-500/20 text-cyan-400' 
+                        : 'bg-gray-700/50 text-gray-400 group-hover:bg-gray-600/50 group-hover:text-white'
+                    }`}>
+                      {item.icon}
+                    </div>
+                    <span className="text-sm">{item.name}</span>
                     {isActive && (
-                      <span className={`absolute bottom-0 left-0 w-full h-0.5 bg-${item.color}-400 hidden`} />
+                      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-1 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full"></div>
                     )}
                   </Link>
                 );
               })}
             </div>
-          </div>          {/* Right side: User info on desktop, user + hamburger on mobile */}
-          <div className="flex items-center gap-2">
-            {/* User section - Adaptive size on mobile */}
+          </div>
+
+          {/* Right side: User info - Modern */}
+          <div className="flex items-center gap-3">
             {user && (
-              <span className="text-gray-300 flex items-center gap-1 sm:gap-2 mr-2">
-                <span className="hidden xs:inline">{user.role}:</span> 
-                <span className="text-green-400 font-semibold text-sm sm:text-base truncate max-w-[80px] sm:max-w-none">{user.username}</span>
+              <div className="flex items-center gap-3 bg-gray-700/50 backdrop-blur-sm rounded-2xl px-4 py-2 border border-gray-600/50">
+                <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center text-white font-bold text-sm">
+                  {user.username.charAt(0).toUpperCase()}
+                </div>
+                <div className="hidden sm:block">
+                  <div className="text-white font-semibold text-sm">{user.username}</div>
+                  <div className="text-green-400 text-xs">{user.role}</div>
+                </div>
                 <button
                   type="button"
                   onClick={handleLogout}
-                  className="p-1 rounded hover:bg-gray-700 transition-colors ml-1"
+                  className="p-2 rounded-xl bg-red-500/20 text-red-400 hover:bg-red-500/30 hover:text-red-300 transition-all duration-300 border border-red-500/30"
                   title="Çıkış yap"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400 hover:text-red-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                   </svg>
                 </button>
-              </span>
+              </div>
             )}
             
-            {/* Mobile menu button - Only visible on mobile */}
+            {/* Mobile menu button - Modern */}
             <button 
-              className="md:hidden p-2 rounded-md text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none"
+              className="md:hidden p-3 rounded-2xl bg-gray-700/50 backdrop-blur-sm text-gray-300 hover:text-white hover:bg-gray-600/50 focus:outline-none transition-all duration-300 border border-gray-600/50"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               <svg 
@@ -180,30 +196,37 @@ const Header = ({ user, onLogout }: HeaderProps) => {
         </div>
       </div>
 
-      {/* Mobile Navigation Menu - Only visible when open on mobile */}
+      {/* Mobile Navigation Menu - Modern */}
       {isMobileMenuOpen && (
         <div 
           ref={menuRef}
-          className="md:hidden absolute top-16 inset-x-0 z-20 bg-gray-800 border-t border-b border-gray-700 shadow-lg"
+          className="md:hidden absolute top-20 inset-x-0 z-20 bg-gradient-to-br from-gray-800/95 to-gray-900/95 backdrop-blur-xl border-t border-gray-700/50 shadow-2xl"
         >
-          <div className="px-2 pt-2 pb-3 space-y-2 sm:px-3">
+          <div className="px-4 pt-4 pb-4 space-y-3">
             {navItems.map((item) => {
               const isActive = pathname === item.href;
               return (
                 <Link 
                   key={item.href}
                   href={item.href} 
-                  className={`
-                    flex items-center gap-3 px-3 py-2.5 rounded-md transition-all duration-200
-                    ${isActive 
-                      ? `bg-${item.color}-500/20 text-${item.color}-400 border border-${item.color}-500/30` 
-                      : `text-${item.color}-400 hover:bg-${item.color}-500/10 hover:text-${item.color}-300`
-                    }
-                  `}
+                  className={`flex items-center gap-4 px-4 py-3 rounded-2xl transition-all duration-300 backdrop-blur-sm ${
+                    isActive 
+                      ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-400 border border-cyan-500/30' 
+                      : 'text-gray-300 hover:bg-gray-700/50 hover:text-white border border-transparent hover:border-gray-600/50'
+                  }`}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  {item.icon}
+                  <div className={`p-2 rounded-xl ${
+                    isActive 
+                      ? 'bg-cyan-500/20 text-cyan-400' 
+                      : 'bg-gray-700/50 text-gray-400'
+                  }`}>
+                    {item.icon}
+                  </div>
                   <span className="font-medium">{item.name}</span>
+                  {isActive && (
+                    <div className="ml-auto w-2 h-2 bg-cyan-400 rounded-full"></div>
+                  )}
                 </Link>
               );
             })}
