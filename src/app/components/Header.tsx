@@ -91,6 +91,8 @@ const Header = ({ user, onLogout }: HeaderProps) => {
       // Her durumda çıkış yap ve token'ı temizle
       localStorage.removeItem('authToken');
       onLogout?.();
+      // Sayfayı yeniden yükle
+      window.location.reload();
     }
   };
 
