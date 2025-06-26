@@ -175,7 +175,7 @@ export default function AdminLogin({ onLogin }: AdminLoginProps) {
         <div className="mt-6 pt-4 border-t border-gray-700">
           <div className="text-center">
             <p className="text-sm text-gray-400 mb-3">
-              Yeni rehber misiniz? Hesap oluşturun
+              Yeni rehber misiniz? Hesap oluşturun, burası rehberler için özel bir alandır. Oyundaki isminiz ile kaydolun!
             </p>
             <button
               onClick={() => setShowSignup(true)}
