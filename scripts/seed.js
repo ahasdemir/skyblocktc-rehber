@@ -29,13 +29,6 @@ const UserSchema = new mongoose.Schema({
     enum: ['admin', 'moderator', 'helper'],
     default: 'helper'
   },
-  displayName: {
-    type: String,
-    required: true,
-    trim: true,
-    minlength: 1,
-    maxlength: 100
-  },
   isActive: {
     type: Boolean,
     default: true
@@ -83,21 +76,18 @@ async function seedDatabase() {
         username: 'admin',
         password: 'admin123',
         role: 'admin',
-        displayName: 'Administrator',
         isActive: true
       },
       {
         username: 'moderator',
         password: 'mod123',
         role: 'moderator',
-        displayName: 'Moderator',
         isActive: true
       },
       {
         username: 'helper',
         password: 'helper123',
         role: 'helper',
-        displayName: 'Helper',
         isActive: true
       }
     ];
