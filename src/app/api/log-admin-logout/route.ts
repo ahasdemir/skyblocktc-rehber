@@ -33,12 +33,12 @@ export async function POST(request: Request) {
     const webhookData = {
       embeds: [{
         title: `${emoji} 👋 Yetkili Çıkış Bildirimi`,
-        description: `**${decoded.displayName}** yetkili panelden çıkış yaptı.`,
+        description: `**${decoded.username}** yetkili panelden çıkış yaptı.`,
         color: color,
         fields: [
           {
             name: "👤 Kullanıcı Bilgileri",
-            value: `**Görünen Ad:** ${decoded.displayName}\n**Kullanıcı Adı:** ${decoded.username}\n**Rol:** ${decoded.role.toUpperCase()}`,
+            value: `**Kullanıcı Adı:** ${decoded.username}\n**Rol:** ${decoded.role.toUpperCase()}`,
             inline: true
           },
           {

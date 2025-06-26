@@ -33,12 +33,12 @@ export async function POST(request: Request) {
     const webhookData = {
       embeds: [{
         title: `${emoji} 📋 SSS Sorusu Kopyalandı`,
-        description: `**${decoded.displayName}** şu soruyu kopyaladı:\n"${question}"`,
+        description: `**${decoded.username}** şu soruyu kopyaladı:\n"${question}"`,
         color: color,
         fields: [
           {
             name: "👤 Kullanan Yetkili",
-            value: `**Görünen Ad:** ${decoded.displayName}\n**Kullanıcı Adı:** ${decoded.username}\n**Rol:** ${decoded.role.toUpperCase()}`,
+            value: `**Kullanıcı Adı:** ${decoded.username}\n**Rol:** ${decoded.role.toUpperCase()}`,
             inline: true
           },
           {

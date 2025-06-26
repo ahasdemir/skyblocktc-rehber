@@ -7,7 +7,6 @@ interface User {
   id: number;
   username: string;
   role: string;
-  displayName: string;
 }
 
 interface AuthGuardProps {

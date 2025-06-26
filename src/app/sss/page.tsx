@@ -8,7 +8,6 @@ interface User {
   id: number;
   username: string;
   role: string;
-  displayName: string;
 }
 
 const faq = [
@@ -96,11 +95,6 @@ function SSSPageContent() {
 		localStorage.removeItem('minecraftAdmin');
 	};
 
-	const handleUserUpdate = (updatedUser: User) => {
-		setUser(updatedUser);
-		localStorage.setItem('minecraftAdmin', JSON.stringify(updatedUser));
-	};
-
 	useEffect(() => {
 		if (searchTerm.trim() === '') {
 			setFilteredFaq(faq);
@@ -157,7 +151,6 @@ function SSSPageContent() {
 			<Header 
 				user={user}
 				onLogout={handleLogout}
-				onUserUpdate={handleUserUpdate}
 			/>
 			<div className="flex-1 flex flex-col items-center py-10 px-2">
 				<div className="bg-yellow-500 text-black px-4 py-2 rounded-md mb-4 font-bold text-center w-full max-w-2xl animate-bounce">

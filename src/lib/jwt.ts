@@ -10,7 +10,6 @@ export interface JWTPayload {
   userId: string;
   username: string;
   role: string;
-  displayName: string;
 }
 
 export function signToken(payload: JWTPayload): string {

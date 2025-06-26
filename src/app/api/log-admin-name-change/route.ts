@@ -33,12 +33,12 @@ export async function POST(request: Request) {
     const webhookData = {
       embeds: [{
         title: `${emoji} 🔄 Yetkili İsmi Değiştirildi`,
-        description: `**${decoded.displayName}** isimli yetkili ismini **${oldName}** → **${newName}** olarak değiştirdi.`,
+        description: `**${decoded.username}** isimli yetkili ismini **${oldName}** → **${newName}** olarak değiştirdi.`,
         color: color,
         fields: [
           {
             name: "👤 Kullanıcı Bilgileri",
-            value: `**Görünen Ad:** ${decoded.displayName}\n**Kullanıcı Adı:** ${decoded.username}\n**Rol:** ${decoded.role.toUpperCase()}`,
+            value: `**Kullanıcı Adı:** ${decoded.username}\n**Rol:** ${decoded.role.toUpperCase()}`,
             inline: true
           },
           {

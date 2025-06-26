@@ -8,7 +8,6 @@ interface User {
   id: string;
   username: string;
   role: string;
-  displayName: string;
   isActive: boolean;
   lastLogin?: Date;
   createdAt: Date;
@@ -19,7 +18,6 @@ interface AdminUser {
   id: number;
   username: string;
   role: string;
-  displayName: string;
 }
 
 export default function AdminPage() {
@@ -41,8 +39,7 @@ function AdminPageContent() {
   const [newUser, setNewUser] = useState({
     username: '',
     password: '',
-    role: 'helper',
-    displayName: ''
+    role: 'helper'
   });
 
   useEffect(() => {
@@ -62,11 +59,6 @@ function AdminPageContent() {
     setAdminUser(null);
     localStorage.removeItem('minecraftAdmin');
     localStorage.removeItem('authToken');
-  };
-
-  const handleUserUpdate = (updatedUser: AdminUser) => {
-    setAdminUser(updatedUser);
-    localStorage.setItem('minecraftAdmin', JSON.stringify(updatedUser));
   };
 
   const loadUsers = async () => {
@@ -105,7 +97,7 @@ function AdminPageContent() {
       });
 
       if (response.ok) {
-        setNewUser({ username: '', password: '', role: 'helper', displayName: '' });
+        setNewUser({ username: '', password: '', role: 'helper' });
         setShowCreateForm(false);
         loadUsers();
         alert('Kullanıcı başarıyla oluşturuldu!');
@@ -193,7 +185,6 @@ function AdminPageContent() {
       <Header 
         user={adminUser}
         onLogout={handleLogout}
-        onUserUpdate={handleUserUpdate}
       />
       
       <main className="max-w-7xl mx-auto px-4 py-8">
@@ -234,18 +225,6 @@ function AdminPageContent() {
                       type="password"
                       value={newUser.password}
                       onChange={(e) => setNewUser({...newUser, password: e.target.value})}
-                      className="w-full px-3 py-2 bg-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-green-500"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-1">
-                      Görünen Ad
-                    </label>
-                    <input
-                      type="text"
-                      value={newUser.displayName}
-                      onChange={(e) => setNewUser({...newUser, displayName: e.target.value})}
                       className="w-full px-3 py-2 bg-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-green-500"
                       required
                     />
@@ -293,7 +272,6 @@ function AdminPageContent() {
                   e.preventDefault();
                   const formData = new FormData(e.target as HTMLFormElement);
                   const updates = {
-                    displayName: formData.get('displayName') as string,
                     role: formData.get('role') as string,
                     isActive: formData.get('isActive') === 'on',
                     password: formData.get('password') as string
@@ -309,18 +287,6 @@ function AdminPageContent() {
                       value={editingUser.username}
                       disabled
                       className="w-full px-3 py-2 bg-gray-600 rounded-lg text-gray-400 cursor-not-allowed"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-1">
-                      Görünen Ad
-                    </label>
-                    <input
-                      type="text"
-                      name="displayName"
-                      defaultValue={editingUser.displayName}
-                      className="w-full px-3 py-2 bg-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      required
                     />
                   </div>
                   <div>
@@ -386,7 +352,6 @@ function AdminPageContent() {
               <thead>
                 <tr className="text-gray-300 border-b border-gray-700">
                   <th className="px-6 py-3 font-medium">Kullanıcı Adı</th>
-                  <th className="px-6 py-3 font-medium">Görünen Ad</th>
                   <th className="px-6 py-3 font-medium">Rol</th>
                   <th className="px-6 py-3 font-medium">Durum</th>
                   <th className="px-6 py-3 font-medium">Son Giriş</th>
@@ -397,7 +362,6 @@ function AdminPageContent() {
                 {users.map((user) => (
                   <tr key={user.id} className="border-b border-gray-800 hover:bg-gray-800/50">
                     <td className="px-6 py-4 font-medium text-white">{user.username}</td>
-                    <td className="px-6 py-4 text-gray-300">{user.displayName}</td>
                     <td className="px-6 py-4">
                       <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                         user.role === 'admin' ? 'bg-red-500/20 text-red-400' :

@@ -21,7 +21,7 @@ export async function PUT(
       return NextResponse.json({ error: 'Geçersiz token' }, { status: 401 });
     }
 
-    const { displayName, role, isActive, password } = await request.json();
+    const { username, role, isActive, password } = await request.json();
     const userId = params.id;
 
     await connectDB();
@@ -39,7 +39,7 @@ export async function PUT(
     }
 
     // Update fields
-    if (displayName !== undefined) user.displayName = displayName;
+    if (username !== undefined) user.username = username;
     if (payload.role === 'admin') {
       if (role !== undefined) user.role = role;
       if (isActive !== undefined) user.isActive = isActive;
@@ -57,7 +57,6 @@ export async function PUT(
         id: user._id,
         username: user.username,
         role: user.role,
-        displayName: user.displayName,
         isActive: user.isActive,
         lastLogin: user.lastLogin,
         updatedAt: user.updatedAt

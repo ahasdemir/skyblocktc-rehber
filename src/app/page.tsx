@@ -8,7 +8,6 @@ interface User {
   id: number;
   username: string;
   role: string;
-  displayName: string;
 }
 
 export default function Home() {
@@ -39,11 +38,6 @@ export default function Home() {
     setUser(null);
     localStorage.removeItem('minecraftAdmin');
     localStorage.removeItem('authToken');
-  };
-
-  const handleUserUpdate = (updatedUser: User) => {
-    setUser(updatedUser);
-    localStorage.setItem('minecraftAdmin', JSON.stringify(updatedUser));
   };
 
   const tools = [
@@ -97,7 +91,6 @@ export default function Home() {
       <Header
         user={user}
         onLogout={handleLogout}
-        onUserUpdate={handleUserUpdate}
       />
       
       <div className="flex-1 flex flex-col items-center py-10 px-4">

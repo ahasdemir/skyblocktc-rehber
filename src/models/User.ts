@@ -5,7 +5,6 @@ export interface IUser extends mongoose.Document {
   username: string;
   password: string;
   role: 'admin' | 'moderator' | 'helper';
-  displayName: string;
   isActive: boolean;
   lastLogin?: Date;
   createdAt: Date;
@@ -31,13 +30,6 @@ const UserSchema = new mongoose.Schema<IUser>({
     type: String,
     enum: ['admin', 'moderator', 'helper'],
     default: 'helper'
-  },
-  displayName: {
-    type: String,
-    required: true,
-    trim: true,
-    minlength: 1,
-    maxlength: 100
   },
   isActive: {
     type: Boolean,

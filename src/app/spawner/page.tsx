@@ -9,7 +9,6 @@ interface User {
   id: number;
   username: string;
   role: string;
-  displayName: string;
 }
 
 interface SpawnerData {
@@ -124,17 +123,11 @@ function SpawnerPageContent() {
     localStorage.removeItem('minecraftAdmin');
   };
 
-  const handleUserUpdate = (updatedUser: User) => {
-    setUser(updatedUser);
-    localStorage.setItem('minecraftAdmin', JSON.stringify(updatedUser));
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary via-secondary to-gray-900 text-white">
       <Header 
         user={user}
         onLogout={handleLogout}
-        onUserUpdate={handleUserUpdate}
       />
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 py-8">

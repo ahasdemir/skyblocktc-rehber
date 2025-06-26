@@ -17,9 +17,9 @@ export async function POST(request: NextRequest) {
     // Connect to database
     await connectDB();
 
-    // Find user by username
+    // Find user by username (exact match, case sensitive)
     const user = await User.findOne({ 
-      username: username.toLowerCase().trim(),
+      username: username.trim(),
       isActive: true 
     });
 
@@ -32,6 +32,7 @@ export async function POST(request: NextRequest) {
 
     // Check password
     const isPasswordValid = await user.comparePassword(password);
+    
     if (!isPasswordValid) {
       return NextResponse.json(
         { error: 'Geçersiz kullanıcı adı veya şifre' },
@@ -47,8 +48,7 @@ export async function POST(request: NextRequest) {
     const token = signToken({
       userId: user._id.toString(),
       username: user.username,
-      role: user.role,
-      displayName: user.displayName
+      role: user.role
     });
 
     // Return user info and token
@@ -56,7 +56,6 @@ export async function POST(request: NextRequest) {
       id: user._id.toString(),
       username: user.username,
       role: user.role,
-      displayName: user.displayName,
       lastLogin: user.lastLogin
     };
 

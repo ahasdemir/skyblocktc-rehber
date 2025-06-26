@@ -9,7 +9,6 @@ interface User {
   id: number;
   username: string;
   role: string;
-  displayName: string;
 }
 
 const muteRules = [
@@ -100,11 +99,6 @@ function MuteHelperContent() {
     localStorage.removeItem('minecraftAdmin');
   };
 
-  const handleUserUpdate = (updatedUser: User) => {
-    setUser(updatedUser);
-    localStorage.setItem('minecraftAdmin', JSON.stringify(updatedUser));
-  };
-
   // Mute helper state
   const [muteUser, setMuteUser] = useState('');
   const [reason, setReason] = useState('');
@@ -176,7 +170,6 @@ function MuteHelperContent() {
       <Header
         user={user}
         onLogout={handleLogout}
-        onUserUpdate={handleUserUpdate}
       />
       
       <main className="flex-1 flex flex-col items-center py-8 sm:py-10 px-4">

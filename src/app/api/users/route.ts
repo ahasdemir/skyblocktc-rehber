@@ -28,7 +28,6 @@ export async function GET(request: NextRequest) {
       id: user._id.toString(),
       username: user.username,
       role: user.role,
-      displayName: user.displayName,
       isActive: user.isActive,
       lastLogin: user.lastLogin,
       createdAt: user.createdAt,
@@ -61,9 +60,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Yetkisiz erişim' }, { status: 403 });
     }
 
-    const { username, password, role, displayName } = await request.json();
+    const { username, password, role } = await request.json();
 
-    if (!username || !password || !role || !displayName) {
+    if (!username || !password || !role) {
       return NextResponse.json(
         { error: 'Tüm alanlar gerekli' },
         { status: 400 }
@@ -73,7 +72,7 @@ export async function POST(request: NextRequest) {
     await connectDB();
 
     // Check if user already exists
-    const existingUser = await User.findOne({ username: username.toLowerCase() });
+    const existingUser = await User.findOne({ username });
     if (existingUser) {
       return NextResponse.json(
         { error: 'Bu kullanıcı adı zaten mevcut' },
@@ -83,10 +82,9 @@ export async function POST(request: NextRequest) {
 
     // Create new user
     const newUser = new User({
-      username: username.toLowerCase(),
+      username,
       password,
       role,
-      displayName,
       isActive: true
     });
 
@@ -99,7 +97,6 @@ export async function POST(request: NextRequest) {
         id: newUser._id,
         username: newUser.username,
         role: newUser.role,
-        displayName: newUser.displayName,
         isActive: newUser.isActive,
         createdAt: newUser.createdAt
       }

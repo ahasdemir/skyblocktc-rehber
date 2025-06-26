@@ -2,12 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import { getSessionId, getBrowserInfo } from '../../lib/sessionUtils';
+import SignupComponent from './SignupComponent';
 
 interface User {
   id: number;
   username: string;
   role: string;
-  displayName: string;
 }
 
 interface AdminLoginProps {
@@ -20,6 +20,7 @@ export default function AdminLogin({ onLogin }: AdminLoginProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [savedUser, setSavedUser] = useState<User | null>(null);
+  const [showSignup, setShowSignup] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem('minecraftAdmin');
@@ -83,7 +84,7 @@ export default function AdminLogin({ onLogin }: AdminLoginProps) {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              admin: data.user.displayName,
+              admin: data.user.username,
               username: data.user.username,
               role: data.user.role,
               timestamp: new Date().toISOString(),
@@ -110,8 +111,17 @@ export default function AdminLogin({ onLogin }: AdminLoginProps) {
       setIsLoading(false);
     }
   };
-  // Eğer kayıtlı user varsa login formunu gösterme
+  // If saved user exists, don't show login form
   if (savedUser) return null;
+
+  // Show signup form if requested
+  if (showSignup) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-sm bg-black/40">
+        <SignupComponent onBackToLogin={() => setShowSignup(false)} />
+      </div>
+    );
+  }
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-sm bg-black/40">
@@ -161,6 +171,21 @@ export default function AdminLogin({ onLogin }: AdminLoginProps) {
             {isLoading ? 'Giriş yapılıyor...' : 'Giriş Yap'}
           </button>
         </form>
+        
+        <div className="mt-6 pt-4 border-t border-gray-700">
+          <div className="text-center">
+            <p className="text-sm text-gray-400 mb-3">
+              Yeni rehber misiniz? Hesap oluşturun
+            </p>
+            <button
+              onClick={() => setShowSignup(true)}
+              className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition duration-200"
+              disabled={isLoading}
+            >
+              Rehber Olarak Kayıt Ol
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

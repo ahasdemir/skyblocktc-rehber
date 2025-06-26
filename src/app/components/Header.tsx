@@ -7,74 +7,18 @@ interface User {
   id: number;
   username: string;
   role: string;
-  displayName: string;
 }
 
 interface HeaderProps {
   user?: User | null;
   onLogout?: () => void;
-  onUserUpdate?: (user: User) => void;
 }
 
-const Header = ({ user, onLogout, onUserUpdate }: HeaderProps) => {
+const Header = ({ user, onLogout }: HeaderProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const [newName, setNewName] = useState('');
   const menuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
-  const handleOpen = () => {
-    setNewName(user?.displayName || '');
-    setShowModal(true);
-  };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (newName.trim() && user && user.displayName !== newName.trim()) {
-      const oldName = user.displayName; // Önceki ismi sakla
-      const updatedName = newName.trim();
-      
-      // Kullanıcı bilgilerini güncelle
-      const updatedUser = { ...user, displayName: updatedName };
-      onUserUpdate?.(updatedUser);
-      setShowModal(false);
-      setNewName('');
-      
-      // Session ID ve tarayıcı bilgilerini al
-      const sessionId = getSessionId();
-      const browserInfo = getBrowserInfo();
-      
-      // Discord webhook'una isim değişikliğini logla
-      try {
-        const token = localStorage.getItem('authToken');
-        const response = await fetch('/api/log-admin-name-change', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            oldName,
-            newName: updatedName,
-            timestamp: new Date().toISOString(),
-            sessionId,
-            browserInfo
-          }),
-        });
-        
-        if (!response.ok) {
-          console.error('İsim değişikliği bildirimi gönderilemedi');
-        }
-      } catch (error) {
-        console.error('İsim değişikliği bildirimi hatası:', error);
-      }
-    } else {
-      // İsim değişmemişse sadece modalı kapat
-      setShowModal(false);
-      setNewName('');
-    }
-  };
-  
   // Close mobile menu when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -197,17 +141,7 @@ const Header = ({ user, onLogout, onUserUpdate }: HeaderProps) => {
             {user && (
               <span className="text-gray-300 flex items-center gap-1 sm:gap-2 mr-2">
                 <span className="hidden xs:inline">{user.role}:</span> 
-                <span className="text-green-400 font-semibold text-sm sm:text-base truncate max-w-[80px] sm:max-w-none">{user.displayName}</span>
-                <button
-                  type="button"
-                  onClick={handleOpen}
-                  className="p-1 rounded hover:bg-gray-700 transition-colors"
-                  title="İsmini değiştir"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400 hover:text-green-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536M9 13l6.536-6.536a2 2 0 112.828 2.828L11.828 15.828a4 4 0 01-1.414.94l-4.243 1.415 1.415-4.243a4 4 0 01.94-1.414z" />
-                  </svg>
-                </button>
+                <span className="text-green-400 font-semibold text-sm sm:text-base truncate max-w-[80px] sm:max-w-none">{user.username}</span>
                 <button
                   type="button"
                   onClick={handleLogout}
@@ -272,40 +206,6 @@ const Header = ({ user, onLogout, onUserUpdate }: HeaderProps) => {
               );
             })}
           </div>
-        </div>
-      )}
-
-      {/* Modal - Same for both mobile and desktop */}
-      {showModal && (
-        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-50 p-4">
-          <form onSubmit={handleSubmit} className="bg-gray-800 rounded-xl shadow-xl p-6 flex flex-col gap-4 w-full max-w-[300px]">
-            <h2 className="text-lg font-bold text-green-300 mb-2">Yetkili İsmini Değiştir</h2>
-            <input
-              type="text"
-              className="rounded px-3 py-2 bg-gray-900 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-400"
-              value={newName}
-              onChange={e => setNewName(e.target.value)}
-              placeholder="Yeni isminiz"
-              autoFocus
-              maxLength={32}
-            />
-            <div className="flex gap-2 justify-end">
-              <button
-                type="button"
-                className="px-3 py-1 rounded bg-gray-700 text-gray-300 hover:bg-gray-600"
-                onClick={() => setShowModal(false)}
-              >
-                İptal
-              </button>
-              <button
-                type="submit"
-                className="px-3 py-1 rounded bg-green-600 text-white hover:bg-green-700 font-semibold"
-                disabled={!newName.trim()}
-              >
-                Onayla
-              </button>
-            </div>
-          </form>
         </div>
       )}
     </header>
