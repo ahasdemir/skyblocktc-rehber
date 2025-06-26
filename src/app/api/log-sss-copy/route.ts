@@ -1,32 +1,61 @@
 import { NextResponse } from 'next/server';
-import { getSessionId, getBrowserInfo } from '../../../lib/sessionUtils';
+import { verifyToken } from '../../../lib/jwt';
 
 // Discord webhook URL'ini çevre değişkeninden almanız önerilir
 const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL || "YOUR_DISCORD_WEBHOOK_URL_HERE";
 
 export async function POST(request: Request) {
   try {
-    const { question, adminName, timestamp, sessionId, browserInfo } = await request.json();
+    // JWT token'ı doğrula
+    const authHeader = request.headers.get('authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return NextResponse.json({ error: 'Token gerekli' }, { status: 401 });
+    }
+
+    const token = authHeader.substring(7);
+    const decoded = verifyToken(token);
+    if (!decoded) {
+      return NextResponse.json({ error: 'Geçersiz token' }, { status: 401 });
+    }
+
+    const { question, timestamp, sessionId, browserInfo } = await request.json();
+    
+    // Role-based color and emoji
+    const roleData = {
+      admin: { color: 15158332, emoji: '👑' }, // Red
+      moderator: { color: 16776960, emoji: '🛡️' }, // Yellow
+      helper: { color: 3447003, emoji: '🆘' } // Blue
+    };
+
+    const { color, emoji } = roleData[decoded.role as keyof typeof roleData] || roleData.helper;
     
     // Discord webhook mesajını hazırla
     const webhookData = {
       embeds: [{
-        title: "📋 SSS Sorusu Kopyalandı",
-        description: `**${adminName || "İsimsiz Yetkili"}** şu soruyu kopyaladı:\n"${question}"`,
-        color: 15844367, // Sarı renk
+        title: `${emoji} 📋 SSS Sorusu Kopyalandı`,
+        description: `**${decoded.displayName}** şu soruyu kopyaladı:\n"${question}"`,
+        color: color,
         fields: [
           {
-            name: "🔍 Session ID",
-            value: `\`${sessionId}\``,
+            name: "👤 Kullanan Yetkili",
+            value: `**Görünen Ad:** ${decoded.displayName}\n**Kullanıcı Adı:** ${decoded.username}\n**Rol:** ${decoded.role.toUpperCase()}`,
             inline: true
           },
           {
-            name: "🌐 Tarayıcı",
-            value: browserInfo,
+            name: "� Kopyalanan Soru",
+            value: `"${question}"`,
+            inline: false
+          },
+          {
+            name: "🌐 Oturum Bilgileri",
+            value: `**Session ID:** \`${sessionId?.slice(0, 12)}...\`\n**Tarayıcı:** ${browserInfo?.browser || 'Bilinmiyor'}\n**Platform:** ${browserInfo?.platform || 'Bilinmiyor'}`,
             inline: true
           }
         ],
-        timestamp: timestamp
+        timestamp: timestamp,
+        footer: {
+          text: "SkyBlockTC MongoDB Auth System"
+        }
       }]
     };
     

@@ -5,17 +5,38 @@ const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL || "YOUR_DISCORD_WEB
 
 export async function POST(request: Request) {
   try {
-    const { admin, timestamp } = await request.json();
+    const { admin, username, role, timestamp, sessionId, browserInfo } = await request.json();
+    
+    // Role-based color and emoji
+    const roleData = {
+      admin: { color: 15158332, emoji: '👑' }, // Red
+      moderator: { color: 16776960, emoji: '🛡️' }, // Yellow  
+      helper: { color: 3447003, emoji: '🆘' } // Blue
+    };
+    
+    const { color, emoji } = roleData[role as keyof typeof roleData] || roleData.helper;
     
     // Discord webhook mesajını hazırla
     const webhookData = {
       embeds: [{
-        title: "👮 Yetkili Giriş Bildirimi",
+        title: `${emoji} Yetkili Giriş Bildirimi`,
         description: `**${admin}** yetkili panele giriş yaptı.`,
-        color: 3066993, // Yeşil renk
+        color: color,
+        fields: [
+          {
+            name: "👤 Kullanıcı Bilgileri",
+            value: `**Görünen Ad:** ${admin}\n**Kullanıcı Adı:** ${username}\n**Rol:** ${role.toUpperCase()}`,
+            inline: true
+          },
+          {
+            name: "🌐 Oturum Bilgileri", 
+            value: `**Session ID:** \`${sessionId?.slice(0, 12)}...\`\n**Tarayıcı:** ${browserInfo?.browser || 'Bilinmiyor'}\n**Platform:** ${browserInfo?.platform || 'Bilinmiyor'}`,
+            inline: true
+          }
+        ],
         timestamp: timestamp,
         footer: {
-          text: "SkyBlockTC Yönetim Paneli"
+          text: "SkyBlockTC MongoDB Auth System"
         }
       }]
     };

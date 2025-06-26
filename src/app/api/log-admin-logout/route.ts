@@ -18,7 +18,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Geçersiz token' }, { status: 401 });
     }
 
-    const { oldName, newName, timestamp, sessionId, browserInfo } = await request.json();
+    const { timestamp, sessionId, browserInfo } = await request.json();
     
     // Role-based color and emoji
     const roleData = {
@@ -32,8 +32,8 @@ export async function POST(request: Request) {
     // Discord webhook mesajını hazırla
     const webhookData = {
       embeds: [{
-        title: `${emoji} 🔄 Yetkili İsmi Değiştirildi`,
-        description: `**${decoded.displayName}** isimli yetkili ismini **${oldName}** → **${newName}** olarak değiştirdi.`,
+        title: `${emoji} 👋 Yetkili Çıkış Bildirimi`,
+        description: `**${decoded.displayName}** yetkili panelden çıkış yaptı.`,
         color: color,
         fields: [
           {
@@ -42,14 +42,9 @@ export async function POST(request: Request) {
             inline: true
           },
           {
-            name: "� Değişiklik Detayları",
-            value: `**Eski İsim:** ${oldName}\n**Yeni İsim:** ${newName}`,
-            inline: true
-          },
-          {
-            name: "🌐 Oturum Bilgileri",
+            name: "🌐 Oturum Bilgileri", 
             value: `**Session ID:** \`${sessionId?.slice(0, 12)}...\`\n**Tarayıcı:** ${browserInfo?.browser || 'Bilinmiyor'}\n**Platform:** ${browserInfo?.platform || 'Bilinmiyor'}`,
-            inline: false
+            inline: true
           }
         ],
         timestamp: timestamp,
@@ -76,7 +71,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error('Discord webhook hatası:', error);
     return NextResponse.json(
-      { error: 'İsim değişikliği logu başarısız oldu' },
+      { error: 'Çıkış bildirimi başarısız oldu' },
       { status: 500 }
     );
   }

@@ -1,11 +1,24 @@
 import { NextResponse } from 'next/server';
+import { verifyToken } from '../../../lib/jwt';
 
 // Discord webhook URL'ini çevre değişkeninden almanız önerilir
 const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL || "YOUR_DISCORD_WEBHOOK_URL_HERE";
 
 export async function POST(request: Request) {
   try {
-    const { command, timestamp, admin, sessionId, browserInfo } = await request.json();
+    // JWT token'ı doğrula
+    const authHeader = request.headers.get('authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return NextResponse.json({ error: 'Token gerekli' }, { status: 401 });
+    }
+
+    const token = authHeader.substring(7);
+    const decoded = verifyToken(token);
+    if (!decoded) {
+      return NextResponse.json({ error: 'Geçersiz token' }, { status: 401 });
+    }
+
+    const { command, timestamp, sessionId, browserInfo } = await request.json();
     
     // Komutu parçala
     const commandParts = command.split(' ');
@@ -15,40 +28,52 @@ export async function POST(request: Request) {
     // Reason'ı birleştir (3. elemandan sonraki tüm kısımlar)
     const reason = commandParts.slice(3).join(' ') || "Belirtilmemiş";
     
+    // Role-based color and emoji
+    const roleData = {
+      admin: { color: 15158332, emoji: '👑' }, // Red
+      moderator: { color: 16776960, emoji: '🛡️' }, // Yellow
+      helper: { color: 3447003, emoji: '🆘' } // Blue
+    };
+
+    const { color, emoji } = roleData[decoded.role as keyof typeof roleData] || roleData.helper;
+    
     // Discord webhook mesajını hazırla
     const webhookData = {
       embeds: [{
-        title: "🚫 Mute İşlemi Uygulandı",
-        description: `\`${command}\`\n\n**👮 Uygulayan Yetkili:** \`${admin}\``,
-        color: 15548997, // Kırmızı renk
+        title: `${emoji} 🚫 Mute İşlemi Uygulandı`,
+        description: `\`${command}\`\n\n**👮 Uygulayan Yetkili:** \`${decoded.displayName}\``,
+        color: color,
         fields: [
           {
-            name: "Kullanıcı",
+            name: "👤 Hedef Kullanıcı",
             value: username,
             inline: true
           },
           {
-            name: "Süre",
+            name: "⏰ Süre",
             value: duration,
             inline: true
           },
           {
-            name: "Sebep",
+            name: "📝 Sebep",
             value: reason,
             inline: true
           },
           {
-            name: "🔍 Session ID",
-            value: `\`${sessionId}\``,
+            name: "� Uygulayan Yetkili",
+            value: `**Görünen Ad:** ${decoded.displayName}\n**Kullanıcı Adı:** ${decoded.username}\n**Rol:** ${decoded.role.toUpperCase()}`,
             inline: true
           },
           {
-            name: "🌐 Tarayıcı",
-            value: browserInfo,
+            name: "🌐 Oturum Bilgileri",
+            value: `**Session ID:** \`${sessionId?.slice(0, 12)}...\`\n**Tarayıcı:** ${browserInfo?.browser || 'Bilinmiyor'}\n**Platform:** ${browserInfo?.platform || 'Bilinmiyor'}`,
             inline: true
           }
         ],
-        timestamp: timestamp
+        timestamp: timestamp,
+        footer: {
+          text: "SkyBlockTC MongoDB Auth System"
+        }
       }]
     };
     
