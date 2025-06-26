@@ -1,87 +1,371 @@
-# SkyBlockTC Rehber Paneli
+# 🎮 SkyBlockTC Admin Panel
 
-Bu proje, SkyBlockTC sunucusu için rehber ve yönetim araçlarını içeren bir Next.js uygulamasıdır.
+This project is a professional management panel and guide application developed for the SkyBlockTC Minecraft server. Built with secure JWT-based authentication system using MongoDB.
 
-## Başlangıç
+## ✨ Features
 
-Öncelikle geliştirme sunucusunu çalıştırın:
+### 🔐 Authentication and Authorization
+- **JWT Token Based Authentication**: Secure session management
+- **MongoDB User Management**: Scalable user database
+- **Role-based Access Control**: Admin, Moderator, Helper roles
+- **Secure Password Hashing**: Password security with bcrypt
+
+### 👥 User Management
+- **Admin Panel**: Complete user CRUD operations
+- **Real-time Updates**: Instant user information updates
+- **Role Management**: Dynamic role assignment and management
+- **Session Tracking**: Session tracking and security
+
+### 🛠️ Management Tools
+- **Mute System**: Player muting management
+- **Spawner Management**: Spawner management tools
+- **FAQ System**: Frequently asked questions with search
+- **Discord Integration**: Automatic Discord notifications
+
+### 📊 Logging and Monitoring
+- **Discord Webhooks**: Log all admin operations to Discord
+- **Session Tracking**: Detailed session tracking
+- **Action Logging**: User action logging
+- **Security Monitoring**: Security event monitoring
+
+## 🚀 Installation
+
+### Requirements
+- Node.js 18+
+- MongoDB Atlas account or local MongoDB
+- Discord Webhook URL (optional)
+
+### 1. Clone the Project
+```bash
+git clone https://github.com/your-username/minecraft-admin.git
+cd minecraft-admin
+```
+
+### 2. Install Dependencies
+```bash
+npm install
+```
+
+### 3. Setup Environment Variables
+
+Create `.env.local` file:
+
+```bash
+# MongoDB Connection
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/minecraft-admin
+
+# JWT Secret Key (Create a strong key)
+JWT_SECRET=your-super-secret-jwt-key-here-make-it-long-and-complex
+
+# Discord Webhook (Optional)
+DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/your-webhook-url
+
+# Application Settings
+NODE_ENV=development
+```
+
+### 4. Initialize Database
+
+Create initial users:
+
+```bash
+node scripts/seed.js
+```
+
+This command creates the following default users:
+- **Admin**: `admin` / `admin123`
+- **Moderator**: `moderator` / `mod123`
+- **Helper**: `helper` / `helper123`
+
+### 5. Start Development Server
 
 ```bash
 npm run dev
-# veya
-yarn dev
-# veya
-pnpm dev
-# veya
-bun dev
 ```
 
-Tarayıcınızda [http://localhost:3000](http://localhost:3000) adresini açarak sonucu görebilirsiniz.
+You can view the application at [http://localhost:3000](http://localhost:3000).
 
-`app/page.tsx` dosyasını düzenleyerek sayfayı düzenlemeye başlayabilirsiniz. Dosya düzenlendiğinde sayfa otomatik olarak güncellenir.
+## 📁 Project Structure
 
-Bu proje, [Next.js Font](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) kullanarak fontları optimize eder ve yükler.
+```
+minecraft-admin/
+├── src/
+│   ├── app/                    # Next.js App Router
+│   │   ├── admin/             # Admin panel pages
+│   │   ├── api/               # API endpoints
+│   │   │   ├── login/         # Login API
+│   │   │   ├── users/         # User management API
+│   │   │   ├── log-*/         # Logging APIs
+│   │   │   └── test-*/        # Test endpoints
+│   │   ├── components/        # React components
+│   │   │   ├── AuthGuard.tsx  # Route protection
+│   │   │   ├── AdminLogin.tsx # Login form
+│   │   │   └── Header.tsx     # Navigation
+│   │   ├── mute/             # Mute management
+│   │   ├── spawner/          # Spawner management
+│   │   └── sss/              # FAQ system
+│   ├── lib/                   # Utility functions
+│   │   ├── mongodb.ts        # MongoDB connection
+│   │   ├── jwt.ts            # JWT utilities
+│   │   └── sessionUtils.ts   # Session helpers
+│   └── models/               # MongoDB models
+│       └── User.ts           # User model
+├── scripts/
+│   └── seed.js               # Database seed script
+├── docs/                     # Documentation
+│   ├── AUTHENTICATION.md     # Authentication guide
+│   ├── MONGODB_SETUP.md      # MongoDB setup
+│   └── LOGGING_UPDATE.md     # Logging system
+└── README.md
+```
 
-## Daha Fazla Bilgi
+## 🔧 Configuration
 
-Next.js hakkında daha fazla bilgi edinmek için aşağıdaki kaynaklara göz atabilirsiniz:
+### MongoDB Setup
 
-- [Next.js Dokümantasyonu](https://nextjs.org/docs) - Next.js özellikleri ve API hakkında bilgi edinin.
-- [Next.js Öğrenin](https://nextjs.org/learn) - Etkileşimli bir Next.js eğitimi.
+1. **MongoDB Atlas** (Recommended):
+   - Create [MongoDB Atlas](https://cloud.mongodb.com/) account
+   - Create new cluster
+   - Copy connection string
+   - Add to `.env.local` file
 
-Next.js GitHub deposunu inceleyebilirsiniz: [Next.js GitHub](https://github.com/vercel/next.js) - Geri bildirimleriniz ve katkılarınız memnuniyetle karşılanır!
+2. **Local MongoDB**:
+   ```bash
+   # Run MongoDB locally
+   mongod --dbpath /path/to/data
+   
+   # Use local connection in .env.local
+   MONGODB_URI=mongodb://localhost:27017/minecraft-admin
+   ```
 
-## Vercel Üzerinde Yayınlama
+### Discord Webhook Setup
 
-Next.js uygulamanızı yayınlamanın en kolay yolu, Next.js'in yaratıcıları tarafından sunulan [Vercel Platformu](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) kullanmaktır.
+1. Create a new webhook in your Discord server
+2. Copy the webhook URL
+3. Add to `.env.local` file as `DISCORD_WEBHOOK_URL`
+4. Test connection with test endpoint:
+   ```bash
+   curl -X POST http://localhost:3000/api/test-discord-webhook
+   ```
 
-Daha fazla bilgi için [Next.js yayınlama dokümantasyonuna](https://nextjs.org/docs/app/building-your-application/deploying) göz atabilirsiniz.
+## 🎯 Usage
 
-## Lisans
+### Logging In
+1. Login on the main page
+2. Default admin: `admin` / `admin123`
+3. After successful login, you'll be redirected to the panel
 
-Bu proje [MIT Lisansı](./LICENSE) altında lisanslanmıştır. Daha fazla bilgi için LICENSE dosyasına bakabilirsiniz.
+### Admin Panel
+- **User Management**: `/admin` - User CRUD operations
+- **Mute Management**: `/mute` - Player muting tools
+- **Spawner Management**: `/spawner` - Spawner tools
+- **FAQ System**: `/sss` - Frequently asked questions
+
+### Logging
+All admin operations are automatically logged to Discord:
+- Login/logout operations
+- User changes
+- Mute operations
+- Content copying operations
+
+## 🛡️ Security
+
+### Authentication
+- JWT token based authentication
+- 24-hour token validity period
+- Automatic token refresh handling
+- Secure password hashing with bcrypt
+
+### API Security
+- All API endpoints protected with JWT
+- Role-based access control
+- Input validation and sanitization
+- Rate limiting (optional)
+
+### Frontend Security
+- Route protection with AuthGuard component
+- Automatic logout on token expiry
+- Secure token storage
+- XSS protection
+
+## 📊 API Documentation
+
+### Authentication
+```typescript
+// Login
+POST /api/login
+Body: { username: string, password: string }
+Response: { success: boolean, user: User, token: string }
+
+// Logout
+POST /api/logout
+Headers: { Authorization: "Bearer <token>" }
+Response: { success: boolean }
+```
+
+### User Management (Admin Only)
+```typescript
+// User list
+GET /api/users
+Headers: { Authorization: "Bearer <token>" }
+
+// New user
+POST /api/users
+Headers: { Authorization: "Bearer <token>" }
+Body: { username, displayName, password, role }
+
+// Update user
+PUT /api/users/[id]
+Headers: { Authorization: "Bearer <token>" }
+Body: { username?, displayName?, password?, role? }
+
+// Delete user
+DELETE /api/users/[id]
+Headers: { Authorization: "Bearer <token>" }
+```
+
+### Logging
+```typescript
+// Discord webhook test
+POST /api/test-discord-webhook
+Response: { success: boolean, message: string }
+
+// Admin operation logging
+POST /api/log-admin-login
+POST /api/log-admin-logout
+POST /api/log-admin-name-change
+POST /api/log-mute
+POST /api/log-sss-copy
+```
+
+## 🔄 Development
+
+### Adding New Features
+1. **API Endpoint**: Add JWT authentication
+2. **Frontend Component**: Use AuthGuard
+3. **Logging**: Discord webhook integration
+4. **Tests**: Appropriate test coverage
+
+### Code Standards
+- TypeScript usage mandatory
+- ESLint and Prettier configuration
+- Consistent naming conventions
+- Comprehensive error handling
+
+### Build and Deploy
+```bash
+# Production build
+npm run build
+
+# Production server
+npm start
+
+# Lint check
+npm run lint
+
+# Type check
+npm run type-check
+```
+
+## 🧪 Testing
+
+### Discord Webhook Test
+```bash
+# Check webhook configuration
+curl http://localhost:3000/api/test-discord-webhook
+
+# Send test message
+curl -X POST http://localhost:3000/api/test-discord-webhook
+```
+
+### Database Test
+```bash
+# Run seed script
+node scripts/seed.js
+
+# Test MongoDB connection
+npm run test:db
+```
+
+## 📋 TODO
+
+### Short Term
+- [ ] Rate limiting implementation
+- [ ] Refresh token system
+- [ ] Email notification system
+- [ ] Audit log system
+
+### Long Term
+- [ ] Multi-factor authentication
+- [ ] OAuth integration (Discord, Google)
+- [ ] Mobile responsive improvements
+- [ ] API documentation with Swagger
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+1. **MongoDB Connection Error**
+   ```bash
+   # Check connection string
+   echo $MONGODB_URI
+   
+   # Check MongoDB Atlas IP whitelist
+   ```
+
+2. **JWT Token Error**
+   ```bash
+   # Clear token from localStorage
+   localStorage.removeItem('authToken');
+   
+   # Login again
+   ```
+
+3. **Discord Webhook 404**
+   ```bash
+   # Test webhook URL
+   curl -X POST http://localhost:3000/api/test-discord-webhook
+   
+   # Check Discord webhook settings
+   ```
+
+### Log Control
+```bash
+# Development logs
+npm run dev
+
+# Production logs
+npm run start
+
+# Detailed debug
+DEBUG=* npm run dev
+```
+
+## 📄 License
+
+This project is licensed under the [MIT License](./LICENSE).
+
+## 🤝 Contributing
+
+1. Fork the project
+2. Create feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Create Pull Request
+
+## 📞 Support
+
+- 📧 Email: support@skyblocktc.com
+- 💬 Discord: [SkyBlockTC Discord](https://discord.gg/skyblocktc)
+- 🐛 Issues: [GitHub Issues](https://github.com/your-username/minecraft-admin/issues)
+
+## 🙏 Acknowledgments
+
+- Next.js team for the framework
+- MongoDB team for database solution
+- Discord for webhook support
+- All contributors
 
 ---
 
-# SkyBlockTC Guide Panel
-
-This project is a Next.js application containing guide and management tools for the SkyBlockTC server.
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load fonts.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - Learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - An interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - Your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-
-## Lisans
-
-This project is licensed under the [MIT License](./LICENSE). See the LICENSE file for more information.
+**SkyBlockTC Admin Panel** - Modern web application that professionalizes Minecraft server management. 🎮✨
