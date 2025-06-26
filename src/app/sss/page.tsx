@@ -147,72 +147,111 @@ function SSSPageContent() {
 	};
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-primary via-secondary to-gray-900 text-white flex flex-col">
+		<div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white flex flex-col relative overflow-hidden">
+			{/* Animated background */}
+			<div className="absolute inset-0">
+				<div className="absolute top-0 right-0 w-96 h-96 bg-yellow-500/5 rounded-full blur-3xl animate-pulse"></div>
+				<div className="absolute bottom-0 left-0 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
+			</div>
+			
 			<Header 
 				user={user}
 				onLogout={handleLogout}
 			/>
-			<div className="flex-1 flex flex-col items-center py-10 px-2">
-				<div className="bg-yellow-500 text-black px-4 py-2 rounded-md mb-4 font-bold text-center w-full max-w-2xl animate-bounce">
-					SSS Güncellemeleri: Arama özelliği eklendi 🔍 Soruların yerleri düzenlendi.
-				</div>
-				<h1 className="text-3xl md:text-4xl font-extrabold mb-6 text-center text-yellow-300 drop-shadow-lg">
-					Sıkça Sorulan Sorular (SSS)
-				</h1>
-				<div className="w-full max-w-2xl mb-6">
-					<div className="relative">
-						<input
-							type="text"
-							placeholder="Ara... (örn: arı, minyon, para)"
-							value={searchTerm}
-							onChange={(e) => setSearchTerm(e.target.value)}
-							className="w-full px-4 py-2 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400 pl-10"
-						/>
-						<div className="absolute left-3 top-2.5 text-gray-400">
-							🔍
-						</div>
-						{searchTerm && (
-							<button 
-								onClick={() => setSearchTerm('')}
-								className="absolute right-3 top-2.5 text-gray-400 hover:text-white"
-							>
-								✖
-							</button>
-						)}
+			
+			<div className="flex-1 flex flex-col items-center py-12 px-4 relative z-10">
+				{/* Update Banner */}
+				<div className="bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 text-black px-6 py-4 rounded-2xl mb-8 font-bold text-center w-full max-w-4xl shadow-2xl animate-bounce">
+					<div className="flex items-center justify-center gap-3">
+						<span className="text-2xl">🚀</span>
+						<span>SSS Güncellemeleri: Arama özelliği eklendi 🔍 Soruların yerleri düzenlendi.</span>
 					</div>
-				</div>				<div className="w-full max-w-2xl bg-gray-800 rounded-xl shadow-lg p-6">
+				</div>
+				
+				{/* Hero Header */}
+				<div className="text-center mb-10 animate-fade-in-up">
+					<div className="inline-flex items-center gap-4 mb-4">
+						<div className="text-6xl">❓</div>
+						<h1 className="text-4xl md:text-6xl font-black bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 bg-clip-text text-transparent">
+							SSS
+						</h1>
+					</div>
+					<div className="w-32 h-1 bg-gradient-to-r from-yellow-500 to-orange-500 mx-auto mb-4"></div>
+					<p className="text-lg text-gray-400 max-w-3xl mx-auto">
+						Sıkça sorulan sorular ve kapsamlı cevaplar
+					</p>
+				</div>
+				
+				{/* Modern Search Bar */}
+				<div className="w-full max-w-3xl mb-8">
+					<div className="relative bg-gradient-to-r from-gray-800/80 to-gray-900/80 backdrop-blur-xl border border-gray-700/50 rounded-3xl p-2 shadow-2xl">
+						<div className="flex items-center">
+							<div className="flex items-center justify-center w-12 h-12 text-yellow-400 text-xl">
+								🔍
+							</div>
+							<input
+								type="text"
+								placeholder="Soruları ara... (örn: para, minyon, farm)"
+								value={searchTerm}
+								onChange={(e) => setSearchTerm(e.target.value)}
+								className="flex-1 px-4 py-3 bg-transparent text-white placeholder-gray-400 focus:outline-none text-lg"
+							/>
+							{searchTerm && (
+								<button 
+									onClick={() => setSearchTerm('')}
+									className="flex items-center justify-center w-12 h-12 text-gray-400 hover:text-white transition-colors rounded-2xl hover:bg-gray-700/50"
+								>
+									✖
+								</button>
+							)}
+						</div>
+					</div>
+				</div>
+				
+				{/* FAQ Content */}
+				<div className="w-full max-w-4xl bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-xl border border-gray-700/50 rounded-3xl shadow-2xl p-8">
 					{filteredFaq.length > 0 ? (
-						<ul className="space-y-6">
+						<div className="space-y-6">
 							{filteredFaq.map((item, i) => (
-								<li key={i} className="flex items-start justify-between">
-									<div>
-										<div className="font-bold text-lg text-yellow-300 mb-1">
-											{item.q}
+								<div key={i} className="group bg-gray-900/50 rounded-2xl p-6 border border-gray-700/30 hover:border-yellow-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-yellow-500/10">
+									<div className="flex items-start gap-4">
+										<div className="flex-1">
+											<div className="flex items-center gap-3 mb-4">
+												<div className="w-8 h-8 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-xl flex items-center justify-center text-black font-bold text-sm">
+													{i + 1}
+												</div>
+												<h3 className="font-bold text-xl text-yellow-400 group-hover:text-yellow-300 transition-colors">
+													{item.q}
+												</h3>
+											</div>
+											<div className="bg-gray-800/50 rounded-xl p-4 border-l-4 border-yellow-400">
+												<pre className="text-gray-200 text-sm leading-relaxed whitespace-pre-wrap font-sans">
+													{item.a}
+												</pre>
+											</div>
 										</div>
-										<div className="text-gray-200 text-base pl-2 border-l-4 border-yellow-400">
-											{item.a}
-										</div>
+										<button
+											onClick={(e) => copyToClipboard(item.a, item.q, e.currentTarget)}
+											className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-2xl flex items-center justify-center text-white transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-blue-500/25"
+											title="Cevabı kopyala"
+										>
+											📋
+										</button>
 									</div>
-									<button
-										onClick={(e) => copyToClipboard(item.a, item.q, e.currentTarget)}
-										className="ml-4 p-2 bg-gray-700 rounded hover:bg-gray-600 transition-colors text-yellow-300"
-										title="Cevabı kopyala"
-									>
-										📋
-									</button>
-								</li>
+								</div>
 							))}
-						</ul>
+						</div>
 					) : (
-						<div className="text-center py-10">
-							<div className="text-yellow-300 text-5xl mb-4">🔍</div>
-							<p className="text-gray-300 text-lg">Aramanızla eşleşen soru bulunamadı.</p>
-							<p className="text-gray-400 mt-2">Farklı anahtar kelimeler ile tekrar deneyin.</p>
+						<div className="text-center py-16">
+							<div className="text-yellow-400 text-6xl mb-6">🔍</div>
+							<h3 className="text-2xl font-bold text-white mb-4">Sonuç Bulunamadı</h3>
+							<p className="text-gray-300 text-lg mb-2">Aramanızla eşleşen soru bulunamadı.</p>
+							<p className="text-gray-400 mb-8">Farklı anahtar kelimeler ile tekrar deneyin.</p>
 							<button
 								onClick={() => setSearchTerm('')}
-								className="mt-4 px-4 py-2 bg-yellow-500 text-black rounded-md hover:bg-yellow-400 transition-colors"
+								className="px-8 py-4 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-black font-bold rounded-2xl transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-yellow-500/25"
 							>
-								Tüm Soruları Göster
+								🔄 Tüm Soruları Göster
 							</button>
 						</div>
 					)}

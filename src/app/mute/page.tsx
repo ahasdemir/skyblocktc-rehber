@@ -166,246 +166,316 @@ function MuteHelperContent() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary via-secondary to-gray-900 text-white flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white flex flex-col relative overflow-hidden">
+      {/* Animated background */}
+      <div className="absolute inset-0">
+        <div className="absolute top-0 left-0 w-96 h-96 bg-red-500/5 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-0 right-0 w-80 h-80 bg-orange-500/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
+      </div>
+      
       <Header
         user={user}
         onLogout={handleLogout}
       />
       
-      <main className="flex-1 flex flex-col items-center py-8 sm:py-10 px-4">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 text-center bg-gradient-to-r from-green-400 via-blue-400 to-purple-400 bg-clip-text text-transparent drop-shadow-lg">
-          SkyBlockTC Mute Yardımcısı
-        </h1>
-        <p className="text-base sm:text-lg text-gray-300 mb-8 text-center max-w-2xl">
-          Sunucu yönetimi için susturma kuralları ve rehberler için hızlı mute yardımcısı.
-        </p>
+      <main className="flex-1 flex flex-col items-center py-12 px-4 relative z-10">
+        {/* Hero Header */}
+        <div className="text-center mb-12 animate-fade-in-up">
+          <div className="inline-flex items-center gap-4 mb-4">
+            <div className="text-6xl">🔇</div>
+            <h1 className="text-4xl md:text-6xl font-black bg-gradient-to-r from-red-400 via-orange-400 to-yellow-400 bg-clip-text text-transparent">
+              Mute Yardımcısı
+            </h1>
+          </div>
+          <div className="w-32 h-1 bg-gradient-to-r from-red-500 to-orange-500 mx-auto mb-4"></div>
+          <p className="text-lg text-gray-400 max-w-3xl mx-auto">
+            Gelişmiş susturma sistemi ile hızlı ve etkili yönetim
+          </p>
+        </div>
 
-        {/* Mute Command Helper */}
-        <section className="bg-gray-900/90 rounded-xl p-5 sm:p-6 shadow-lg w-full max-w-4xl mb-8 border border-gray-700/50">
-          <h3 className="text-xl font-bold text-blue-300 mb-4">Mute Komutu Hazırlayıcı</h3>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-2">
-            <label className="text-sm font-medium text-blue-300 md:text-center" htmlFor="mute-user">Kullanıcı Adı</label>
-            <label className="text-sm font-medium text-green-300 md:text-center" htmlFor="mute-reason">Suç</label>
-            <label className="text-sm font-medium text-yellow-300 md:text-center" htmlFor="mute-duration">Süre</label>
+        {/* Mute Command Helper - Modern Card */}
+        <section className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-xl border border-gray-700/50 rounded-3xl p-8 shadow-2xl w-full max-w-5xl mb-12">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center text-2xl">
+              ⚡
+            </div>
+            <div>
+              <h3 className="text-2xl font-bold text-white">Hızlı Mute Komutu</h3>
+              <p className="text-gray-400">Otomatik komut oluşturucu</p>
+            </div>
           </div>
           
-          <div className="flex flex-col md:flex-row gap-3">
-            {/* Kullanıcı adı input'u yerine otomatik tamamlama bileşeni */}
-            <div className="relative flex-1">
-              <input
-                id="mute-user"
-                className="w-full h-[42px] rounded px-3 py-2 bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 border border-gray-700"
-                placeholder="Kullanıcı ismi"
-                value={muteUser}
-                onChange={handleUserInputChange}
-                onFocus={() => muteUser.length > 0 && setShowAutocomplete(true)}
-              />
-              {/* Autocomplete dropdown */}
-              {showAutocomplete && filteredPlayers.length > 0 && (
-                <div 
-                  ref={autocompleteRef}
-                  className="absolute z-10 mt-1 w-full bg-gray-800 border border-gray-700 rounded-md shadow-lg max-h-60 overflow-auto"
-                >
-                  {filteredPlayers.map((playerName) => (
-                    <div
-                      key={playerName}
-                      className="px-4 py-2 hover:bg-gray-700 cursor-pointer text-white transition-colors"
-                      onClick={() => {
-                        setMuteUser(playerName);
-                        setShowAutocomplete(false);
-                      }}
-                    >
-                      {playerName}
-                    </div>
-                  ))}
-                </div>
-              )}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div className="space-y-3">
+              <label className="flex items-center gap-2 text-sm font-semibold text-blue-400" htmlFor="mute-user">
+                <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
+                Kullanıcı Adı
+              </label>
+              <div className="relative">
+                <input
+                  id="mute-user"
+                  className="w-full h-12 rounded-2xl px-4 py-3 bg-gray-700/50 backdrop-blur-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-600/50 transition-all duration-300"
+                  placeholder="Oyuncu ismini yazın..."
+                  value={muteUser}
+                  onChange={handleUserInputChange}
+                  onFocus={() => muteUser.length > 0 && setShowAutocomplete(true)}
+                />
+                {/* Autocomplete dropdown - Modern */}
+                {showAutocomplete && filteredPlayers.length > 0 && (
+                  <div 
+                    ref={autocompleteRef}
+                    className="absolute z-20 mt-2 w-full bg-gray-800/95 backdrop-blur-xl border border-gray-600/50 rounded-2xl shadow-2xl max-h-60 overflow-auto"
+                  >
+                    {filteredPlayers.map((playerName) => (
+                      <div
+                        key={playerName}
+                        className="px-4 py-3 hover:bg-gray-700/80 cursor-pointer text-white transition-colors first:rounded-t-2xl last:rounded-b-2xl border-b border-gray-700/30 last:border-b-0"
+                        onClick={() => {
+                          setMuteUser(playerName);
+                          setShowAutocomplete(false);
+                        }}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                          {playerName}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
             
-            <select
-              id="mute-reason"
-              className="flex-1 rounded px-3 py-2 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-400 border border-gray-700"
-              value={reason}
-              onChange={e => { setReason(e.target.value); setDuration(''); }}
-            >
-              <option value="">Sebep seçin</option>
-              {allReasons.map(r => (
-                <option key={r.reason} value={r.reason}>{r.reason}</option>
-              ))}
-            </select>
-            <div className="flex-1 flex flex-col items-center md:items-start">
+            <div className="space-y-3">
+              <label className="flex items-center gap-2 text-sm font-semibold text-green-400" htmlFor="mute-reason">
+                <span className="w-2 h-2 bg-green-400 rounded-full"></span>
+                Suç
+              </label>
+              <select
+                id="mute-reason"
+                className="w-full h-12 rounded-2xl px-4 py-3 bg-gray-700/50 backdrop-blur-sm text-white focus:outline-none focus:ring-2 focus:ring-green-500 border border-gray-600/50 transition-all duration-300"
+                value={reason}
+                onChange={e => { setReason(e.target.value); setDuration(''); }}
+              >
+                <option value="">Suç türünü seçin</option>
+                {allReasons.map(r => (
+                  <option key={r.reason} value={r.reason}>{r.reason}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className="space-y-3">
+              <label className="flex items-center gap-2 text-sm font-semibold text-yellow-400" htmlFor="mute-duration">
+                <span className="w-2 h-2 bg-yellow-400 rounded-full"></span>
+                Süre
+              </label>
               {selectedReason && (
-                <div className="text-xs text-gray-400 mb-1 w-full text-center md:text-left">
-                  Süre: min <span className="text-green-300 font-bold">{safeMin}{unit}</span> - max <span className="text-red-300 font-bold">{safeMax}{unit}</span>
+                <div className="text-xs text-gray-400 mb-2">
+                  Aralık: <span className="text-green-400 font-bold">{safeMin}{unit}</span> - <span className="text-red-400 font-bold">{safeMax}{unit}</span>
                 </div>
               )}
               {selectedReason && safeMin === safeMax ? (
-                <div className="relative w-28 max-w-xs">
+                <div className="relative">
                   <input
                     id="mute-duration"
                     type="text"
-                    className="rounded px-3 py-2 bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full text-center pr-8 border border-gray-700"
+                    className="w-full h-12 rounded-2xl px-4 py-3 bg-gray-700/50 backdrop-blur-sm text-white text-center pr-8 border border-gray-600/50"
                     value={safeMin}
                     disabled
                   />
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 select-none">{unit}</span>
+                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">{unit}</span>
                 </div>
               ) : (
-                <div className="relative w-28 max-w-xs">
-                  <input
-                    id="mute-duration"
-                    type="number"
-                    min={safeMin}
-                    max={safeMax}
-                    step={1}
-                    className="rounded px-3 py-2 bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full text-center pr-8 appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-inner-spin-button]:m-0 border border-gray-700"
-                    style={{ MozAppearance: 'textfield' }}
-                    placeholder={`Süre`}
-                    value={duration}
-                    onChange={e => {
-                      // Only allow numbers
-                      const val = e.target.value.replace(/[^0-9]/g, '');
-                      setDuration(val);
-                    }}
-                    onInput={e => {
-                      const val = e.currentTarget.value.replace(/[^0-9]/g, '');
-                      let num = parseInt(val);
-                      if (!isNaN(num)) {
-                        if (num < safeMin) num = safeMin;
-                        if (num > safeMax) num = safeMax;
-                        setDuration(num.toString());
-                      } else if (val === '') {
-                        setDuration('');
-                      }
-                    }}
-                    disabled={!selectedReason}
-                  />
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 select-none">{unit}</span>
-                </div>
-              )}
-              
-              {/* Sertlik butonları */}
-              {selectedReason && safeMin !== safeMax && (
-                <div className="flex justify-between mt-2 gap-1 w-full">
-                  {(() => {
-                    const minVal = safeMin;
-                    const maxVal = safeMax;
-                    const midVal = Math.round((minVal + maxVal) / 2);
-                    const levels = [
-                      { label: 'Hafif', value: minVal },
-                      { label: 'Orta', value: midVal },
-                      { label: 'Sert', value: maxVal },
-                    ];
-                    return levels.map(l => (
-                      <button
-                        key={l.label}
-                        type="button"
-                        className={`px-2 py-1 rounded text-xs font-semibold border transition-colors ${
-                          duration === l.value.toString() 
-                            ? 'bg-blue-600 text-white border-blue-700' 
-                            : 'bg-gray-800 text-gray-300 border-gray-700 hover:bg-blue-700 hover:text-white'
-                        }`}
-                        onClick={() => setDuration(l.value.toString())}
-                      >
-                        {l.label}
-                      </button>
-                    ));
-                  })()}
+                <div className="space-y-3">
+                  <div className="relative">
+                    <input
+                      id="mute-duration"
+                      type="number"
+                      min={safeMin}
+                      max={safeMax}
+                      step={1}
+                      className="w-full h-12 rounded-2xl px-4 py-3 bg-gray-700/50 backdrop-blur-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 text-center pr-8 border border-gray-600/50 transition-all duration-300"
+                      placeholder="Süre"
+                      value={duration}
+                      onChange={e => {
+                        const val = e.target.value.replace(/[^0-9]/g, '');
+                        setDuration(val);
+                      }}
+                      disabled={!selectedReason}
+                    />
+                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">{unit}</span>
+                  </div>
+                  
+                  {/* Severity buttons - Modern */}
+                  {selectedReason && safeMin !== safeMax && (
+                    <div className="flex gap-2">
+                      {(() => {
+                        const minVal = safeMin;
+                        const maxVal = safeMax;
+                        const midVal = Math.round((minVal + maxVal) / 2);
+                        const levels = [
+                          { label: 'Hafif', value: minVal, color: 'from-green-500 to-emerald-500' },
+                          { label: 'Orta', value: midVal, color: 'from-yellow-500 to-orange-500' },
+                          { label: 'Sert', value: maxVal, color: 'from-red-500 to-pink-500' },
+                        ];
+                        return levels.map(l => (
+                          <button
+                            key={l.label}
+                            type="button"
+                            className={`flex-1 px-3 py-2 rounded-xl text-xs font-bold transition-all duration-300 ${
+                              duration === l.value.toString() 
+                                ? `bg-gradient-to-r ${l.color} text-white shadow-lg scale-105` 
+                                : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 border border-gray-600/30'
+                            }`}
+                            onClick={() => setDuration(l.value.toString())}
+                          >
+                            {l.label}
+                          </button>
+                        ));
+                      })()}
+                    </div>
+                  )}
                 </div>
               )}
             </div>
           </div>
           
-          <div className="mt-4 flex flex-wrap items-center gap-2 bg-gray-800/50 p-3 rounded-lg border border-gray-700/50">
-            <span className="text-sm text-gray-300">Oluşan komut:</span>
-            <span className="font-mono bg-gray-800 px-2 py-1 rounded text-green-300 flex-1 overflow-x-auto">
-              {muteCommand || '/mute {kullanıcı} {süre} {sebep}'}
-            </span>
-            {muteCommand && (
-              <div className="flex gap-2 flex-shrink-0">
-                <button
-                  className="px-3 py-1 rounded bg-blue-600 hover:bg-blue-700 text-white text-xs transition-colors"
-                  onClick={() => {
-                    navigator.clipboard.writeText(muteCommand);
-                    setCopied(true);
-                    setTimeout(() => setCopied(false), 1200);
-                  }}
-                >
-                  {copied ? 'Kopyalandı!' : 'Kopyala'}
-                </button>
-                <button
-                  className="px-3 py-1 rounded bg-green-600 hover:bg-green-700 text-white text-xs transition-colors"
-                  onClick={async () => {
-                    if (!user) {
-                      alert('Lütfen önce yetkili girişi yapın!');
-                      return;
-                    }
-                    try {
-                      // Session ID ve tarayıcı bilgilerini al
-                      const sessionId = getSessionId();
-                      const browserInfo = getBrowserInfo();
-                      const token = localStorage.getItem('authToken');
-                      
-                      const response = await fetch('/api/log-mute', {
-                        method: 'POST',
-                        headers: {
-                          'Content-Type': 'application/json',
-                          'Authorization': `Bearer ${token}`,
-                        },
-                        body: JSON.stringify({
-                          command: muteCommand,
-                          timestamp: new Date().toISOString(),
-                          sessionId,
-                          browserInfo
-                        }),
-                      });
-                      
-                      if (response.ok) {
-                        setApplied(true);
-                        setTimeout(() => setApplied(false), 1200);
-                      }
-                    } catch (error) {
-                      console.error('Loglama hatası:', error);
-                    }
-                  }}
-                >
-                  {applied ? 'Kaydedildi!' : 'Uyguladım'}
-                </button>
+          {/* Command Preview - Modern */}
+          <div className="bg-gradient-to-r from-gray-900/80 to-gray-800/80 backdrop-blur-sm p-6 rounded-2xl border border-gray-700/50">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                <span className="text-sm font-semibold text-gray-300">Oluşturulan Komut</span>
               </div>
-            )}
+              {muteCommand && (
+                <div className="flex gap-3">
+                  <button
+                    className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white text-sm font-bold rounded-xl transition-all duration-300 shadow-lg hover:shadow-blue-500/25"
+                    onClick={() => {
+                      navigator.clipboard.writeText(muteCommand);
+                      setCopied(true);
+                      setTimeout(() => setCopied(false), 1200);
+                    }}
+                  >
+                    {copied ? '✓ Kopyalandı!' : '📋 Kopyala'}
+                  </button>
+                  <button
+                    className="px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white text-sm font-bold rounded-xl transition-all duration-300 shadow-lg hover:shadow-green-500/25"
+                    onClick={async () => {
+                      if (!user) {
+                        alert('Lütfen önce yetkili girişi yapın!');
+                        return;
+                      }
+                      try {
+                        const sessionId = getSessionId();
+                        const browserInfo = getBrowserInfo();
+                        const token = localStorage.getItem('authToken');
+                        
+                        const response = await fetch('/api/log-mute', {
+                          method: 'POST',
+                          headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`,
+                          },
+                          body: JSON.stringify({
+                            command: muteCommand,
+                            timestamp: new Date().toISOString(),
+                            sessionId,
+                            browserInfo
+                          }),
+                        });
+                        
+                        if (response.ok) {
+                          setApplied(true);
+                          setTimeout(() => setApplied(false), 1200);
+                        }
+                      } catch (error) {
+                        console.error('Loglama hatası:', error);
+                      }
+                    }}
+                  >
+                    {applied ? '✓ Kaydedildi!' : '🚀 Uyguladım'}
+                  </button>
+                </div>
+              )}
+            </div>
+            <div className="font-mono text-lg bg-black/30 px-4 py-3 rounded-xl text-green-400 border border-gray-700/30">
+              {muteCommand || '/mute {kullanıcı} {süre} {sebep}'}
+            </div>
           </div>
         </section>
 
-        {/* Mute Rules Section */}
-        <section className="bg-gray-800/80 rounded-xl shadow-lg p-6 sm:p-8 w-full max-w-4xl mb-8">
-          <h2 className="text-2xl font-bold mb-6 text-green-300 border-l-4 border-green-400 pl-2">Mute Kuralları</h2>
-          
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
-            {muteRules.map((rule) => (
-              <div key={rule.title} className="bg-gray-900 rounded-lg p-4 shadow-md border border-gray-700/30 hover:shadow-xl transition-all duration-300">
-                <h3 className="font-semibold mb-2 text-lg text-blue-300">{rule.title}</h3>
-                <div className="text-gray-200 text-sm">{rule.content}</div>
+        {/* Mute Rules Section - Modern */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full max-w-7xl">
+          {/* Rules Info Cards */}
+          <section className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-xl border border-gray-700/50 rounded-3xl p-8 shadow-2xl">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center text-2xl">
+                📚
               </div>
-            ))}
-          </div>
-          
-          <h2 className="text-xl font-bold mb-4 text-yellow-300 border-l-4 border-yellow-400 pl-2">Susturma Seviyeleri</h2>
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {muteLevels.map((level) => (
-              <div key={level.level} className="bg-gray-900 rounded-lg p-4 shadow-md border border-gray-700/30 hover:shadow-xl transition-all duration-300">
-                <h4 className="font-semibold mb-2 text-yellow-200">{level.level} Susturma</h4>
-                <ul className="list-disc list-inside text-gray-200 text-sm">
-                  {level.rules.filter(r => typeof r === 'object' && r.reason).map((r, i) => (
-                    <li key={i} className="mb-1">
-                      <span className="text-blue-400">{r.min !== r.max ? `${r.min}-${r.max}${r.unit}` : `${r.min}${r.unit}`}</span> {r.reason}
-                    </li>
-                  ))}
-                </ul>
+              <div>
+                <h2 className="text-2xl font-bold text-white">Mute Kuralları</h2>
+                <p className="text-gray-400">Temel bilgiler</p>
               </div>
-            ))}
-          </div>
-        </section>
+            </div>
+            
+            <div className="space-y-4">
+              {muteRules.map((rule, index) => (
+                <div key={rule.title} className="bg-gray-900/50 rounded-2xl p-5 border border-gray-700/30 hover:border-green-500/30 transition-all duration-300">
+                  <h3 className="font-bold text-lg text-green-400 mb-3 flex items-center gap-2">
+                    <span className="w-2 h-2 bg-green-400 rounded-full"></span>
+                    {rule.title}
+                  </h3>
+                  <div className="text-gray-200 leading-relaxed">{rule.content}</div>
+                </div>
+              ))}
+            </div>
+          </section>
+          
+          {/* Mute Levels */}
+          <section className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-xl border border-gray-700/50 rounded-3xl p-8 shadow-2xl">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-12 bg-gradient-to-br from-yellow-500 to-orange-600 rounded-2xl flex items-center justify-center text-2xl">
+                ⚖️
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold text-white">Seviye Sistemi</h2>
+                <p className="text-gray-400">Susturma seviyeleri</p>
+              </div>
+            </div>
+            
+            <div className="space-y-6">
+              {muteLevels.map((level, index) => (
+                <div key={level.level} className="bg-gray-900/50 rounded-2xl p-5 border border-gray-700/30 hover:border-yellow-500/30 transition-all duration-300">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className={`w-8 h-8 rounded-xl flex items-center justify-center text-sm font-bold ${
+                      index === 0 ? 'bg-green-500 text-white' :
+                      index === 1 ? 'bg-yellow-500 text-black' :
+                      'bg-red-500 text-white'
+                    }`}>
+                      {index + 1}
+                    </div>
+                    <h4 className="font-bold text-lg text-yellow-400">{level.level}</h4>
+                  </div>
+                  <div className="space-y-2">
+                    {level.rules.filter(r => typeof r === 'object' && r.reason).map((r, i) => (
+                      <div key={i} className="flex items-center justify-between bg-gray-800/50 rounded-xl p-3 border border-gray-700/20">
+                        <span className="text-gray-200 text-sm">{r.reason}</span>
+                        <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                          index === 0 ? 'bg-green-500/20 text-green-400' :
+                          index === 1 ? 'bg-yellow-500/20 text-yellow-400' :
+                          'bg-red-500/20 text-red-400'
+                        }`}>
+                          {r.min !== r.max ? `${r.min}-${r.max}${r.unit}` : `${r.min}${r.unit}`}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        </div>
       </main>
     </div>
   );

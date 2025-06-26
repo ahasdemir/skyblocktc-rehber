@@ -117,72 +117,116 @@ export default function AdminLogin({ onLogin }: AdminLoginProps) {
   // Show signup form if requested
   if (showSignup) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-sm bg-black/40">
-        <SignupComponent onBackToLogin={() => setShowSignup(false)} />
+      <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-sm bg-black/60">
+        <div className="bg-gradient-to-br from-gray-800/95 to-gray-900/95 backdrop-blur-xl p-8 rounded-3xl shadow-2xl w-full max-w-md border border-gray-700/50 animate-fade-in-up">
+          <SignupComponent onBackToLogin={() => setShowSignup(false)} />
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-sm bg-black/40">
-      <div className="bg-gray-800 p-6 rounded-xl shadow-xl w-full max-w-md">
-        <h2 className="text-2xl font-bold text-green-400 mb-4">Yetkili Girişi</h2>
+    <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-sm bg-black/60">
+      <div className="bg-gradient-to-br from-gray-800/95 to-gray-900/95 backdrop-blur-xl p-8 rounded-3xl shadow-2xl w-full max-w-md border border-gray-700/50 animate-fade-in-up">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl">
+            👑
+          </div>
+          <h2 className="text-3xl font-bold bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
+            Yetkili Girişi
+          </h2>
+          <div className="w-16 h-1 bg-gradient-to-r from-green-500 to-blue-500 mx-auto mt-2"></div>
+        </div>
+
         {error && (
-          <div className="mb-4 p-3 bg-red-500/20 border border-red-500 rounded-lg text-red-200">
-            {error}
+          <div className="mb-6 p-4 bg-red-500/20 border border-red-500/50 rounded-2xl text-red-200 text-center backdrop-blur-sm">
+            <div className="flex items-center justify-center gap-2">
+              <span className="text-red-400">⚠️</span>
+              {error}
+            </div>
           </div>
         )}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label htmlFor="username" className="block text-sm font-medium text-gray-300 mb-1">
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="space-y-2">
+            <label htmlFor="username" className="block text-sm font-semibold text-gray-300">
               Kullanıcı Adı
             </label>
-            <input
-              type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="w-full px-3 py-2 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
-              placeholder="Kullanıcı adınızı girin"
-              required
-              disabled={isLoading}
-            />
+            <div className="relative">
+              <input
+                type="text"
+                id="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="w-full px-4 py-3 bg-gray-700/50 backdrop-blur-sm rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 border border-gray-600/50 transition-all duration-300"
+                placeholder="Kullanıcı adınızı girin"
+                required
+                disabled={isLoading}
+              />
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
+                👤
+              </div>
+            </div>
           </div>
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-1">
+
+          <div className="space-y-2">
+            <label htmlFor="password" className="block text-sm font-semibold text-gray-300">
               Şifre
             </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
-              placeholder="Şifrenizi girin"
-              required
-              disabled={isLoading}
-            />
+            <div className="relative">
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-3 bg-gray-700/50 backdrop-blur-sm rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 border border-gray-600/50 transition-all duration-300"
+                placeholder="Şifrenizi girin"
+                required
+                disabled={isLoading}
+              />
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
+                🔐
+              </div>
+            </div>
           </div>
+
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-2 px-4 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-medium rounded-lg transition duration-200"
+            className="w-full py-4 px-6 bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white font-bold rounded-2xl transition-all duration-300 shadow-lg hover:shadow-green-500/25 hover:scale-105 active:scale-95"
           >
-            {isLoading ? 'Giriş yapılıyor...' : 'Giriş Yap'}
+            {isLoading ? (
+              <div className="flex items-center justify-center gap-2">
+                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                Giriş yapılıyor...
+              </div>
+            ) : (
+              <div className="flex items-center justify-center gap-2">
+                <span>🚀</span>
+                Giriş Yap
+              </div>
+            )}
           </button>
         </form>
         
-        <div className="mt-6 pt-4 border-t border-gray-700">
+        <div className="mt-8 pt-6 border-t border-gray-700/50">
           <div className="text-center">
-            <p className="text-sm text-gray-400 mb-3">
-              Yeni rehber misiniz? Hesap oluşturun, burası rehberler için özel bir alandır. Oyundaki isminiz ile kaydolun!
+            <p className="text-sm text-gray-400 mb-4">
+              <span className="text-blue-400">💡</span> Yeni rehber misiniz? Hesap oluşturun, burası rehberler için özel bir alandır.
+            </p>
+            <p className="text-xs text-gray-500 mb-4">
+              Oyundaki isminiz ile kaydolun!
             </p>
             <button
               onClick={() => setShowSignup(true)}
-              className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition duration-200"
+              className="w-full py-3 px-6 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold rounded-2xl transition-all duration-300 shadow-lg hover:shadow-blue-500/25 hover:scale-105 active:scale-95"
               disabled={isLoading}
             >
-              Rehber Olarak Kayıt Ol
+              <div className="flex items-center justify-center gap-2">
+                <span>✨</span>
+                Rehber Olarak Kayıt Ol
+              </div>
             </button>
           </div>
         </div>
