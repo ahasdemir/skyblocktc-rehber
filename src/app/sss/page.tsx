@@ -63,6 +63,10 @@ const faq = [
 		q: 'X\'in piyasası ne? (Piyasası belli olan golem gibi itemlere fiyatını verin, bu cevabı kullanmayın bence)',
 		a: 'Sunucu ekonomisi sürekli değişken, net bir fiyat vermek zor. Ama serbest piyasa var, alıcı veya satıcı olarak işinize yarayacak bir fiyat verip kendi aranızda anlaşabilirsiniz. Piyasayı belileyecek olan sizlersiniz!',
 	},
+	{
+		q: 'Elder Guardian yumurtası nedir?',
+		a: 'Elder guardian yumurtası koyunca guardiyan spawn eden ve öldürdüğünüzde random olarak ödül veren bir itemdir.',
+	},
 ];
 
 export default function SSSPage() {
@@ -164,7 +168,8 @@ function SSSPageContent() {
 				<div className="bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 text-black px-6 py-4 rounded-2xl mb-8 font-bold text-center w-full max-w-4xl shadow-2xl animate-bounce">
 					<div className="flex items-center justify-center gap-3">
 						<span className="text-2xl">🚀</span>
-						<span>SSS Güncellemeleri: Arama özelliği eklendi 🔍 Soruların yerleri düzenlendi.</span>
+						<span>SSS Güncellemeleri: Arama özelliği eklendi 🔍 Elder Guardian sorusu eklendi.
+						</span>
 					</div>
 				</div>
 				
