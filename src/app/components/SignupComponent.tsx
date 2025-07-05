@@ -11,9 +11,10 @@ interface SignupFormData {
 
 interface SignupComponentProps {
   onBackToLogin: () => void;
+  onSignupSuccess?: (user: any) => void;
 }
 
-export default function SignupComponent({ onBackToLogin }: SignupComponentProps) {
+export default function SignupComponent({ onBackToLogin, onSignupSuccess }: SignupComponentProps) {
   const [formData, setFormData] = useState<SignupFormData>({
     username: '',
     password: '',
@@ -81,13 +82,20 @@ export default function SignupComponent({ onBackToLogin }: SignupComponentProps)
       const data = await response.json();
 
       if (response.ok && data.success) {
-        // Store the token
+        // Store the token and user data
         localStorage.setItem('authToken', data.token);
+        localStorage.setItem('minecraftAdmin', JSON.stringify(data.user));
+        
         setSuccess(true);
         
-        // Redirect to admin panel after a short delay
+        // Ana sayfanın login state'ini hemen güncelle
+        if (onSignupSuccess) {
+          onSignupSuccess(data.user);
+        }
+        
+        // 2 saniye sonra success ekranını kapat
         setTimeout(() => {
-          router.push('/');
+          // Success ekranı onSignupSuccess callback'i ile zaten kapanacak
         }, 2000);
       } else {
         setError(data.error || 'Kayıt başarısız');
@@ -102,21 +110,30 @@ export default function SignupComponent({ onBackToLogin }: SignupComponentProps)
 
   if (success) {
     return (
-      <div className="bg-gray-800 p-8 rounded-lg shadow-lg max-w-md w-full">
-        <div className="text-center">
-          <div className="mb-6">
-            <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
+      <div className="text-center">
+        <div className="mb-6">
+          <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
+            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <h2 className="text-3xl font-bold bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent mb-4">
+            Kayıt Başarılı!
+          </h2>
+          <div className="w-16 h-1 bg-gradient-to-r from-green-500 to-emerald-500 mx-auto mb-4"></div>
+          <p className="text-gray-300 mb-6 leading-relaxed">
+            🎉 Rehber hesabınız başarıyla oluşturuldu! 
+            <br />
+            Ana sayfaya yönlendiriliyorsunuz...
+          </p>
+          <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-4 border border-gray-700/50">
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-gray-400">Kullanıcı:</span>
+              <span className="text-green-400 font-semibold">{formData.username}</span>
             </div>
-            <h2 className="text-2xl font-bold text-white mb-2">Kayıt Başarılı!</h2>
-            <p className="text-gray-300 mb-4">
-              Rehber hesabınız başarıyla oluşturuldu. Kısa süre içerisinde yönetim paneline yönlendirileceksiniz.
-            </p>
-            <div className="text-sm text-gray-400">
-              <p>Rol: <span className="text-blue-400 font-semibold">Rehber</span></p>
-              <p>Kullanıcı Adı: <span className="text-green-400 font-semibold">{formData.username}</span></p>
+            <div className="flex items-center justify-between text-sm mt-2">
+              <span className="text-gray-400">Rol:</span>
+              <span className="text-blue-400 font-semibold">Rehber</span>
             </div>
           </div>
         </div>

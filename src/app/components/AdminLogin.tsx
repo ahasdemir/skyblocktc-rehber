@@ -119,7 +119,14 @@ export default function AdminLogin({ onLogin }: AdminLoginProps) {
     return (
       <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-sm bg-black/60">
         <div className="bg-gradient-to-br from-gray-800/95 to-gray-900/95 backdrop-blur-xl p-8 rounded-3xl shadow-2xl w-full max-w-md border border-gray-700/50 animate-fade-in-up">
-          <SignupComponent onBackToLogin={() => setShowSignup(false)} />
+          <SignupComponent 
+            onBackToLogin={() => setShowSignup(false)} 
+            onSignupSuccess={(user) => {
+              setSavedUser(user);
+              setShowSignup(false);
+              onLogin(user);
+            }}
+          />
         </div>
       </div>
     );
