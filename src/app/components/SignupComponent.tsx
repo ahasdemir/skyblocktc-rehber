@@ -87,7 +87,7 @@ export default function SignupComponent({ onBackToLogin }: SignupComponentProps)
         
         // Redirect to admin panel after a short delay
         setTimeout(() => {
-          router.push('/admin');
+          router.push('/');
         }, 2000);
       } else {
         setError(data.error || 'Kayıt başarısız');
