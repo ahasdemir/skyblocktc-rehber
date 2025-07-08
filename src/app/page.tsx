@@ -31,7 +31,6 @@ export default function Home() {
   const handleLogin = (userData: User) => {
     setUser(userData);
     localStorage.setItem('minecraftAdmin', JSON.stringify(userData));
-    // Token is already set in AdminLogin component
   };
 
   const handleLogout = () => {
@@ -61,10 +60,16 @@ export default function Home() {
       href: '/sss',
       icon: '📝',
       color: 'from-blue-500 to-cyan-500'
+    },
+    {
+      title: 'Sunucu Kuralları',
+      description: 'SkyblockTC sunucu kuralları ve yaptırımları hakkında detaylı bilgiler.',
+      href: '/kurallar',
+      icon: '📜',
+      color: 'from-yellow-500 to-red-500'
     }
   ];
 
-  // Admin kullanıcılar için admin panel ekleme
   const adminTools = user?.role === 'admin' ? [
     {
       title: 'Admin Panel',
@@ -77,7 +82,6 @@ export default function Home() {
 
   const allTools = [...tools, ...adminTools];
 
-  // Eğer kullanıcı giriş yapmamışsa sadece login ekranını göster
   if (!user) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white flex flex-col">
@@ -88,20 +92,15 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white flex flex-col relative overflow-hidden">
-      {/* Animated background particles */}
       <div className="absolute inset-0">
         <div className="absolute top-10 left-10 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute top-20 right-20 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
         <div className="absolute bottom-20 left-20 w-80 h-80 bg-green-500/10 rounded-full blur-3xl animate-pulse delay-2000"></div>
       </div>
       
-      <Header
-        user={user}
-        onLogout={handleLogout}
-      />
+      <Header user={user} onLogout={handleLogout} />
       
       <div className="flex-1 flex flex-col items-center py-16 px-4 relative z-10">
-        {/* Hero Section */}
         <div className="text-center mb-16 animate-fade-in-up">
           <h1 className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent leading-tight">
             SkyBlockTC
@@ -117,33 +116,29 @@ export default function Home() {
           </p>
         </div>
 
-        {/* Tools Grid */}
         <div className="flex flex-col items-center gap-8 w-full max-w-7xl mb-16">
           {/* İlk 3 kart üst sırada */}
-          <div className="flex flex-wrap justify-center gap-8">
+          <div className="flex flex-wrap justify-center gap-6">
             {allTools.slice(0, 3).map((tool, index) => (
               <Link
                 key={tool.title}
                 href={tool.href}
-                className="group relative bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-xl border border-gray-700/50 rounded-3xl p-8 shadow-2xl hover:shadow-cyan-500/10 transition-all duration-500 hover:-translate-y-2 hover:scale-105 animate-fade-in-up w-full sm:w-80"
+                className="group relative bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-xl border border-gray-700/50 rounded-3xl p-6 shadow-2xl hover:shadow-cyan-500/10 transition-all duration-500 hover:-translate-y-2 hover:scale-105 animate-fade-in-up w-full sm:w-72"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                {/* Gradient overlay */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${tool.color.replace('from-', 'from-').replace('to-', 'to-')} opacity-0 group-hover:opacity-20 transition-opacity duration-500 rounded-3xl`}></div>
+                <div className={`absolute inset-0 bg-gradient-to-br ${tool.color} opacity-0 group-hover:opacity-20 transition-opacity duration-500 rounded-3xl`}></div>
                 
-                {/* Content */}
                 <div className="relative z-10">
-                  <div className="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">{tool.icon}</div>
-                  <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-cyan-400 transition-colors duration-300">
+                  <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">{tool.icon}</div>
+                  <h3 className="text-xl font-bold mb-3 text-white group-hover:text-cyan-400 transition-colors duration-300">
                     {tool.title}
                   </h3>
-                  <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300 leading-relaxed">
+                  <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300 leading-relaxed text-sm">
                     {tool.description}
                   </p>
                   
-                  {/* Arrow icon */}
-                  <div className="absolute top-6 right-6 text-gray-500 group-hover:text-cyan-400 transition-all duration-300 group-hover:translate-x-1">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="absolute top-4 right-4 text-gray-500 group-hover:text-cyan-400 transition-all duration-300 group-hover:translate-x-1">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </div>
@@ -152,32 +147,29 @@ export default function Home() {
             ))}
           </div>
           
-          {/* Kalan kartlar alt sırada - ortalanmış */}
+          {/* Geri kalan kartlar alt sırada - ortalanmış */}
           {allTools.length > 3 && (
-            <div className="flex flex-wrap justify-center gap-8">
+            <div className="flex flex-wrap justify-center gap-6">
               {allTools.slice(3).map((tool, index) => (
                 <Link
                   key={tool.title}
                   href={tool.href}
-                  className="group relative bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-xl border border-gray-700/50 rounded-3xl p-8 shadow-2xl hover:shadow-cyan-500/10 transition-all duration-500 hover:-translate-y-2 hover:scale-105 animate-fade-in-up w-full sm:w-80"
+                  className="group relative bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-xl border border-gray-700/50 rounded-3xl p-6 shadow-2xl hover:shadow-cyan-500/10 transition-all duration-500 hover:-translate-y-2 hover:scale-105 animate-fade-in-up w-full sm:w-72"
                   style={{ animationDelay: `${(index + 3) * 0.1}s` }}
                 >
-                  {/* Gradient overlay */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${tool.color.replace('from-', 'from-').replace('to-', 'to-')} opacity-0 group-hover:opacity-20 transition-opacity duration-500 rounded-3xl`}></div>
+                  <div className={`absolute inset-0 bg-gradient-to-br ${tool.color} opacity-0 group-hover:opacity-20 transition-opacity duration-500 rounded-3xl`}></div>
                   
-                  {/* Content */}
                   <div className="relative z-10">
-                    <div className="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">{tool.icon}</div>
-                    <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-cyan-400 transition-colors duration-300">
+                    <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">{tool.icon}</div>
+                    <h3 className="text-xl font-bold mb-3 text-white group-hover:text-cyan-400 transition-colors duration-300">
                       {tool.title}
                     </h3>
-                    <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300 leading-relaxed">
+                    <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300 leading-relaxed text-sm">
                       {tool.description}
                     </p>
                     
-                    {/* Arrow icon */}
-                    <div className="absolute top-6 right-6 text-gray-500 group-hover:text-cyan-400 transition-all duration-300 group-hover:translate-x-1">
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="absolute top-4 right-4 text-gray-500 group-hover:text-cyan-400 transition-all duration-300 group-hover:translate-x-1">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
                     </div>
@@ -188,7 +180,6 @@ export default function Home() {
           )}
         </div>
 
-        {/* Welcome Section */}
         <div className="text-center max-w-4xl bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-xl border border-gray-700/50 rounded-3xl p-12 shadow-2xl">
           <div className="text-4xl mb-6">🎯</div>
           <h2 className="text-3xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
@@ -201,4 +192,4 @@ export default function Home() {
       </div>
     </div>
   );
-} 
+}
