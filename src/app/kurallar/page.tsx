@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Header from '../components/Header';
+import AuthGuard from '../components/AuthGuard';
 
 interface User {
   id: number;
@@ -170,15 +171,16 @@ export default function KurallarPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white flex flex-col relative overflow-hidden">
-      {/* Animated background particles */}
-      <div className="absolute inset-0">
-        <div className="absolute top-10 left-10 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute top-20 right-20 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute bottom-20 left-20 w-80 h-80 bg-green-500/10 rounded-full blur-3xl animate-pulse delay-2000"></div>
-      </div>
+    <AuthGuard>
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white flex flex-col relative overflow-hidden">
+        {/* Animated background particles */}
+        <div className="absolute inset-0">
+          <div className="absolute top-10 left-10 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute top-20 right-20 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+          <div className="absolute bottom-20 left-20 w-80 h-80 bg-green-500/10 rounded-full blur-3xl animate-pulse delay-2000"></div>
+        </div>
 
-      <Header user={user} onLogout={handleLogout} />
+        <Header user={user} onLogout={handleLogout} />
 
       <div className="flex-1 py-8 px-4 relative z-10">
         {/* Header Section */}
@@ -285,11 +287,18 @@ export default function KurallarPage() {
               </h3>
             </div>
             
-            <div className="flex justify-center grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50">
                 <div className="text-3xl mb-3 text-center">🛡️</div>
                 <p className="text-gray-300 text-sm text-center leading-relaxed">
                   SkyblockTC, kurallarını topluluğun huzuru ve saygılı bir ortam sağlamak amacıyla oluşturmuştur.
+                </p>
+              </div>
+              
+              <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50">
+                <div className="text-3xl mb-3 text-center">👮</div>
+                <p className="text-gray-300 text-sm text-center leading-relaxed">
+                  Moderatörler gerekli durumlarda uyarı yapmadan doğrudan susturma cezası uygulayabilir.
                 </p>
               </div>
               
@@ -304,5 +313,6 @@ export default function KurallarPage() {
         </div>
       </div>
     </div>
+    </AuthGuard>
   );
 }
