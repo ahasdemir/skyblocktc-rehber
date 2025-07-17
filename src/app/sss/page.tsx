@@ -55,6 +55,10 @@ const faq = [
 		q: 'Hile kullanmak yasak mı?',
 		a: 'Evet, hile kullanmak yasaktır. Hile kullananlar kalıcı olarak yasaklanabilir. Ancak ada içinde auto clicker(F3+T gibi), bazı makroları, fullbright gibi rekabeti bozmayan araçları kullanabilirsiniz. KillAura, X-Ray, Fly gibi hileler kesinlikle yasaktır.',
 	},
+		{
+		q: 'Postacı ne işe yarar?',
+		a: 'Postacı sistemi ile:\n- /postacı komutu ile postacıyı geliştirerek para, yumurta ve boxcoin kazanabilirsin.\n- Postacı sana görevler verir, bu görevleri teslim ettiğinde ödül alırsın.\n- Postacı seviyesi arttıkça daha iyi ödüller kazanabilirsin.',
+	},
 	{
 		q: 'Oyunda kaç tane boss var?',
 		a: 'Oyunda 2 tane boss vardır. Bu bosslara spawn bölgesinden sağdan gidebilirsiniz.',
@@ -168,7 +172,7 @@ function SSSPageContent() {
 				<div className="bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 text-black px-6 py-4 rounded-2xl mb-8 font-bold text-center w-full max-w-4xl shadow-2xl animate-bounce">
 					<div className="flex items-center justify-center gap-3">
 						<span className="text-2xl">🚀</span>
-						<span>SSS Güncellemeleri: Arama özelliği eklendi 🔍 Elder Guardian sorusu eklendi.
+						<span>SSS Güncellemeleri: Arama özelliği eklendi 🔍 Postacı hakkında soru eklendi!
 						</span>
 					</div>
 				</div>
