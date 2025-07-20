@@ -203,13 +203,13 @@ export default function KurallarPage() {
                 sohbet alanlarında geçerlidir.
               </p>
               
-              <div className="mt-6 p-4 bg-red-900/20 border border-red-500/30 rounded-2xl">
+              <div className="mt-6 p-4 bg-green-900/20 border border-green-500/30 rounded-2xl">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-red-400 text-xl">⚠️</span>
-                  <span className="text-red-300 font-semibold">Önemli Uyarı</span>
+                  <span className="text-green-400 text-xl">⚠️</span>
+                  <span className="text-green-300 font-semibold">Önemli Uyarı</span>
                 </div>
-                <p className="text-red-200 text-sm">
-                  Bu kurallar şimdilik geçerli değildir. Bu sadece örnek kurallar listesidir. Hademir'in onayını bekleyin.
+                <p className="text-green-200 text-sm">
+                  Bu kurallar geçerlidir ve discord #yeni-kurallar kanalındaki Sonsuz'un attığı ilk mk1 pdf  kurallarıdır. Rahatlıkla buraya bakarak uygulayabilirsiniz!
                 </p>
               </div>
             </div>
