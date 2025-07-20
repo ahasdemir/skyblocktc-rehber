@@ -48,6 +48,10 @@ const faq = [
 		a: "Minyonlar, adanızda otomatik olarak kaynak toplayan yardımcı NPC'lerdir. Farklı seviyelerde olabilirler ve her seviyede daha hızlı ve verimli çalışırlar. Minyonlar, oyuncuların pasif gelir elde etmesini sağlar.",
 	},
 	{
+		q: 'Jeneratör nasıl çalışır?',
+		a: '/jeneratör komutu ile jeneratörünüzü geliştirerek altın, elmas ve diğer değerli madenleri çıkartabilirsiniz. /minyon komutu ile de jeneratörden çıkan materyalleri otomatik olarak kıran minyonları adanıza koyabilirsiniz.',
+	},
+	{
 		q: 'Mango ve Çilek nasıl elde edilir?',
 		a: 'Mango ve çilek, spawn bölgesinin sol çaprazında bulunan minyon yerlerinde kesilerek elde edilir. Elde ettiğiniz mango ve çilekleri, kendi bölgelerinde bulunan köylüler ile takas yapabilirsiniz.',
 	},
@@ -172,7 +176,7 @@ function SSSPageContent() {
 				<div className="bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 text-black px-6 py-4 rounded-2xl mb-8 font-bold text-center w-full max-w-4xl shadow-2xl animate-bounce">
 					<div className="flex items-center justify-center gap-3">
 						<span className="text-2xl">🚀</span>
-						<span>SSS Güncellemeleri: Arama özelliği eklendi 🔍 Postacı hakkında soru eklendi!
+						<span>SSS Güncellemeleri: Jeneratör sorusu eklendi! ⚡ Jeneratör hakkında soru eklendi!
 						</span>
 					</div>
 				</div>
