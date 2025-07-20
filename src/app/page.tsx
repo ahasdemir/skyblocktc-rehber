@@ -40,13 +40,13 @@ export default function Home() {
   };
 
   const tools = [
-    {
-      title: 'Mute Yardımcısı',
-      description: 'Sunucu yönetimi için susturma kuralları ve komut hazırlayıcı.',
-      href: '/mute',
-      icon: '🔇',
-      color: 'from-red-500 to-orange-500'
-    },
+   // {
+   //   title: 'Mute Yardımcısı',
+   //   description: 'Sunucu yönetimi için susturma kuralları ve komut hazırlayıcı.',
+   //   href: '/mute',
+   //   icon: '🔇',
+   //   color: 'from-red-500 to-orange-500'
+   // },
     {
       title: 'Spawner Bilgileri',
       description: 'Spawner türleri ve özellikleri hakkında detaylı bilgiler.',
