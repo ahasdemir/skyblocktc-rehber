@@ -44,15 +44,26 @@ function AdminPageContent() {
 
   useEffect(() => {
     const saved = localStorage.getItem('minecraftAdmin');
-    if (saved) {
+    const token = localStorage.getItem('authToken');
+    
+    if (saved && token) {
       try {
         const userData = JSON.parse(saved);
         setAdminUser(userData);
+        
+        // Sadece admin ise kullanıcıları yükle
+        if (userData.role === 'admin') {
+          loadUsers();
+        } else {
+          setLoading(false);
+        }
       } catch (error) {
         console.error('User data parse error:', error);
+        setLoading(false);
       }
+    } else {
+      setLoading(false);
     }
-    loadUsers();
   }, []);
 
   const handleLogout = () => {
@@ -64,17 +75,28 @@ function AdminPageContent() {
   const loadUsers = async () => {
     try {
       const token = localStorage.getItem('authToken');
+      const userData = localStorage.getItem('minecraftAdmin');
+      
+      console.log('=== Debug Info ===');
+      console.log('Token:', token ? token.substring(0, 50) + '...' : 'missing');
+      console.log('User data:', userData ? JSON.parse(userData) : 'missing');
+      console.log('=== End Debug ===');
+      
       const response = await fetch('/api/users', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
       });
 
+      console.log('Response status:', response.status);
+      
       if (response.ok) {
         const data = await response.json();
+        console.log('Users data:', data);
         setUsers(data.users);
       } else {
-        console.error('Failed to load users');
+        const errorData = await response.text();
+        console.error('Failed to load users:', response.status, errorData);
       }
     } catch (error) {
       console.error('Error loading users:', error);
@@ -191,12 +213,23 @@ function AdminPageContent() {
         <div className="bg-gray-800 rounded-xl shadow-xl p-6">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-3xl font-bold text-red-400">👑 Admin Panel</h1>
-            <button
-              onClick={() => setShowCreateForm(true)}
-              className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"
-            >
-              ➕ Yeni Kullanıcı
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={() => {
+                  localStorage.clear();
+                  window.location.reload();
+                }}
+                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors text-sm"
+              >
+                🗑️ Clear & Reload
+              </button>
+              <button
+                onClick={() => setShowCreateForm(true)}
+                className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"
+              >
+                ➕ Yeni Kullanıcı
+              </button>
+            </div>
           </div>
 
           {/* Create User Modal */}
@@ -239,6 +272,8 @@ function AdminPageContent() {
                       className="w-full px-3 py-2 bg-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-green-500"
                     >
                       <option value="helper">Helper</option>
+                      <option value="helper+">Helper+</option>
+                      <option value="assistant">Assistant</option>
                       <option value="moderator">Moderator</option>
                       <option value="admin">Admin</option>
                     </select>
@@ -310,6 +345,8 @@ function AdminPageContent() {
                       className="w-full px-3 py-2 bg-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="helper">Helper</option>
+                      <option value="helper+">Helper+</option>
+                      <option value="assistant">Assistant</option>
                       <option value="moderator">Moderator</option>
                       <option value="admin">Admin</option>
                     </select>
@@ -366,7 +403,10 @@ function AdminPageContent() {
                       <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                         user.role === 'admin' ? 'bg-red-500/20 text-red-400' :
                         user.role === 'moderator' ? 'bg-yellow-500/20 text-yellow-400' :
-                        'bg-blue-500/20 text-blue-400'
+                        user.role === 'assistant' ? 'bg-green-500/20 text-green-400' :
+                        user.role === 'helper+' ? 'bg-purple-500/20 text-purple-400' :
+                        user.role === 'helper' ? 'bg-blue-500/20 text-blue-400' :
+                        'bg-gray-500/20 text-gray-400'
                       }`}>
                         {user.role}
                       </span>

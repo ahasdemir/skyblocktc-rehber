@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 export interface IUser extends mongoose.Document {
   username: string;
   password: string;
-  role: 'admin' | 'moderator' | 'helper';
+  role: 'admin' | 'moderator' | 'assistant' | 'helper+' | 'helper';
   isActive: boolean;
   lastLogin?: Date;
   createdAt: Date;
@@ -28,7 +28,7 @@ const UserSchema = new mongoose.Schema<IUser>({
   },
   role: {
     type: String,
-    enum: ['admin', 'moderator', 'helper'],
+    enum: ['admin', 'moderator', 'assistant', 'helper+', 'helper'],
     default: 'helper'
   },
   isActive: {

@@ -1,0 +1,130 @@
+[
+  {
+    "id": 1,
+    "q": "Nasıl para kasabilirim?",
+    "a": "Para kazanmak için:\n- /warp tarla ile ekin kırıp /sat hepsi ile satabilirsin.\n- /spawn'da minyon yerlerinde çilek veya mango kesebilirsin.\n- /iş ile işçi olabilir, başkaları için çalışabilirsin.\n- Adanda farm kurarak pasif gelir elde edebilirsin.",
+    "addedBy": "System",
+    "addedAt": "2024-01-01T00:00:00.000Z",
+    "role": "system"
+  },
+  {
+    "id": 2,
+    "q": "Oto toplama var mı?",
+    "a": "Oto toplama yok onun yerine /çiftçi ve /madenci kullanabilirsin!",
+    "addedBy": "System",
+    "addedAt": "2024-01-01T00:00:00.000Z",
+    "role": "system"
+  },
+  {
+    "id": 3,
+    "q": "Trident Coin nedir?",
+    "a": "TC (Trident Coin), gerçek para ile satın alıp /sitemarket aracılığıyla harcayabileceğiniz özel bir para birimidir. Bu coin ile spawnerlar, VIP paketleri, kasa anahtarları, uçuş süresi ve /çiftçi sat, AFK hesap gibi avantajlar satın alabilirsiniz.",
+    "addedBy": "System",
+    "addedAt": "2024-01-01T00:00:00.000Z",
+    "role": "system"
+  },
+  {
+    "id": 4,
+    "q": "Boxcoin nedir?",
+    "a": "Boxcoin /boxcoin'den özel itemler alabileceğiniz, /warp boxcoin'de ise özel kasası bulunan bir para birimidir.",
+    "addedBy": "System",
+    "addedAt": "2024-01-01T00:00:00.000Z",
+    "role": "system"
+  },
+  {
+    "id": 5,
+    "q": "Adama birini nasıl eklerim?",
+    "a": "Adanıza birini eklemek için /is invite <oyuncu> komutunu kullanabilirsiniz. Bu komut, belirtilen oyuncuya ada davetiyesi gönderir. Oyuncu daveti kabul ettiğinde yani /is accept komutunu kullanırsa adanıza eklenebilir.",
+    "addedBy": "System",
+    "addedAt": "2024-01-01T00:00:00.000Z",
+    "role": "system"
+  },
+  {
+    "id": 6,
+    "q": "Adamdan birini nasıl atabilirim?",
+    "a": "Adanızdan birini atmak için /is kick <isim> komudunu kullanabilirsiniz.",
+    "addedBy": "System",
+    "addedAt": "2024-01-01T00:00:00.000Z",
+    "role": "system"
+  },
+  {
+    "id": 7,
+    "q": "Hangi farmları kurabilirim?",
+    "a": "Adanız için kaktüs, arı, şeker kamışı ve hibrit farm(karpuz, balkabağı) gibi otomatik farmları kurabilirsiniz.",
+    "addedBy": "System",
+    "addedAt": "2024-01-01T00:00:00.000Z",
+    "role": "system"
+  },
+  {
+    "id": 8,
+    "q": "Yumurta etkinliği nedir?",
+    "a": "Yumurta etkinliği, oyuncuların yumurta toplayarak ödüller kazandığı özel bir etkinliktir. Yumurtalar spawn bölgesinde belirli yerlerde bulunabilir ve toplandığında çeşitli ödüller kazanabilirsiniz.",
+    "addedBy": "System",
+    "addedAt": "2024-01-01T00:00:00.000Z",
+    "role": "system"
+  },
+  {
+    "id": 9,
+    "q": "Minyonlar nedir?",
+    "a": "Minyonlar, adanızda otomatik olarak kaynak toplayan yardımcı NPC'lerdir. Farklı seviyelerde olabilirler ve her seviyede daha hızlı ve verimli çalışırlar. Minyonlar, oyuncuların pasif gelir elde etmesini sağlar.",
+    "addedBy": "System",
+    "addedAt": "2024-01-01T00:00:00.000Z",
+    "role": "system"
+  },
+  {
+    "id": 10,
+    "q": "Jeneratör nasıl çalışır?",
+    "a": "/jeneratör komutu ile jeneratörünüzü geliştirerek altın, elmas ve diğer değerli madenleri çıkartabilirsiniz. /minyon komutu ile de jeneratörden çıkan materyalleri otomatik olarak kıran minyonları adanıza koyabilirsiniz.",
+    "addedBy": "System",
+    "addedAt": "2024-01-01T00:00:00.000Z",
+    "role": "system"
+  },
+  {
+    "id": 11,
+    "q": "Mango ve Çilek nasıl elde edilir?",
+    "a": "Mango ve çilek, spawn bölgesinin sol çaprazında bulunan minyon yerlerinde kesilerek elde edilir. Elde ettiğiniz mango ve çilekleri, kendi bölgelerinde bulunan köylüler ile takas yapabilirsiniz.",
+    "addedBy": "System",
+    "addedAt": "2024-01-01T00:00:00.000Z",
+    "role": "system"
+  },
+  {
+    "id": 12,
+    "q": "Hile kullanmak yasak mı?",
+    "a": "Evet, hile kullanmak yasaktır. Hile kullananlar kalıcı olarak yasaklanabilir. Ancak ada içinde auto clicker(F3+T gibi), bazı makroları, fullbright gibi rekabeti bozmayan araçları kullanabilirsiniz. KillAura, X-Ray, Fly gibi hileler kesinlikle yasaktır.",
+    "addedBy": "System",
+    "addedAt": "2024-01-01T00:00:00.000Z",
+    "role": "system"
+  },
+  {
+    "id": 13,
+    "q": "Postacı ne işe yarar?",
+    "a": "Postacı sistemi ile:\n- /postacı komutu ile postacıyı geliştirerek para, yumurta ve boxcoin kazanabilirsin.\n- Postacı sana görevler verir, bu görevleri teslim ettiğinde ödül alırsın.\n- Postacı seviyesi arttıkça daha iyi ödüller kazanabilirsin.",
+    "addedBy": "System",
+    "addedAt": "2024-01-01T00:00:00.000Z",
+    "role": "system"
+  },
+  {
+    "id": 14,
+    "q": "Oyunda kaç tane boss var?",
+    "a": "Oyunda 2 tane boss vardır. Bu bosslara spawn bölgesinden sağdan gidebilirsiniz.",
+    "addedBy": "System",
+    "addedAt": "2024-01-01T00:00:00.000Z",
+    "role": "system"
+  },
+  {
+    "id": 15,
+    "q": "X'in piyasası ne? (Piyasası belli olan golem gibi itemlere fiyatını verin, bu cevabı kullanmayın bence)",
+    "a": "Sunucu ekonomisi sürekli değişken, net bir fiyat vermek zor. Ama serbest piyasa var, alıcı veya satıcı olarak işinize yarayacak bir fiyat verip kendi aranızda anlaşabilirsiniz. Piyasayı belileyecek olan sizlersiniz!",
+    "addedBy": "System",
+    "addedAt": "2024-01-01T00:00:00.000Z",
+    "role": "system"
+  },
+  {
+    "id": 16,
+    "q": "Elder Guardian yumurtası nedir?",
+    "a": "Elder guardian yumurtası koyunca guardiyan spawn eden ve öldürdüğünüzde random olarak ödül veren bir itemdir.",
+    "addedBy": "System",
+    "addedAt": "2024-01-01T00:00:00.000Z",
+    "role": "system"
+  }
+]
