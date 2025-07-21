@@ -8,10 +8,15 @@ export async function GET() {
   try {
     await connectDB();
     
-    const questions = await SSSQuestion.find({ isActive: true })
+    // MongoDB sorgu optimizasyonu: sadece gerekli alanları seç ve index kullan
+    const questions = await SSSQuestion.find(
+      { isActive: true }, 
+      'q a addedBy createdAt role' // Sadece gerekli alanları getir
+    )
       .sort({ createdAt: -1 })
-      .lean();
-    
+      .lean() // Mongoose overhead'ini azalt
+      .exec(); // Explicit execution
+
     // Frontend için id field'ını düzenle
     const formattedQuestions = questions.map((q: any) => ({
       id: q._id.toString(),
@@ -21,10 +26,14 @@ export async function GET() {
       addedAt: q.createdAt,
       role: q.role
     }));
-    
+
     return NextResponse.json({ 
       success: true, 
       data: formattedQuestions 
+    }, {
+      headers: {
+        'Cache-Control': 'public, max-age=300, s-maxage=300', // 5 dakika cache
+      }
     });
   } catch (error) {
     console.error('SSS verileri getirilirken hata:', error);

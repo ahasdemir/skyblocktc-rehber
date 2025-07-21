@@ -52,11 +52,31 @@ function SSSPageContent() {
 
   const loadFAQData = async () => {
     try {
+      // Önce cache'den kontrol et
+      const cachedData = localStorage.getItem('sss-cache');
+      const cacheTime = localStorage.getItem('sss-cache-time');
+      const now = Date.now();
+      
+      // Cache 5 dakika geçerli
+      if (cachedData && cacheTime && (now - parseInt(cacheTime)) < 5 * 60 * 1000) {
+        const data = JSON.parse(cachedData);
+        setFaq(data.reverse());
+        setLoading(false);
+        return;
+      }
+      
+      // Cache yoksa veya eski ise API'den çek
       const response = await fetch('/api/sss');
       if (response.ok) {
         const data = await response.json();
+        const faqData = data.data || [];
+        
+        // Cache'e kaydet
+        localStorage.setItem('sss-cache', JSON.stringify(faqData));
+        localStorage.setItem('sss-cache-time', now.toString());
+        
         // Son eklenen en sonda gözüksün diye veriyi ters çevir
-        setFaq((data.data || []).reverse());
+        setFaq(faqData.reverse());
       }
     } catch (error) {
       console.error('SSS verileri yüklenirken hata:', error);

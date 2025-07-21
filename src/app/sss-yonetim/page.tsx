@@ -118,6 +118,10 @@ export default function SSSYonetimPage() {
         });
         setFormData({ question: '', answer: '' });
         
+        // Cache'i temizle (SSS sayfası için)
+        localStorage.removeItem('sss-cache');
+        localStorage.removeItem('sss-cache-time');
+        
         // Soruları yeniden yükle
         if (token) {
           loadQuestions(token);
@@ -159,6 +163,10 @@ export default function SSSYonetimPage() {
           type: 'success',
           text: 'SSS sorusu başarıyla silindi!'
         });
+        
+        // Cache'i temizle (SSS sayfası için)
+        localStorage.removeItem('sss-cache');
+        localStorage.removeItem('sss-cache-time');
         
         // Soruları yeniden yükle
         if (token) {
