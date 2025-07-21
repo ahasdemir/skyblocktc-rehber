@@ -178,7 +178,9 @@ function SSSPageContent() {
               <ul className="space-y-2 pl-2">
                 {recentFaq.map(item => (
                   <li key={`recent-${item.id}`} className="text-sm text-gray-300 hover:text-white transition-colors">
-                    <span className="font-semibold">{item.q}</span>
+                    <a href={`#faq-${item.id}`} className="font-semibold underline">
+                      {item.q}
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -212,6 +214,7 @@ function SSSPageContent() {
             ) : (
               filteredFaq.map((item, index) => (
                 <div 
+                  id={`faq-${item.id}`} // Benzersiz ID ekleniyor
                   key={item.id || index}
                   className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-xl border border-gray-700/50 rounded-3xl p-8 shadow-2xl hover:shadow-purple-500/10 transition-all duration-300 hover:scale-105 hover:border-purple-500/30"
                 >
@@ -231,11 +234,9 @@ function SSSPageContent() {
                       )}
                     </button>
                   </div>
-                  
                   <div className="text-gray-300 leading-relaxed whitespace-pre-line">
                     {item.a}
                   </div>
-                  
                   {item.addedBy && item.addedBy !== 'System' && (
                     <div className="mt-4 pt-3 border-t border-gray-700/50">
                       <p className="text-xs text-gray-500">
