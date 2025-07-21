@@ -31,9 +31,11 @@ export default function SSSPage() {
 function SSSPageContent() {
   const [user, setUser] = useState<User | null>(null);
   const [faq, setFaq] = useState<SSSQuestion[]>([]);
+  const [recentFaq, setRecentFaq] = useState<SSSQuestion[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+  const [showRecent, setShowRecent] = useState(true);
 
   useEffect(() => {
     const saved = localStorage.getItem('minecraftAdmin');
@@ -60,6 +62,7 @@ function SSSPageContent() {
       // Cache 5 dakika geçerli
       if (cachedData && cacheTime && (now - parseInt(cacheTime)) < 5 * 60 * 1000) {
         const data = JSON.parse(cachedData);
+        setRecentFaq(data.slice(0, 3)); // Son 3 soruyu al
         setFaq(data.reverse());
         setLoading(false);
         return;
@@ -71,6 +74,8 @@ function SSSPageContent() {
         const data = await response.json();
         const faqData = data.data || [];
         
+        setRecentFaq(faqData.slice(0, 3)); // Son 3 soruyu al
+
         // Cache'e kaydet
         localStorage.setItem('sss-cache', JSON.stringify(faqData));
         localStorage.setItem('sss-cache-time', now.toString());
@@ -162,6 +167,23 @@ function SSSPageContent() {
               Buradan soru cevaplarını kopyayıp yapıştır yapabilirsiniz.
             </p>
           </div>
+
+          {/* Son Eklenenler Duyurusu */}
+          {recentFaq.length > 0 && (
+            <div className="mb-8 bg-gradient-to-r from-blue-900/50 to-purple-900/50 backdrop-blur-lg border border-blue-500/30 rounded-3xl p-6 relative shadow-lg">
+              <h2 className="text-lg font-bold text-cyan-300 mb-3 flex items-center gap-2">
+                <span className="text-xl">📢</span>
+                Yeni Eklenen Sorular
+              </h2>
+              <ul className="space-y-2 pl-2">
+                {recentFaq.map(item => (
+                  <li key={`recent-${item.id}`} className="text-sm text-gray-300 hover:text-white transition-colors">
+                    <span className="font-semibold">{item.q}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           {/* Search */}
           <div className="mb-8">
