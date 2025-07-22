@@ -35,138 +35,151 @@ export default function KurallarPage() {
     localStorage.removeItem('authToken');
   };
 
-  const rules = [
+  const seviye1Rules = [
     {
       id: 1,
-      title: "Sohbet Kirliliği (Spam, Flood, Gereksiz Mesaj, CAPS LOCK, Random)",
+      title: "Sohbet Kirletimi",
       icon: "💬",
-      color: "from-red-500 to-orange-500",
-      description: "Sohbet kirliliği, oyuncuların yazılı iletişimi anlamlı şekilde kullanmasını zorlaştıran, sohbeti okunmaz hale getiren ve oyun deneyimini olumsuz etkileyen davranışlardır.",
-      examples: [
-        "Aynı mesajın art arda defalarca yazılması (Flood)",
-        "Anlamsız, rastgele karakter dizilerini 8 harften uzun paylaşmak (örnek: asdfghjkl, !@#$%^&*)",
-        "Tüm mesajı büyük harflerle yazmak (Caps Lock)",
-        "Tek kelimelik, anlamsız, tekrar eden veya gereksiz mesajlar (örnek: gelin, gelin, gelin!)",
-        "Uzun, boşluklarla uzatılmış ya da alakasız içerik paylaşımı"
-      ],
-      sanctions: [
-        "1. İhlal: Uyarı",
-        "Tekrarı: 15 dakika susturma",
-        "Aynı gün içinde tekrar edilirse: Uyarısız 1 saat susturma"
-      ]
+      color: "from-blue-500 to-cyan-500",
+      description: "Sohbeti gereksiz mesajlarla kirletmek, spam yapmak, flood atmak ve anlamsız karakterler paylaşmak yasaktır.",
+      sanction: "10 dakika susturma"
     },
     {
       id: 2,
-      title: "Cinsellik İçeren İfadeler",
+      title: "Cinsellik İçeren Kelimeler",
       icon: "🚫",
-      color: "from-purple-500 to-pink-500",
-      description: "SkyblockTC sunucusunda cinsel içerikli, açık veya ima yoluyla uygunsuz ifadeler kullanmak kesinlikle yasaktır.",
-      examples: [
-        "Cinsel organ isimlerinin yazılması",
-        "Cinsel ilişkiye açık veya ima yoluyla atıfta bulunulması",
-        "Pornografik göndermeler, erotik hikâyeler, fanteziler",
-        "Cinsellikle ilgili argo ve küfürler"
-      ],
-      sanctions: [
-        "Uyarısız 1 saat susturma",
-        "Aynı gün içinde tekrar edilirse: Uyarısız 3 saat susturma"
-      ]
+      color: "from-red-500 to-pink-500",
+      description: "Sunucuda cinsel içerikli, uygunsuz kelimeler ve ifadeler kullanmak kesinlikle yasaktır.",
+      sanction: "30 dakika susturma"
     },
     {
       id: 3,
       title: "Argo Kelime Kullanımı",
       icon: "🗣️",
       color: "from-yellow-500 to-orange-500",
-      description: "Argo kelimeler, toplumda kaba ya da saygısız olarak değerlendirilen ifadelerdir.",
-      examples: [
-        '"Aptal", "geri zekalı", "beyinsiz", "sürtük", "it" gibi aşağılayıcı ifadeler'
-      ],
-      sanctions: [
-        "Uyarısız 20 dakika susturma",
-        "Aynı gün içinde tekrar edilirse: Uyarısız 1 saat susturma"
-      ]
+      description: "Kaba, saygısız ve argo kelimeler kullanmak sunucu ortamını bozar ve yasaktır.",
+      sanction: "15 dakika susturma"
     },
     {
       id: 4,
-      title: "Amacı Dışında Yapılan Ada Reklamları",
-      icon: "📢",
-      color: "from-blue-500 to-cyan-500",
-      description: "Ada reklamları yalnızca oyunculara doğru ve geçerli bilgi vermek amacıyla kullanılmalıdır.",
-      examples: [
-        '"Adama gelin, 100M para dağıtıyorum!" (gerçek değilse)',
-        '"Gelin, bedava eşya veriyorum!" (gerçek değilse)',
-        "Oyuncuları yanıltmak, ilgisini çekmek için abartılı ifadeler kullanmak",
-        "Ada reklamı gibi görünerek dış link veya başka sunuculara yönlendirme yapmak"
-      ],
-      sanctions: [
-        "Uyarısız 1 saat susturma",
-        "Aynı gün içinde tekrar edilirse: Uyarısız 2 saat susturma"
-      ]
+      title: "Argo Kelime Benzetmeleri",
+      icon: "🎭",
+      color: "from-purple-500 to-indigo-500",
+      description: "Argo kelimeleri farklı şekillerde yazarak ya da benzeterek kullanmak yasaktır.",
+      sanction: "15 dakika susturma"
     },
     {
       id: 5,
-      title: "Hakaret, Küfür, Kavga ve Kışkırtma",
-      icon: "⚔️",
-      color: "from-red-500 to-red-700",
-      description: "Diğer oyunculara yönelik saygısız, saldırgan ve kışkırtıcı ifadeler sunucuda kesinlikle yasaktır.",
-      examples: [
-        "Oyuncularla kavga başlatmak amacıyla tartışmak",
-        "Bilerek sinirlendirme, alay etme, dalga geçme",
-        "Küfürlü veya aşağılayıcı hitaplar"
-      ],
-      sanctions: [
-        "Uyarısız 30 dakika susturma",
-        "Aynı gün içinde tekrar edilirse: Uyarısız 2 saat susturma"
-      ]
-    },
+      title: "Amacı Dışında Kullanılan Ada Reklamı",
+      icon: "📢",
+      color: "from-green-500 to-teal-500",
+      description: "Ada reklamlarını gerçek amacı dışında, yanıltıcı veya spam şeklinde kullanmak yasaktır.",
+      sanction: "5 dakika susturma"
+    }
+  ];
+
+  const banRules = [
     {
       id: 6,
-      title: "Dini Değerlere Hakaret",
-      icon: "🕊️",
-      color: "from-indigo-500 to-purple-600",
-      description: "SkyblockTC sunucusu, her bireyin inancına ve dini değerlerine saygı gösterilmesini zorunlu kılar.",
-      examples: [
-        "Herhangi bir dinin kutsal kitabı ile dalga geçmek",
-        "İbadetleri küçümseyen veya aşağılayan ifadeler kullanmak",
-        "Dinî liderleri veya figürleri hedef alan hakaretler",
-        "İnançlı kişilere yönelik alaycı yaklaşımlar"
-      ],
-      sanctions: [
-        "Uyarısız 3 saat susturma",
-        "Aynı gün içinde tekrar edilirse: Uyarısız 8 saat susturma"
-      ]
+      title: "İrkçılık",
+      icon: "🚫",
+      color: "from-red-600 to-red-700",
+      description: "Irk, milliyet veya etnik köken temelli ayrımcılık ve hakaretler kesinlikle yasaktır.",
+      sanction: "6 saat ban"
     },
     {
       id: 7,
-      title: "Siyaset Yapmak",
-      icon: "🏛️",
-      color: "from-gray-500 to-gray-700",
-      description: "SkyblockTC, siyasi görüşlerin ifade edileceği bir ortam değildir.",
-      examples: [
-        "Güncel siyasi olaylar hakkında tartışma başlatmak",
-        "Siyasi parti, lider veya ideoloji hakkında yorum yapmak",
-        "Siyasi sloganlar, seçim propagandaları ya da karşıt ifadeler kullanmak"
-      ],
-      sanctions: [
-        "Uyarısız 3 saat susturma",
-        "Aynı gün içinde tekrar edilirse: Uyarısız 8 saat susturma"
-      ]
+      title: "Sunucu Huzurunu/Düzenini Bozmak",
+      icon: "⚡",
+      color: "from-orange-600 to-red-600",
+      description: "Sunucunun genel huzurunu ve düzenini bozacak davranışlarda bulunmak yasaktır.",
+      sanction: "12 saat ban"
     },
     {
       id: 8,
+      title: "Dolandırıcılık Yapmak ve Teşebbüs Etmek",
+      icon: "💰",
+      color: "from-yellow-600 to-orange-600",
+      description: "Oyuncuları kandırarak eşya veya para elde etmeye çalışmak yasaktır.",
+      sanction: "3-7 gün ban"
+    },
+    {
+      id: 9,
+      title: "Hesap Sınırını Aşmak",
+      icon: "👥",
+      color: "from-blue-600 to-purple-600",
+      description: "Belirlenen hesap sınırlarını aşarak çoklu hesap kullanmak yasaktır.",
+      sanction: "3-7 gün ban"
+    }
+  ];
+
+  const seviye2Rules = [
+    {
+      id: 6,
+      title: "Hakaret",
+      icon: "⚔️",
+      color: "from-red-600 to-red-800",
+      description: "Diğer oyunculara hakaret etmek, aşağılayıcı ifadeler kullanmak yasaktır.",
+      sanction: "30 dakika susturma"
+    },
+    {
+      id: 7,
+      title: "Küfür Kullanımı",
+      icon: "🤬",
+      color: "from-red-700 to-red-900",
+      description: "Küfürlü ifadeler kullanmak sunucu ortamını bozar ve yasaktır.",
+      sanction: "1 saat susturma"
+    },
+    {
+      id: 8,
+      title: "Tartışma",
+      icon: "�",
+      color: "from-orange-500 to-red-500",
+      description: "Diğer oyuncularla gereksiz tartışmaya girmek ve sohbeti germek yasaktır.",
+      sanction: "15 dakika susturma"
+    },
+    {
+      id: 9,
+      title: "Kışkırtma",
+      icon: "😈",
+      color: "from-purple-600 to-red-600",
+      description: "Diğer oyuncuları bilerek kışkırtmak, sinirlendirmek ve provoke etmek yasaktır.",
+      sanction: "15 dakika susturma"
+    }
+  ];
+
+  const seviye3Rules = [
+    {
+      id: 10,
+      title: "Din ve Siyaset Yapmak",
+      icon: "🏛️",
+      color: "from-gray-600 to-gray-800",
+      description: "Sunucuda dini ve siyasi konularda tartışma yapmak, görüş belirtmek yasaktır.",
+      sanction: "3 saat susturma"
+    },
+    {
+      id: 11,
       title: "Ailevi Küfür Kullanımı",
       icon: "👨‍👩‍👧‍👦",
-      color: "from-red-600 to-red-800",
-      description: "SkyblockTC'de en ağır ihlallerden biri, aile bireylerine yönelik hakaret ve küfürlerdir.",
-      examples: [
-        "Anneye, babaya ya da kardeşe yönelik küfür içeren ifadeler",
-        "Aile bireylerini hedef alan aşağılayıcı ya da ahlaksız sözler",
-        "Alaycı şekilde aile üzerinden hakaret kurmak"
-      ],
-      sanctions: [
-        "Uyarısız 3 saat susturma",
-        "Aynı gün içinde tekrar edilirse: Uyarısız 8 saat susturma"
-      ]
+      color: "from-red-800 to-black",
+      description: "Aile bireylerini hedef alan küfürler ve hakaretler en ağır ihlallerdendir.",
+      sanction: "3 saat susturma"
+    },
+    {
+      id: 12,
+      title: "Yetkiliye Özelden Hakaret",
+      icon: "💬",
+      color: "from-indigo-600 to-purple-800",
+      description: "Yetkililere özel mesaj yoluyla hakaret etmek ve saygısızlık yapmak yasaktır.",
+      sanction: "3 saat susturma"
+    },
+    {
+      id: 13,
+      title: "Sohbete Ada Reklamını Mesaj Olarak İletmek",
+      icon: "📨",
+      color: "from-blue-600 to-purple-600",
+      description: "Ada reklamlarını başkalarının mesajı gibi göstererek sohbete iletmek yasaktır.",
+      sanction: "3 saat susturma"
     }
   ];
 
@@ -216,67 +229,150 @@ export default function KurallarPage() {
           </div>
 
           {/* Rules Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-            {rules.map((rule, index) => (
-              <div
-                key={rule.id}
-                className="group relative bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-xl border border-gray-700/50 rounded-3xl p-8 shadow-2xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 animate-fade-in-up"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                {/* Gradient overlay */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${rule.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500 rounded-3xl`}></div>
-                
-                {/* Content */}
-                <div className="relative z-10">
-                  <div className="flex items-start gap-4 mb-6">
-                    <div className="text-4xl">{rule.icon}</div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-3">
-                        <span className={`text-2xl font-bold bg-gradient-to-r ${rule.color} bg-clip-text text-transparent`}>
-                          {rule.id}.
-                        </span>
-                        <h3 className="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors duration-300">
-                          {rule.title}
-                        </h3>
+          <div className="space-y-12 mb-12">
+            {/* Seviye 1 Kurallar */}
+            <div>
+              <h3 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+                🟢 Seviye 1 - Hafif İhlaller
+              </h3>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {seviye1Rules.map((rule, index) => (
+                  <div
+                    key={rule.id}
+                    className="group relative bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-xl border border-gray-700/50 rounded-3xl p-6 shadow-2xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-1"
+                  >
+                    <div className={`absolute inset-0 bg-gradient-to-br ${rule.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500 rounded-3xl`}></div>
+                    
+                    <div className="relative z-10">
+                      <div className="flex items-start gap-4 mb-4">
+                        <div className="text-3xl">{rule.icon}</div>
+                        <div className="flex-1">
+                          <h4 className="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors duration-300 mb-2">
+                            {rule.title}
+                          </h4>
+                          <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300 text-sm mb-4">
+                            {rule.description}
+                          </p>
+                          <div className="bg-red-900/30 border border-red-500/50 rounded-xl p-3">
+                            <p className="text-red-300 font-semibold text-sm">
+                              ⚖️ Ceza: {rule.sanction}
+                            </p>
+                          </div>
+                        </div>
                       </div>
-                      <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300 leading-relaxed">
-                        {rule.description}
-                      </p>
                     </div>
                   </div>
-
-                  {/* Examples */}
-                  <div className="mb-6">
-                    <h4 className="text-lg font-semibold text-yellow-400 mb-3 flex items-center gap-2">
-                      <span>💡</span> Örnek Davranışlar:
-                    </h4>
-                    <ul className="space-y-2">
-                      {rule.examples.map((example, i) => (
-                        <li key={i} className="text-gray-300 text-sm flex items-start gap-2">
-                          <span className="text-red-400 mt-1">•</span>
-                          <span>{example}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Sanctions */}
-                  <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-4 border border-gray-700/30">
-                    <h4 className="text-lg font-semibold text-red-400 mb-3 flex items-center gap-2">
-                      <span>⚖️</span> Yaptırımlar:
-                    </h4>
-                    <ul className="space-y-2">
-                      {rule.sanctions.map((sanction, i) => (
-                        <li key={i} className="text-gray-300 text-sm flex items-start gap-2">
-                          <span className="text-orange-400 mt-1">•</span>
-                          <span>{sanction}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
+                ))}
               </div>
-            ))}
+            </div>
+
+            {/* Seviye 2 Kurallar */}
+            <div>
+              <h3 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">
+                🟡 Seviye 2 - Orta İhlaller
+              </h3>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {seviye2Rules.map((rule, index) => (
+                  <div
+                    key={rule.id}
+                    className="group relative bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-xl border border-gray-700/50 rounded-3xl p-6 shadow-2xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-1"
+                  >
+                    <div className={`absolute inset-0 bg-gradient-to-br ${rule.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500 rounded-3xl`}></div>
+                    
+                    <div className="relative z-10">
+                      <div className="flex items-start gap-4 mb-4">
+                        <div className="text-3xl">{rule.icon}</div>
+                        <div className="flex-1">
+                          <h4 className="text-xl font-bold text-white group-hover:text-orange-400 transition-colors duration-300 mb-2">
+                            {rule.title}
+                          </h4>
+                          <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300 text-sm mb-4">
+                            {rule.description}
+                          </p>
+                          <div className="bg-orange-900/30 border border-orange-500/50 rounded-xl p-3">
+                            <p className="text-orange-300 font-semibold text-sm">
+                              ⚖️ Ceza: {rule.sanction}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Seviye 3 Kurallar */}
+            <div>
+              <h3 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
+                🔴 Seviye 3 - Ağır İhlaller
+              </h3>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {seviye3Rules.map((rule, index) => (
+                  <div
+                    key={rule.id}
+                    className="group relative bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-xl border border-gray-700/50 rounded-3xl p-6 shadow-2xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-1"
+                  >
+                    <div className={`absolute inset-0 bg-gradient-to-br ${rule.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500 rounded-3xl`}></div>
+                    
+                    <div className="relative z-10">
+                      <div className="flex items-start gap-4 mb-4">
+                        <div className="text-3xl">{rule.icon}</div>
+                        <div className="flex-1">
+                          <h4 className="text-xl font-bold text-white group-hover:text-red-400 transition-colors duration-300 mb-2">
+                            {rule.title}
+                          </h4>
+                          <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300 text-sm mb-4">
+                            {rule.description}
+                          </p>
+                          <div className="bg-red-900/30 border border-red-500/50 rounded-xl p-3">
+                            <p className="text-red-300 font-semibold text-sm">
+                              ⚖️ Ceza: {rule.sanction}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Ban Gerektiren Kurallar */}
+            <div>
+              <h3 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-red-500 to-red-700 bg-clip-text text-transparent">
+                🚨 Ban Gerektiren İhlaller
+              </h3>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {banRules.map((rule, index) => (
+                  <div
+                    key={rule.id}
+                    className="group relative bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-xl border border-red-600/50 rounded-3xl p-6 shadow-2xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-1"
+                  >
+                    <div className={`absolute inset-0 bg-gradient-to-br ${rule.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500 rounded-3xl`}></div>
+                    
+                    <div className="relative z-10">
+                      <div className="flex items-start gap-4 mb-4">
+                        <div className="text-3xl">{rule.icon}</div>
+                        <div className="flex-1">
+                          <h4 className="text-xl font-bold text-white group-hover:text-red-400 transition-colors duration-300 mb-2">
+                            {rule.title}
+                          </h4>
+                          <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300 text-sm mb-4">
+                            {rule.description}
+                          </p>
+                          <div className="bg-red-900/40 border border-red-500/60 rounded-xl p-3">
+                            <p className="text-red-200 font-semibold text-sm">
+                              🔨 Ceza: {rule.sanction}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* Additional Information */}
